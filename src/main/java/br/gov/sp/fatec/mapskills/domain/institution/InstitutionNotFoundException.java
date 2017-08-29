@@ -9,7 +9,7 @@ package br.gov.sp.fatec.mapskills.domain.institution;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 /**
  * A classe <code>InstitutionNotFoundException</code> eh lancada quando
  * nenhuma instituicao eh encontrada na base de dados da aplicacao.

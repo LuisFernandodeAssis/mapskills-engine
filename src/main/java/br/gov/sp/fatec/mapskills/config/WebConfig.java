@@ -32,7 +32,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"br.gov.sp.fatec.mapskills.restapi"})
+@ComponentScan("br.gov.sp.fatec.mapskills.restapi")
 @Import({SwaggerConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 	

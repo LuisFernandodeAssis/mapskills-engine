@@ -70,6 +70,18 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.10.19</version>
 		</dependency>
+		<dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.5.2</version>
+            <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.5.1</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- JSONAssert -->
 		<dependency>
@@ -172,6 +184,18 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${org.hibernate.version}</version>
 		</dependency>
+		
+		<!-- ECLIPSE LINK -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>2.6.4</version>
+		</dependency>
 
 		<!-- MySQL -->
 		<dependency>
@@ -208,6 +232,7 @@
 		</dependency>
 
 		<!-- SWAGGER 2 - Documentacao da API -->
+		<!-- ENDEREÇO: mapskills/swagger-ui.htm -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>

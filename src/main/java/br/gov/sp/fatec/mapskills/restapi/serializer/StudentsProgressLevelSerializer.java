@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressLevelWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressLevelWrapper;
 /**
  * 
  * A classe {@link StudentsProgressLevelSerializer} e responsavel

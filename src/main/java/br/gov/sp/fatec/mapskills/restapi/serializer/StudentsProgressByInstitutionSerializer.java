@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressByInstitutionWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressByInstitutionWrapper;
 /**
  * 
  * A classe {@link StudentsProgressByInstitutionSerializer} e responsavel

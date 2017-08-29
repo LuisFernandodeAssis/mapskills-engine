@@ -22,11 +22,7 @@ public class GameThemeDeserializer extends DefaultJsonDeserializer<GameThemeWrap
 
 	@Override
 	protected GameThemeWrapper deserialize(final JsonNode node) {
-		return new GameThemeWrapper(GameTheme.builder()
-				.id(jsonUtil.getFieldLongValue(node, "id"))
-				.name(jsonUtil.getFieldTextValue(node, "name"))
-				.active(jsonUtil.getFieldBooleanValue(node, "active"))
-				.build());
+		return new GameThemeWrapper(new GameTheme(jsonUtil.getFieldTextValue(node, "name")));
 	}
 	
 }

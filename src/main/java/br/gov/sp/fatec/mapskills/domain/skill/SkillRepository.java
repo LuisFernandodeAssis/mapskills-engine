@@ -1,17 +1,26 @@
 /*
  * @(#)SkillRepository.java 1.0 01/11/2016
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.skill;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
+/**
+ * 
+ * A classe {@link SkillRepository}
+ *
+ * @author Marcelo
+ * @version 1.0 01/11/2016
+ */
 @Repository
 public interface SkillRepository extends CrudRepository<Skill, Long> {
 	
-	public Skill findById(final long id);	
+	Skill findById(final long id);
+	List<Skill> findAll();
 
 }

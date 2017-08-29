@@ -23,12 +23,13 @@ import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
  */
 public interface InstitutionRepository extends CrudRepository<Institution, Long> {
 	
-	public Institution findById(final long id);
-	public Institution findByCode(final String code);
-	public Institution findByCnpj(final String cnpj);
+	Institution findById(final long id);
+	Institution findByCode(final String code);
+	Institution findByCnpj(final String cnpj);
+	List<Institution> findAll();
 	
 	@Query("SELECT ins.gameThemeId FROM Institution ins WHERE ins.code = ?1")
-	public Long findGameThemeIdByCode(final String code);
+	Long findGameThemeIdByCode(final String code);
 	
 	/**
 	 * retorna todos os resultados da quantidade de alunos que
@@ -41,7 +42,7 @@ public interface InstitutionRepository extends CrudRepository<Institution, Long>
 	 */
 	@Query(value="SELECT * FROM INSTITUTION_STUDENTS_PROGRESS_VIEW RESULT "
 			+ "WHERE RESULT.INS_CODE = ?1 AND RESULT.ANO_SEMESTRE = ?2", nativeQuery = true)
-	public List<Object[]> findStudentsProgressByInstitution(final String institutionCode, final String yearSemester);
+	List<Object[]> findStudentsProgressByInstitution(final String institutionCode, final String yearSemester);
 	
 	/**
 	 * retorna todos os resultados da quantidade de alunos que
@@ -52,7 +53,7 @@ public interface InstitutionRepository extends CrudRepository<Institution, Long>
 	 */
 	@Query(value="SELECT * FROM ADMIN_GLOBAL_STUDENTS_PROGRESS_VIEW RESULT "
 			+ "WHERE RESULT.YEAR_SEMESTER = ?1", nativeQuery = true)
-	public List<Object[]> findGlobalStudentsProgress(final String yearSemester);
+	List<Object[]> findGlobalStudentsProgress(final String yearSemester);
 	
 	/**
 	 * retorna a quantidade de alunos que finalizaram e nao finalizaram
@@ -66,9 +67,9 @@ public interface InstitutionRepository extends CrudRepository<Institution, Long>
 	 */
 	@Query(value="SELECT * FROM ADMIN_LEVEL_STUDENTS_PROGRESS_VIEW RESULT "
 			+ "WHERE RESULT.LEVEL = ?1 AND RESULT.YEAR_SEMESTER = ?2", nativeQuery = true)
-	public List<Object[]> findLevelStudentsProgress(final String level, final String yearSemester);
+	List<Object[]> findLevelStudentsProgress(final String level, final String yearSemester);
 	
 	@Query("SELECT mentor FROM Mentor mentor WHERE mentor.login.username = ?1")
-	public Mentor findMentorByUsername(final String username);
+	Mentor findMentorByUsername(final String username);
 
 }

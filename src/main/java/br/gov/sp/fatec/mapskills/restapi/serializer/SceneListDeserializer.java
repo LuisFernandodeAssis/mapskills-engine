@@ -8,6 +8,7 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -41,21 +42,19 @@ public class SceneListDeserializer extends DefaultJsonDeserializer<SceneListWrap
 		if(node.isNull()) {
 			return null;
 		}
-		return Question.builder()
-				.id(jsonUtil.getFieldLongValue(node, "id"))
-				.alternatives(buildAlternatives(node.get("alternatives")))
-				.skillId(jsonUtil.getFieldLongValue(node, "skillId"))
-				.build();
+		return new Question(jsonUtil.getFieldLongValue(node, "id"),
+				buildAlternatives(node.get("alternatives")),
+				jsonUtil.getFieldLongValue(node, "skillId"));
 	}
 	
-	private Collection<Alternative> buildAlternatives(final JsonNode node) {
-		final Collection<Alternative> alternatives = new ArrayList<>(4);
+	private List<Alternative> buildAlternatives(final JsonNode node) {
+		final List<Alternative> alternatives = new ArrayList<>(4);
 		for(int i = 0; i < 4; i++) {
-			alternatives.add(Alternative.builder()
-					.id(jsonUtil.getFieldLongValue(node.get(i), "id"))
-					.description(jsonUtil.getFieldTextValue(node.get(i), "description"))
-					.skillValue(jsonUtil.getFieldIntegerValue(node.get(i), "skillValue"))
-					.build());
+			final Alternative alternative = new Alternative(
+					jsonUtil.getFieldLongValue(node.get(i), "id"),
+					jsonUtil.getFieldTextValue(node.get(i), "description"),
+					jsonUtil.getFieldIntegerValue(node.get(i), "skillValue"));
+			alternatives.add(alternative);
 		}
 		return alternatives;
 	}
@@ -64,14 +63,13 @@ public class SceneListDeserializer extends DefaultJsonDeserializer<SceneListWrap
 	 * de uma JSON.
 	 */
 	private Scene buildScene(final JsonNode nodeCurrent) {
-		return Scene.builder()
-    			.id(jsonUtil.getFieldLongValue(nodeCurrent, "id"))
-    			.index(this.getIndexFromNode(jsonUtil.getFieldIntegerValue(nodeCurrent, "index")))
-    			.text(jsonUtil.getFieldTextValue(nodeCurrent, "text"))
-    			.urlBackground(jsonUtil.getFieldTextValue(nodeCurrent.get("background"), "filename"))
-    			.question(this.buildQuestion(jsonUtil.get(nodeCurrent, "question")))
-    			.gameThemeId(jsonUtil.getFieldLongValue(nodeCurrent, "gameThemeId"))
-    			.build();
+		return new Scene(
+				jsonUtil.getFieldLongValue(nodeCurrent, "id"),
+				this.getIndexFromNode(jsonUtil.getFieldIntegerValue(nodeCurrent, "index")),
+				jsonUtil.getFieldTextValue(nodeCurrent, "text"),
+				jsonUtil.getFieldTextValue(nodeCurrent.get("background"), "filename"),
+				this.buildQuestion(jsonUtil.get(nodeCurrent, "question")),
+				jsonUtil.getFieldLongValue(nodeCurrent, "gameThemeId"));
 	}
 	
 	private int getIndexFromNode(final Integer index) {

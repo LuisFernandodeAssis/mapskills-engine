@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.security.Principal;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,8 +22,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 /**
  * A classe abstrata <code>User</code> é uma entidade que 
@@ -33,38 +34,44 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
-@Table(name = "USER")
+@Table(name = "MAPSKILLS.USER")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "PRO_ID")
 public abstract class User implements Principal, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "use_id")
-	private long id;
+	@Column(name = "USE_ID")
+	@Setter(AccessLevel.NONE)
+	private Long id;
 	
-	@Column(name = "use_name")
+	@Column(name = "USE_NAME")
 	private String name;
 
 	@Embedded
 	private Login login;
 	
 	@Enumerated(value = EnumType.ORDINAL)
-	@Column(name = "pro_id")
+	@Column(name = "PRO_ID")
 	private ProfileType profile;
-		
-	public User(final long id, final String name, final Login login, final ProfileType profile) {
-		this(name, login, profile);
-		this.id = id;
-	}
 	
+	protected User() {
+		this(null, null, null);
+	}
+		
 	public User(final String name, final Login login, final ProfileType profile) {
 		this.name = name;
 		this.login = login;
 		this.profile = profile;
+	}
+	
+	public void update(final User userUpdate) {
+		this.name = userUpdate.getName();
+		updateLogin(userUpdate.getLogin());
+		
 	}
 	
 	public ProfileType getProfile() {

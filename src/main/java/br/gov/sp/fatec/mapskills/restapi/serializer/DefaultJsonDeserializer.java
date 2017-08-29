@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import br.gov.sp.fatec.mapskills.utils.BeanRetriever;
+import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 import br.gov.sp.fatec.mapskills.utils.JsonUtil;
 
 /**
@@ -28,10 +28,10 @@ import br.gov.sp.fatec.mapskills.utils.JsonUtil;
  * @version 1.0 17/04/2017
  */
 public abstract class DefaultJsonDeserializer<T> extends JsonDeserializer<T> {
+		
+	protected final JsonUtil jsonUtil = ApplicationContextHolder.getBean("jsonUtil", JsonUtil.class);
 	
-	protected final JsonUtil jsonUtil = BeanRetriever.getBean("jsonUtil", JsonUtil.class);
-	
-	protected abstract T deserialize(final JsonNode node);
+	protected abstract T deserialize(final JsonNode node) throws IOException;
 	
 	@Override
 	public T deserialize(final JsonParser jsonParser, final DeserializationContext arg1) throws IOException {
@@ -40,6 +40,7 @@ public abstract class DefaultJsonDeserializer<T> extends JsonDeserializer<T> {
         final JsonNode node = oc.readTree(jsonParser);
         
 		return deserialize(node);
+		
 	}
 	
 }

@@ -13,9 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 /**
  * 
  * A classe {@link GameTheme} representa um tema
@@ -25,25 +24,29 @@ import lombok.Getter;
  * @version 1.0 01/11/2016
  */
 @Getter
-@AllArgsConstructor
-@Builder
+@Setter
 @Entity
-@Table(name = "GAME_THEME")
+@Table(name = "MAPSKILLS.GAME_THEME")
 public class GameTheme {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "gth_id")
-	private long id;
+	@Column(name = "GTH_ID")
+	private Long id;
 	
-	@Column(name = "gth_name", nullable = false)
+	@Column(name = "GTH_NAME", nullable = false)
 	private String name;
 		
-	@Column(name = "gth_is_active", nullable = false)
-	private boolean active;
+	@Column(name = "GTH_IS_ACTIVE", nullable = false)
+	private Boolean active = false;
 	
-	public GameTheme() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private GameTheme() {
+		this(null);
+	}
+	
+	public GameTheme(final String name) {
+		this.name = name;
 	}
 	
 	public void disable() {
@@ -52,6 +55,10 @@ public class GameTheme {
 	
 	public void enable() {
 		active = true;
+	}
+	
+	public boolean isActive() {
+		return active;
 	}
 
 }

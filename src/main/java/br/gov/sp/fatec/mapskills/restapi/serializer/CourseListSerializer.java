@@ -1,17 +1,20 @@
 /*
  * @(#)CourseListSerializer.java 1.0 14/01/2017
  *
- * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.
+ * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseListWrapper;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link CourseListSerializer} e responsavel
@@ -20,32 +23,21 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseListWrapper;
  * @author Marcelo
  * @version 1.0 14/01/2017
  */
+@Component
+@AllArgsConstructor
 public class CourseListSerializer extends DefaultJsonSerializer<CourseListWrapper> {
 
+	private final CourseSerializer courseSerializer;
+	
 	@Override
 	public void serialize(final CourseListWrapper courseList, final JsonGenerator generator) throws IOException {
-		
 		generator.writeStartArray();
 		for(final Course course : courseList.getCourses()) {
 			generator.writeStartObject();
-			this.courseSerialize(course, generator);
+			this.courseSerializer.serialize(course, generator);
 			generator.writeEndObject();
 		}
 		generator.writeEndArray();
-		
 	}
-	/*TODO extrair para uma classe 'CourseSerializer' e deixar a responsabilidade
-	 * para o metodo 'serialize' a responsabilidade de serializacao do objeto.
-	 * Este metodo esta duplicado nas classe {@link InstitutionDetailsSerializer},
-	 * {@link StudentDetailsSerializer} e {@link StudentListSerializer}
-	 * no metodo courseSerialize.
-	 */
-	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
-		generator.writeNumberField("id", course.getId());
-		generator.writeStringField("code", course.getCode());
-		generator.writeStringField("name", course.getName());
-		generator.writeStringField("period", course.getPeriod());
-		generator.writeStringField("institutionCode", course.getInstitutionCode());
-	}
-
+	
 }

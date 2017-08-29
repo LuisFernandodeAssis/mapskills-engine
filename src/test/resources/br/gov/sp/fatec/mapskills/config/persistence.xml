@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+	<persistence-unit name="MAPSKILLSPersistenceUnit"
+		transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+		<!-- 
+		<class>com.embraer.chd.domain.language.Label</class>
+		<class>com.embraer.chd.domain.language.Language</class>
+		 -->
+
+		<class>com.embraer.chd.infra.util.LocalDateTimeConverter</class>
+		
+		<class>br.gov.sp.fatec.mapskills.domain.answerevent.AnswerEvent</class>
+		
+		<class>br.gov.sp.fatec.mapskills.domain.institution.Course</class>
+		<class>br.gov.sp.fatec.mapskills.domain.institution.Institution</class>
+		
+		<class>br.gov.sp.fatec.mapskills.domain.scene.Alternative</class>
+		<class>br.gov.sp.fatec.mapskills.domain.scene.Question</class>
+		<class>br.gov.sp.fatec.mapskills.domain.scene.Scene</class>
+		
+		<class>br.gov.sp.fatec.mapskills.domain.skill.Skill</class>
+		
+		<class>br.gov.sp.fatec.mapskills.domain.theme.GameTheme</class>
+
+		<class>br.gov.sp.fatec.mapskills.domain.user.Administrator</class>
+        <class>br.gov.sp.fatec.mapskills.domain.user.User</class>
+        
+        <class>br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor</class>
+        
+        <class>br.gov.sp.fatec.mapskills.domain.user.student.Student</class>
+        
+        <class>br.gov.sp.fatec.mapskills.infra.report.ReportDefaultData</class>
+
+		<properties>
+			<property name="eclipselink.cache-usage" value="CheckCacheThenDatabase" />
+			<property name="eclipselink.orm.throw.exceptions" value="true" />
+			<property name="eclipselink.query-results-cache" value="true" />
+			<property name="eclipselink.weaving" value="false"/>
+		</properties>
+	</persistence-unit>
+</persistence>

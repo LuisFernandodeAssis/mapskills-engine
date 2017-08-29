@@ -27,15 +27,16 @@ public class Login implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "use_username", nullable = false, unique = true)
+	@Column(name = "USE_USERNAME", nullable = false, unique = true)
 	private String username;
 	
 	@Lob
-	@Column(name = "use_password", nullable = false)
+	@Column(name = "USE_PASSWORD", nullable = false)
 	private String password;
 	
-	public Login() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Login() {
+		this(null, null);
 	}
 	
 	public Login(final String username, final String password) {

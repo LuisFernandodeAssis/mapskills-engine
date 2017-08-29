@@ -26,9 +26,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"br.gov.sp.fatec.mapskills.utils",
 		"br.gov.sp.fatec.mapskills.restapi",
 		"br.gov.sp.fatec.mapskills.authentication",
-		"br.gov.sp.fatec.mapskills.infrastructure"})
+		"br.gov.sp.fatec.mapskills.infra",
+		"br.gov.sp.fatec.mapskills.infra.report"})
 @EnableJpaRepositories(basePackages = {
 		"br.gov.sp.fatec.mapskills.domain",
+		"br.gov.sp.fatec.mapskills.infra.report",
 		"br.gov.sp.fatec.mapskills.restapi.wrapper.report"})
 public abstract class AbstractSpringContextConfiguration {
 }

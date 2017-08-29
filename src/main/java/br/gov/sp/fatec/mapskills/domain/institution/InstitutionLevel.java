@@ -14,7 +14,7 @@ package br.gov.sp.fatec.mapskills.domain.institution;
  */
 public enum InstitutionLevel {
 	
-	TECHNICAL("TÉCNICO"), SUPERIOR("SUPERIOR");
+	TECHNICAL("TECNICO"), SUPERIOR("SUPERIOR");
 	
 	private final String level;
 	

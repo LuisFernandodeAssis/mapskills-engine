@@ -1,16 +1,18 @@
 /*
  * @(#)Institution.java 1.0 01/11/2016
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.institution;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,98 +20,118 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import org.springframework.util.CollectionUtils;
 
 import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * 
+ * A classe {@link Institution}
+ *
+ * @author Marcelo
+ * @version 1.0 01/11/2016
+ */
 @Getter
 @Setter
 @Entity
-@Table(name = "INSTITUTION")
+@Table(name = "MAPSKILLS.INSTITUTION")
 public class Institution implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ins_id")
-	private long id;
+	@Column(name = "INS_ID")
+	private Long id;
 	
-	@Column(name = "ins_code", nullable = false, unique = true, length = 10)
+	@Column(name = "INS_CODE", nullable = false, unique = true, length = 10)
 	private String code;
 	
-	@Column(name = "ins_cnpj", nullable = true, unique = true)
+	@Column(name = "INS_CNPJ", nullable = true, unique = true)
 	private String cnpj;
 	
-	@Column(name = "ins_company", nullable = true)
+	@Column(name = "INS_COMPANY", nullable = true)
 	private String company;
 	
-	@Column(name = "ins_level", nullable = true)
-	@Enumerated(value = EnumType.STRING)
+	@Column(name = "INS_LEVEL", nullable = true)
+	@Enumerated(value = EnumType.ORDINAL)
 	private InstitutionLevel level;
 	
-	@Column(name = "ins_city", nullable = true)
+	@Column(name = "INS_CITY", nullable = true)
 	private String city;
 	
-	@Column(name = "gth_id")
-	private long gameThemeId;
+	@Column(name = "GTH_ID")
+	private Long gameThemeId;
 	
-	//TODO quando salva instituicao deve salvar os cursos como cascade.
-	@Transient
-	private Collection<Course> courses = new HashSet<>();
+	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
+	private final List<Course> courses = new LinkedList<>();
 	
-	//TODO quando salva instituicao deve salvar os mentores como cascade.
-	@Transient
-	private Collection<Mentor> mentors = new HashSet<>();
+	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
+	private final List<Mentor> mentors = new LinkedList<>();
 
-	public Institution() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Institution() {
+		this(null, null, null, null, null, Collections.emptyList(), null);
 	}
 
-	public Institution (final long id, final String code, final String cnpj, final String company,
-			final InstitutionLevel level, final String city, final Collection<Mentor> mentors, final long gameThemeId) {
-		
-		this(code, cnpj, company, level, city);
-		this.id = id;
-		this.mentors.addAll(mentors);
-		this.gameThemeId = gameThemeId;
-	}
-	
-	@Builder
-	public Institution(final String code, final String cnpj, final String company, final InstitutionLevel level,
-			final String city) {
-		
+	public Institution (final String code, final String cnpj, final String company,
+			final InstitutionLevel level, final String city, final List<Mentor> mentors, final Long gameThemeId) {
 		this.code = code;
 		this.cnpj = cnpj;
 		this.company = company;
 		this.level = level;
 		this.city = city;
-	}	
+		addAllMentors(mentors);
+		this.gameThemeId = gameThemeId;
+	}
 		
-	public void setCourses(final Collection<Course> courses) {
+	public void setCourses(final List<Course> courses) {
 		this.courses.clear();
-		this.courses.addAll(courses);
+		courses.stream().forEach(course -> {
+			course.setInstitution(this);
+			this.courses.add(course);
+		});
 	}
 	
-	public void setMentors(final Collection<Mentor> mentors) {
+	public void setMentors(final List<Mentor> mentors) {
 		this.mentors.clear();
-		this.mentors.addAll(mentors);
+		addAllMentors(mentors);
 	}
 		
-	public Collection<Mentor> getMentors() {
-		return Collections.unmodifiableCollection(mentors);
+	public List<Mentor> getMentors() {
+		return Collections.unmodifiableList(mentors);
 	}
 	
-	public Collection<Course> getCourses() {
-		return Collections.unmodifiableCollection(courses);
+	public List<Course> getCourses() {
+		return Collections.unmodifiableList(courses);
 	}
 
 	public void addMentor(final Mentor newMentor) {
+		newMentor.setInstitution(this);
 		this.mentors.add(newMentor);
+	}
+	
+	public void addCourse(final Course newCourse) {
+		newCourse.setInstitution(this);
+		this.courses.add(newCourse);
+	}
+	
+	public Course getCourseByCode(final String code) {
+		final Optional<Course> courseFind = courses.stream().filter(course -> course.getCode().equals(code)).findFirst();
+		return courseFind.isPresent() ? courseFind.get() : null;
+	}
+	
+	private void addAllMentors(final List<Mentor> mentors) {
+		if(!CollectionUtils.isEmpty(mentors)) {
+			mentors.stream().forEach(mentor -> {
+				mentor.setInstitution(this);
+				this.mentors.add(mentor);
+			});			
+		}
 	}
 	
 }

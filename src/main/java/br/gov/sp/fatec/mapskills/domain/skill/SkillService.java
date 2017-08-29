@@ -6,27 +6,25 @@
  */
 package br.gov.sp.fatec.mapskills.domain.skill;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
+import lombok.AllArgsConstructor;
+
+/**
+ * 
+ * A classe {@link SkillService}
+ *
+ * @author Marcelo
+ * @version 1.0 01/11/2016
+ */
 
 @Service
-public class SkillService implements RepositoryService {
+@AllArgsConstructor
+public class SkillService {
 
-	@Autowired(required = true)
-	@Qualifier("skillRepository")
-	private SkillRepository repository;
-	
-	@Override
-	public void deleteAll() {
-		repository.deleteAll();
-	}
+	private final SkillRepository repository;
 
 	public Skill save(final Skill skill) {
 		return repository.save(skill);
@@ -37,11 +35,7 @@ public class SkillService implements RepositoryService {
 	}
 	
 	public Collection<Skill> findAll() {
-		final List<Skill> skills = new ArrayList<>();
-		for(final Skill skill : repository.findAll()) {
-			skills.add(skill);
-		}
-		return skills;
+		return repository.findAll();
 	}
 
 	public Skill findById(final long id) {

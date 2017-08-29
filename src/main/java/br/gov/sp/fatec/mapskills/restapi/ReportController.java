@@ -1,8 +1,8 @@
 /*
  * @(#)ReportController.java 1.0 11/03/2017
  *
- * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.Fatec-Jessen Vidal 
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.
+ * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.restapi;
 
@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
-import br.gov.sp.fatec.mapskills.infrastructure.ImageNotFoundException;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.ReportFilter;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.ReportService;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.ReportViewWrapper;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
+import br.gov.sp.fatec.mapskills.infra.ImageNotFoundException;
+import br.gov.sp.fatec.mapskills.infra.report.ReportFilter;
+import br.gov.sp.fatec.mapskills.infra.report.ReportService;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ReportViewWrapper;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -97,7 +97,7 @@ public class ReportController {
 			IOUtils.copy(inputStream, response.getOutputStream());
 		} catch (final IOException | NullPointerException exception) {
 			LOGGER.log(Level.SEVERE, imageName + " não encontrada", exception);
-			throw new ImageNotFoundException(imageName + " não encontrada");
+			throw new ImageNotFoundException(imageName + " não encontrada", exception);
 		}
 	}
 	

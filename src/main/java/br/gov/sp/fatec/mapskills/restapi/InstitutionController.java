@@ -6,8 +6,6 @@
  */
 package br.gov.sp.fatec.mapskills.restapi;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
@@ -30,8 +28,8 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InputStreamWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressByInstitutionWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressByInstitutionWrapper;
 import lombok.AllArgsConstructor;
 
 /**
@@ -43,8 +41,8 @@ import lombok.AllArgsConstructor;
  * @version 1.0 03/01/2017
  */
 @RestController
-@RequestMapping(InstitutionController.BASE_PATH)
 @AllArgsConstructor
+@RequestMapping(InstitutionController.BASE_PATH)
 public class InstitutionController {
 	
 	public static final String BASE_PATH = "/institution";
@@ -63,8 +61,8 @@ public class InstitutionController {
 	public ResponseEntity<StudentListWrapper> importStudents(@RequestBody final InputStreamWrapper inputStreamWrapper) throws MapSkillsException {
 		final List<Student> studentsSaved = institutionService.saveStudentsFromExcel(inputStreamWrapper.getInputStream());
 		final String institutionCode = studentsSaved.get(0).getInstitutionCode();
-		final List<Course> courses = institutionService.findAllCoursesByInstitutionCode(institutionCode);
-		final StudentListWrapper wrapper = new StudentListWrapper(studentsSaved, courses);
+		final Institution institution = institutionService.findInstitutionByCode(institutionCode);
+		final StudentListWrapper wrapper = new StudentListWrapper(studentsSaved, institution.getCourses());
 		return new ResponseEntity<>(wrapper, HttpStatus.CREATED);
 	}
 	
@@ -104,13 +102,13 @@ public class InstitutionController {
 	 */
 	@RequestMapping(value = "/course", method = RequestMethod.POST)
 	public ResponseEntity<CourseWrapper> saveCourse(@RequestBody final CourseWrapper courseWrapper) {
-		final Course courseSaved = institutionService.saveCourse(courseWrapper.getCourse());
-		final CourseWrapper saved = new CourseWrapper(courseSaved);
+		final Course course = institutionService.saveCourse(courseWrapper.getCourse());
+		final CourseWrapper saved = new CourseWrapper(course);
 		return new ResponseEntity<>(saved, HttpStatus.CREATED);
 	}
 	
 	/**
-	 * Metodo que retorna todos alunos de um determinada instituicao, atraves do seu codigo.
+	 * End-point que retorna todos alunos de um determinada instituicao, atraves do seu codigo.
 	 * realizado pelo perfil <code>MENTOR</code>
 	 * @param institutionCode
 	 * @return
@@ -119,13 +117,13 @@ public class InstitutionController {
 	public ResponseEntity<StudentListWrapper> getAllStudentsByInstitution(
 			@PathVariable("institutionCode") final String institutionCode) {
 		
-		final List<Course> courses = institutionService.findAllCoursesByInstitutionCode(institutionCode);
+		final Institution institution = institutionService.findInstitutionByCode(institutionCode);
 		final List<Student> students = institutionService.findAllStudentsByInstitution(institutionCode);
-		final StudentListWrapper studentsWrapper = new StudentListWrapper(students, courses);
+		final StudentListWrapper studentsWrapper = new StudentListWrapper(students, institution.getCourses());
 		return new ResponseEntity<>(studentsWrapper, HttpStatus.OK);
 	}
 	/**
-	 * retorna todos os cursos de uma instituição
+	 * End-point que retorna todos os cursos de uma instituição
 	 * @param institutionCode
 	 * @return
 	 */
@@ -133,9 +131,8 @@ public class InstitutionController {
 	public ResponseEntity<CourseListWrapper> getAllCoursesByInstitution(
 			@PathVariable("institutionCode") final String institutionCode) {
 		
-		final Collection<Course> allCourses = new ArrayList<>();
-		allCourses.addAll(institutionService.findAllCoursesByInstitutionCode(institutionCode));
-		final CourseListWrapper coursesWrapper = new CourseListWrapper(allCourses);
+		final Institution institution = institutionService.findInstitutionByCode(institutionCode);
+		final CourseListWrapper coursesWrapper = new CourseListWrapper(institution.getCourses());
 		return new ResponseEntity<>(coursesWrapper, HttpStatus.OK);
 	}
 	/**

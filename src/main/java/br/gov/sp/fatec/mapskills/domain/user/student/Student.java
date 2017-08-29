@@ -12,22 +12,18 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.user.Login;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "STUDENT")
-@PrimaryKeyJoinColumn(name = "use_id")
+@Table(name = "MAPSKILLS.STUDENT")
+@PrimaryKeyJoinColumn(name = "USE_ID")
 public class Student extends User {
 
 	private static final long serialVersionUID = 1L;
@@ -35,18 +31,22 @@ public class Student extends User {
 	@Embedded
 	private AcademicRegistry ra;
 	
-	@Column(name = "stu_phone", nullable = false)
+	@Column(name = "STU_PHONE", nullable = false)
 	private String phone;
 	
-	@Column(name = "stu_is_completed")
+	@Column(name = "STU_IS_COMPLETED")
 	private boolean completed;
+	
+	@SuppressWarnings("unused")
+	private Student() throws MapSkillsException {
+		this("0000000000000", null, null, null, null);
+	}
 			
-	@Builder
-	public Student(final AcademicRegistry ra, final String name, final String phone, final String username,
-			final String password) {
+	public Student(final String ra, final String name, final String phone, final String username,
+			final String password) throws MapSkillsException {
 		
 		super(name, new Login(username, password), ProfileType.STUDENT);
-		this.ra = ra;
+		this.ra = new AcademicRegistry(ra);
 		this.phone = phone;
 		this.completed = false;
 	}

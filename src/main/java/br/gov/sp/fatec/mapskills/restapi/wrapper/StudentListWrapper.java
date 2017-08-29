@@ -7,7 +7,6 @@
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +30,7 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.StudentListSerializer;
 @JsonSerialize(using = StudentListSerializer.class)
 public class StudentListWrapper {
 	
-	private final Collection<Student> students = new ArrayList<>();
+	private final List<Student> students = new ArrayList<>();
 	private final Map<String, Course> coursesMap = new HashMap<>();
 	
 	public StudentListWrapper(final List<Student> students, final List<Course> courses) {
@@ -41,8 +40,8 @@ public class StudentListWrapper {
 		}
 	}
 	
-	public Collection<Student> getStudents() {
-		return Collections.unmodifiableCollection(students);
+	public List<Student> getStudents() {
+		return Collections.unmodifiableList(students);
 	}
 	
 	public Course getCourse(final String courseCode) {

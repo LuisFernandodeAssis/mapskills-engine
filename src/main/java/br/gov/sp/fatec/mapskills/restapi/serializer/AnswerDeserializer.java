@@ -25,7 +25,7 @@ public class AnswerDeserializer extends DefaultJsonDeserializer<AnswerWrapper> {
 		return new AnswerWrapper(AnswerEvent.builder()
 				.sceneId(jsonUtil.getFieldLongValue(node, "sceneId"))
 				.sceneIndex(jsonUtil.getFieldIntegerValue(node, "sceneIndex"))
-				.studentId(jsonUtil.getFieldIntegerValue(node, "studentId"))
+				.studentId(jsonUtil.getFieldLongValue(node, "studentId"))
 				.skillId(jsonUtil.getFieldLongValue(node, "skillId"))
 				.skillValue(jsonUtil.getFieldIntegerValue(node, "skillValue"))
 				.build());

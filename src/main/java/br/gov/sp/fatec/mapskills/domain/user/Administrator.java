@@ -1,26 +1,33 @@
 /*
  * @(#)Administrator.java 1.0 01/11/2016
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.user;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
+/**
+ * 
+ * A classe {@link Administrator}
+ *
+ * @author Marcelo
+ * @version 1.0 01/11/2016
+ */
 @Entity
-@Table(name = "ADMINISTRATOR")
-@PrimaryKeyJoinColumn(name = "use_id")
+@Table(name = "MAPSKILLS.ADMINISTRATOR")
+@PrimaryKeyJoinColumn(name = "USE_ID")
 public class Administrator extends User {
 
 	private static final long serialVersionUID = 1L;
 	
-	public Administrator() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Administrator() {
+		this(null, null, null);
 	}
-	
+		
 	public Administrator(final String name, final String email, final String password) {
 		super(name, new Login(email, password), ProfileType.ADMINISTRATOR);
 	}

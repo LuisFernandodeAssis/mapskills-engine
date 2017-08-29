@@ -6,7 +6,7 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
-import br.gov.sp.fatec.mapskills.utils.BeanRetriever;
+import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
  * 
  * A classe {@link AbstractInstitutionSerializer} contem
@@ -21,7 +21,7 @@ public abstract class AbstractInstitutionSerializer<T> extends DefaultJsonSerial
 	protected final DefaultInstitutionSerializer defaultSerializer;
 	
 	public AbstractInstitutionSerializer() {
-		this.defaultSerializer = BeanRetriever.getBean("defaultInstitutionSerializer", DefaultInstitutionSerializer.class);
+		this.defaultSerializer = ApplicationContextHolder.getBean("defaultInstitutionSerializer", DefaultInstitutionSerializer.class);
 	}
 
 }

@@ -9,12 +9,15 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionDetailsWrapper;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link InstitutionDetailsSerializer} e responsavel
@@ -24,7 +27,11 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionDetailsWrapper;
  * @author Marcelo
  * @version 1.0 07/01/2017
  */
+@Component
+@AllArgsConstructor
 public class InstitutionDetailsSerializer extends AbstractInstitutionSerializer<InstitutionDetailsWrapper> {
+	
+	private final CourseSerializer courseSerializer;
 		
 	@Override
 	public void serialize(final InstitutionDetailsWrapper detailsWrapper, final JsonGenerator generator) throws IOException {
@@ -46,15 +53,10 @@ public class InstitutionDetailsSerializer extends AbstractInstitutionSerializer<
 		}
 		generator.writeEndArray();
 	}
-	/*
-	 * TODO metodo duplicado, olhar comentario na classe {@link CourseListSerializer}.
-	 */
+	
 	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
 		generator.writeStartObject();
-		generator.writeNumberField("id", course.getId());
-		generator.writeStringField("code", course.getCode());
-		generator.writeStringField("name", course.getName());
-		generator.writeStringField("period", course.getPeriod());
+		courseSerializer.serialize(course, generator);
 		generator.writeEndObject();
 	}
 	
@@ -75,5 +77,4 @@ public class InstitutionDetailsSerializer extends AbstractInstitutionSerializer<
 		generator.writeStringField(DefaultJsonSerializer.PASS, DefaultJsonSerializer.EMPTY_PASS);
 		generator.writeEndObject();
 	}
-
 }

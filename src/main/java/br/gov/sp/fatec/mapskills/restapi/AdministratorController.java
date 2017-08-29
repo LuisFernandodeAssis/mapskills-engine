@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
 import br.gov.sp.fatec.mapskills.domain.scene.Scene;
 import br.gov.sp.fatec.mapskills.domain.scene.SceneService;
 import br.gov.sp.fatec.mapskills.domain.skill.SkillService;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
-import br.gov.sp.fatec.mapskills.infrastructure.SaveImageService;
+import br.gov.sp.fatec.mapskills.infra.SaveImageService;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InputStreamWrapper;
@@ -33,8 +33,8 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressGlobalWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressLevelWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressGlobalWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressLevelWrapper;
 import lombok.AllArgsConstructor;
 /**
  * 
@@ -95,6 +95,7 @@ public class AdministratorController {
 		final InstitutionListWrapper institutions = new InstitutionListWrapper(institutionService.findAllInstitutions());
 		return new ResponseEntity<>(institutions, HttpStatus.OK);
 	}
+	
 	/**
 	 * Metodo que recupera um instituicao em detalhes
 	 * @param institutionId
@@ -135,6 +136,7 @@ public class AdministratorController {
 		final GameThemeListWrapper gameThemes = new GameThemeListWrapper(themeService.findAllThemes()); 
 		return new ResponseEntity<>(gameThemes, HttpStatus.OK);
 	}
+	
 	/**
 	 * Metodo que salva uma cena de um tema do jogo na aplicacao
 	 * @param sceneWrapper
@@ -147,6 +149,7 @@ public class AdministratorController {
 		sceneService.save(sceneWrapper.getScene());
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+	
 	/**
 	 * Realiza atualizacao de uma lista de cenas, (i.e. a ordem de exibicao)
 	 * @param sceneListWrapper
@@ -157,6 +160,7 @@ public class AdministratorController {
 		sceneService.updateIndex(sceneListWrapper.getScenes());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 	/**
 	 * Metodo que retorna todas as cenas de um tema da aplicacao
 	 * @param themeId
@@ -167,6 +171,7 @@ public class AdministratorController {
 		final SceneListWrapper scenesListWrapper = new SceneListWrapper(themeService.findAllScenesByThemeId(themeId));
 		return new ResponseEntity<>(scenesListWrapper, HttpStatus.OK);
 	}
+	
 	/**
 	 * Salva uma nova competência na aplicacao
 	 * @param skillWrapper
@@ -177,6 +182,7 @@ public class AdministratorController {
 		skillService.save(skillWrapper.getSkill());
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+	
 	/**
 	 * Retorna uma array serializado com todas competencias cadastradas na aplicacao.
 	 * @return

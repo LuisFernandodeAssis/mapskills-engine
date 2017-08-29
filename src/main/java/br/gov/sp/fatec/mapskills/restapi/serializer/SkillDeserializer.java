@@ -23,11 +23,10 @@ public class SkillDeserializer extends DefaultJsonDeserializer<SkillWrapper> {
 
 	@Override
 	protected SkillWrapper deserialize(final JsonNode node) {
-		return new SkillWrapper(Skill.builder()
-				.id(jsonUtil.getFieldLongValue(node, "id"))
-				.type(jsonUtil.getFieldTextValue(node, "type"))
-				.description(jsonUtil.getFieldTextValue(node, "description"))
-				.build());
+		return new SkillWrapper(new Skill(
+				jsonUtil.getFieldLongValue(node, "id"),
+				jsonUtil.getFieldTextValue(node, "type"),
+				jsonUtil.getFieldTextValue(node, "description")));
 	}
 
 }

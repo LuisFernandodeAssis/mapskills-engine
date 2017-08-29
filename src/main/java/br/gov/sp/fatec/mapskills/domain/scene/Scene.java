@@ -11,7 +11,6 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,44 +18,43 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "SCENE")
+@Table(name = "MAPSKILLS.SCENE")
 public class Scene implements Serializable, Comparable<Scene> {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "scn_id")
-	private long id;
+	@Column(name = "SCN_ID")
+	private Long id;
 	
-	@Column(name = "scn_index", nullable = false)
-	private int index = -1;
+	@Column(name = "SCN_INDEX", nullable = false)
+	private Integer index = -1;
 	
-	@Column(name = "scn_text", nullable = false)
+	@Column(name = "SCN_TEXT", nullable = false)
 	private String text;
 	
-	@Column(name = "scn_url_background", nullable = false)
+	@Column(name = "SCN_URL_BACKGROUND", nullable = false)
 	private String urlBackground;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="que_id")
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="QUE_ID")
 	private Question question;
 	
-	@Column(name = "gth_id", nullable = false)
-	private long gameThemeId;
+	@Column(name = "GTH_ID", nullable = false)
+	private Long gameThemeId;
 	
-	public Scene() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Scene() {
+		this(null, null, null, null, null, null);
 	}
 	
-	@Builder
-	public Scene(final long id, final int index, final String text, final String urlBackground,
-			final Question question, final long gameThemeId) {
+	public Scene(final Long id, final Integer index, final String text, final String urlBackground,
+			final Question question, final Long gameThemeId) {
 		this.id = id;
 		this.index = index;
 		this.text = text;
@@ -65,11 +63,11 @@ public class Scene implements Serializable, Comparable<Scene> {
 		this.gameThemeId = gameThemeId;
 	}
 	
-	public void putIndex(final int index) {
+	public void setIndex(final Integer index) {
 		this.index = index;
 	}
 	
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 	

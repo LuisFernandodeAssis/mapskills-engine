@@ -18,15 +18,14 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
 import br.gov.sp.fatec.mapskills.domain.user.mentor.MentorRepository;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentInvalidException;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentRepository;
-import br.gov.sp.fatec.mapskills.infrastructure.InstitutionExcelFileHandle;
-import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
-import br.gov.sp.fatec.mapskills.infrastructure.StudentExcelFileHandle;
+import br.gov.sp.fatec.mapskills.infra.InstitutionExcelFileHandle;
+import br.gov.sp.fatec.mapskills.infra.StudentExcelFileHandle;
 import lombok.AllArgsConstructor;
 
 /**
@@ -39,25 +38,16 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class InstitutionService implements RepositoryService {
+public class InstitutionService {
 	
 	private static final Logger LOGGER = Logger.getLogger(InstitutionService.class.getName());
 		
 	private final InstitutionRepository institutionRepository;
-	private final CourseRepository courseRepository;
 	private final StudentRepository studentRepository;
 	private final MentorRepository mentorRepository;
 	private final StudentExcelFileHandle studentExcelHandle;
 	private final InstitutionExcelFileHandle institutionExcelFileHandle;
-	
-	@Override
-	public void deleteAll() {
-		mentorRepository.deleteAll();
-		studentRepository.deleteAll();
-		courseRepository.deleteAll();
-		institutionRepository.deleteAll();
-	}
-	
+		
 	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) throws MapSkillsException {
 		final List<Institution> institutionsFromExcel = institutionExcelFileHandle.toObjectList(inputStream);
 		return saveInstitutions(institutionsFromExcel);
@@ -80,29 +70,10 @@ public class InstitutionService implements RepositoryService {
 	public void saveMentor(final Mentor mentor) {
 		mentorRepository.save(mentor);
 	}
-	
-	public void saveMentors(final Collection<Mentor> mentors, final long institutionId) {
-		for(final Mentor mentor : mentors) {
-			mentor.setInstitutionId(institutionId);
-			this.saveMentor(mentor);
-		}
-	}
 
 	@Transactional
 	public Institution saveInstitution(final Institution institution) {
-		institutionRepository.save(institution);
-		this.saveMentors(institution.getMentors(), institution.getId());
-		return institution;			
-	}
-	
-	public void saveCourses(final Collection<Course> courses) {
-		for(final Course course : courses) {
-			this.saveCourse(course);			
-		}
-	}
-	
-	public Course saveCourse(final Course course) {
-		return courseRepository.save(course);
+		return institutionRepository.save(institution);			
 	}
 	
 	@Transactional
@@ -123,10 +94,17 @@ public class InstitutionService implements RepositoryService {
 	public Student saveStudent(final Student student) throws MapSkillsException {
 		try {
 			return studentRepository.save(student);
-		} catch (final Exception exc) {
-			LOGGER.log(Level.INFO, exc.getMessage(), exc);
-			throw new StudentInvalidException();
+		} catch (final Exception exception) {
+			LOGGER.log(Level.INFO, exception.getMessage(), exception);
+			throw new StudentInvalidException(exception);
 		}
+	}
+	
+	public Course saveCourse(final Course course) {
+		final Institution institution = findInstitutionByCode(course.getInstitutionCode());
+		institution.addCourse(course);
+		saveInstitution(institution);
+		return course;
 	}
 	
 	public Student updateStudent(final long id, final Student student) throws MapSkillsException {
@@ -148,10 +126,7 @@ public class InstitutionService implements RepositoryService {
 	}
 	
 	public Institution findInstitutionByCode(final String code) {
-		final Institution institution = institutionRepository.findByCode(code);
-		final Collection<Mentor> mentors = mentorRepository.findAllByInstitutionCode(code);
-		institution.setMentors(mentors);
-		return institution;
+		return institutionRepository.findByCode(code);
 	}
 	
 	public Student findStudentByRa(final String ra) {
@@ -160,10 +135,6 @@ public class InstitutionService implements RepositoryService {
 	
 	public Student findStudentById(final long id) {
 		return studentRepository.findOne(id);
-	}
-	
-	public Course findCourseByCode(final String code) {
-		return courseRepository.findByCode(code);
 	}
 	
 	public Collection<Institution> findAllInstitutions() {
@@ -179,30 +150,14 @@ public class InstitutionService implements RepositoryService {
 		if(institution == null) {
 			throw new InstitutionNotFoundException(id);
 		}
-		institution.setCourses(courseRepository.findAllByInstitutionCode(institution.getCode()));
-		institution.setMentors(mentorRepository.findAllByInstitutionCode(institution.getCode()));
 		return institution;
 	}
 	
 	/**
-	 * Metodo que recupera todos os cursos de uma determinada instituicao
-	 */
-	public List<Course> findAllCoursesByInstitutionCode(final String institutionCode) {
-		final List<Course> courses = new ArrayList<>();
-		for(final Course course : courseRepository.findAllByInstitutionCode(institutionCode)) {
-			courses.add(course);
-		}
-		return courses;
-	}
-	/**
 	 * Metodo que recupera todos alunos de um curso de uma determinada instituicao
 	 */
 	public Collection<Student> findAllStudentsByCourseAndInstitution(final String courseCode, final String institutionCode) {
-		final List<Student> courses = new ArrayList<>();
-		for(final Student student : studentRepository.findAllByCourseAndInstitution(courseCode, institutionCode)) {
-			courses.add(student);
-		}
-		return courses;
+		return studentRepository.findAllByCourseAndInstitution(courseCode, institutionCode);
 	}
 	
 	public List<Student> findAllStudentsByInstitution(final String institutionCode) {
@@ -236,7 +191,7 @@ public class InstitutionService implements RepositoryService {
 	 */
 	private String getYearSemesterCurrent() {
 		final LocalDate dateCurrent = LocalDate.now();
-		final String semester = dateCurrent.getMonthValue() < 6 ? "1" : "2";
+		final String semester = dateCurrent.getMonthValue() < 7 ? "1" : "2";
 		final String year = String.valueOf(dateCurrent.getYear());
 		return year.substring(2).concat(semester);
 	}

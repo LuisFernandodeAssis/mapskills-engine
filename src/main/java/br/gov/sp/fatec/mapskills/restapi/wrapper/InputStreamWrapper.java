@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.gov.sp.fatec.mapskills.restapi.serializer.InputStreamDeserializer;
 import br.gov.sp.fatec.mapskills.utils.Base64Parser;
-import br.gov.sp.fatec.mapskills.utils.BeanRetriever;
+import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
  * 
  * A classe {@link InputStreamWrapper} representa
@@ -24,7 +24,7 @@ import br.gov.sp.fatec.mapskills.utils.BeanRetriever;
 @JsonDeserialize(using = InputStreamDeserializer.class)
 public class InputStreamWrapper {
 	
-	private Base64Parser parser = BeanRetriever.getBean("base64Parser", Base64Parser.class);
+	private Base64Parser parser = ApplicationContextHolder.getBean("base64Parser", Base64Parser.class);
 	private final InputStream inputStream;
 	
 	public InputStreamWrapper(final String charSequence) {

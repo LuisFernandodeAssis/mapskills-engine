@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 /**
  * 
@@ -28,10 +26,8 @@ import lombok.Getter;
  * @version 1.0 21/05/2017
  */
 @Getter
-@Builder
-@AllArgsConstructor
 @Entity
-@Table(name = "ALTERNATIVE")
+@Table(name = "MAPSKILLS.ALTERNATIVE")
 public class Alternative implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,16 +35,23 @@ public class Alternative implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "alt_id")
-	private long id;
+	private Long id;
 	
 	@Column(name = "alt_description", nullable = false)
 	private String description;
 	
 	@Column(name = "alt_skill_value", nullable = false)
-	private int skillValue;
+	private Integer skillValue;
 		
-	public Alternative() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Alternative() {
+		this(null, null, null);
+	}
+	
+	public Alternative(final Long id, final String description, final Integer skillValue) {
+		this.id = id;
+		this.description = description;
+		this.skillValue = skillValue;
 	}
 	
 	public Alternative setId(final long id) {

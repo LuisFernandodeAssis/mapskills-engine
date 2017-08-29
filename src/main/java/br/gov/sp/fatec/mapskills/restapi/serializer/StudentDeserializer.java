@@ -6,9 +6,11 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
-import br.gov.sp.fatec.mapskills.domain.user.student.AcademicRegistry;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
 /**
@@ -22,21 +24,19 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
 public class StudentDeserializer extends DefaultJsonDeserializer<StudentWrapper> {
 
 	@Override
-	protected StudentWrapper deserialize(final JsonNode node) {
+	protected StudentWrapper deserialize(final JsonNode node) throws IOException {
 		
 		final String ra = jsonUtil.getFieldTextValue(node, "ra");
-        final String institutionCode = ra.substring(0, 3);
-        final String courseCode = ra.substring(3, 6);
         
-        final AcademicRegistry registry = new AcademicRegistry(ra, institutionCode, courseCode);
-        
-        final Student student = Student.builder().ra(registry)
-        		.name(jsonUtil.getFieldTextValue(node, "name"))
-        		.phone(jsonUtil.getFieldTextValue(node, "phone"))
-        		.username(jsonUtil.getFieldTextValue(node, "username"))
-        		.password(jsonUtil.getFieldPassValue(node)).build();
-        
-		return new StudentWrapper(student);
+        	try {
+				return new StudentWrapper(new Student(
+						ra,
+						jsonUtil.getFieldTextValue(node, "name"),
+						jsonUtil.getFieldTextValue(node, "phone"),
+						jsonUtil.getFieldTextValue(node, "username"),
+						jsonUtil.getFieldPassValue(node)));
+			} catch (final MapSkillsException exception) {
+				throw new IOException(exception);
+			}
 	}
-
 }

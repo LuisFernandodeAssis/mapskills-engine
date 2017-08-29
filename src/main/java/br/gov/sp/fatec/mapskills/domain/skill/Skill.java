@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 /**
  * 
@@ -27,10 +25,8 @@ import lombok.Getter;
  * @version 1.0 01/11/2016
  */
 @Getter
-@AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "SKILL")
+@Table(name = "MAPSKILLS.SKILL")
 public class Skill implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,7 +34,7 @@ public class Skill implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ski_id")
-	private long id;
+	private Long id;
 	
 	@Column(name = "ski_type", nullable = false)
 	private String type;
@@ -46,8 +42,19 @@ public class Skill implements Serializable {
 	@Column(name = "ski_description")
 	private String description;
 	
-	public Skill() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private Skill() {
+		this(null, null, null);
+	}
+	
+	public Skill(final Long id, final String type, final String description) {
+		this(type, description);
+		this.id = id;
+	}
+	
+	public Skill(final String type, final String description) {
+		this.type = type;
+		this.description = description;
 	}
 	
 	public void changeType(final String newType) {
@@ -58,7 +65,7 @@ public class Skill implements Serializable {
 		this.description = newDescription;
 	}
 	
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

@@ -1,8 +1,8 @@
 /*
  * @(#)SceneService.java 1.0 09/01/2017
  *
- * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.Fatec-Jessen Vidal 
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
+ * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.scene;
 
@@ -14,21 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.sp.fatec.mapskills.domain.answerevent.AnswerEvent;
 import br.gov.sp.fatec.mapskills.domain.answerevent.AnswerEventRepository;
-import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
 import lombok.AllArgsConstructor;
 
+/**
+ * 
+ * A classe {@link SceneService}
+ *
+ * @author Marcelo
+ * @version 1.0 09/01/2017
+ */
 @Service
 @AllArgsConstructor
-public class SceneService implements RepositoryService {
+public class SceneService {
 	
 	private final SceneRepository sceneRepo;
 	private final AnswerEventRepository answerRepo;
 
-	@Override
-	public void deleteAll() {
-		sceneRepo.deleteAll();
-		answerRepo.deleteAll();
-	}
 	/**
 	 * @param id
 	 * @return uma cena pelo seu id
@@ -48,9 +49,9 @@ public class SceneService implements RepositoryService {
 	 * @param scene
 	 */
 	public Scene save(final Scene scene) {
-		if(scene.getIndex() < 0) {
+		if(scene.getIndex() == null || scene.getIndex() < 0) {
 			final int index = nextIndex(scene.getGameThemeId());
-			scene.putIndex(index);			
+			scene.setIndex(index);			
 		}
 		return sceneRepo.save(scene);
 	}

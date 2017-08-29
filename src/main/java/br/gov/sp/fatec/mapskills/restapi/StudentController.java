@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
@@ -26,7 +26,7 @@ import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.AnswerWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentDetailsWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentResultWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 /**
  * A classe <code>MapSkillsController</code> eh responsavel por conter as rotas
  * de controle da aplicacao.
@@ -95,8 +95,8 @@ public class StudentController {
 	@RequestMapping(value = "/details/{studentRA}", method = RequestMethod.GET)
 	public ResponseEntity<StudentDetailsWrapper> findStudentDetails(@PathVariable("studentRA") final String studentRA) {
 		final Student student = institutionService.findStudentByRa(studentRA);
-		final Course course = institutionService.findCourseByCode(student.getCourseCode());
 		final Institution institution = institutionService.findInstitutionByCode(student.getInstitutionCode());
+		final Course course = institution.getCourseByCode(student.getCourseCode());
 		final StudentDetailsWrapper studentDetailsWrapper = new StudentDetailsWrapper(student, course, institution);
 		
 		return new ResponseEntity<>(studentDetailsWrapper, HttpStatus.OK);

@@ -8,14 +8,13 @@ package br.gov.sp.fatec.mapskills.domain.user;
 
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
-import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
+import lombok.AllArgsConstructor;
+
 /**
  * 
  * A classe {@link UserService} e responsavel por conter
@@ -24,21 +23,14 @@ import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-@Component
-public class UserService implements RepositoryService {
+@Service
+@AllArgsConstructor
+public class UserService {
 	
 	private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 	
-	@Autowired(required = true)
-	@Qualifier("userRepository")
-	private UserRepository repository;
-	
-	private PasswordEncoder encoder;
-
-	@Override
-	public void deleteAll() {
-		repository.deleteAll();
-	}
+	private final UserRepository repository;
+	private final PasswordEncoder encoder;
 	
 	public void save(final Administrator admin) {
 		repository.save(admin);
@@ -58,10 +50,8 @@ public class UserService implements RepositoryService {
 	
 	/**
 	 * valida o usuario, verificando se ele nao eh nulo ou possua as credenciais invalidas
-	 * @param user
-	 * @param password
-	 * @return true em caso de sucesso
-	 * 	e false em caso de falha
+	 * @param user Usuario a ser validado
+	 * @param password Senha a ser validade
 	 */
 	public void authenticate(final User user, final String password) {
 		if(user == null || !encoder.matches(password, user.getPassword())) {
@@ -76,10 +66,4 @@ public class UserService implements RepositoryService {
 		repository.save(user);
 	}
 	
-	@Autowired
-	public void setPasswordEncoder(final PasswordEncoder encoder) {
-		this.encoder = encoder;
-	}
-
-
 }

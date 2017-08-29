@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentResultWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 /**
  * 
  * A classe {@link StudentResultSerializer} e responsavel

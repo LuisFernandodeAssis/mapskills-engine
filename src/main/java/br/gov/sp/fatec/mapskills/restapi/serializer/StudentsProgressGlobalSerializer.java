@@ -11,7 +11,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.report.StudentsProgressGlobalWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressGlobalWrapper;
 /**
  * 
  * A classe {@link StudentsProgressGlobalSerializer} e responavel

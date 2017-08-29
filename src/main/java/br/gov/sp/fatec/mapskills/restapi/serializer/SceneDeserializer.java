@@ -37,12 +37,8 @@ public class SceneDeserializer extends DefaultJsonDeserializer<SceneWrapper> {
         		
         final Question question = this.buildQuestion(node.get("question"));
 
-        final Scene scene = Scene.builder()
-        		.text(jsonUtil.getFieldTextValue(node, "text"))
-        		.urlBackground(IP_SERVER + "images/" + filename)
-        		.question(question)
-        		.gameThemeId(jsonUtil.getFieldLongValue(node, "gameThemeId"))
-        		.build();
+        final Scene scene = new Scene(null, null, jsonUtil.getFieldTextValue(node, "text"), IP_SERVER + "images/" + filename,
+        		question, jsonUtil.getFieldLongValue(node, "gameThemeId"));
 
         this.setIdAndIndex(node, scene);
         
@@ -54,30 +50,20 @@ public class SceneDeserializer extends DefaultJsonDeserializer<SceneWrapper> {
 			return null;
 		}
 		final List<Alternative> alternatives = buildAlternatives(node.get("alternatives"));
-		final Question question = Question.builder().alternatives(alternatives).skillId(this.getSkillIdFromNode(node)).build();
+		final Question question = new Question(null, alternatives, this.getSkillIdFromNode(node));
 		question.setId(jsonUtil.getFieldLongValue(node, "id"));
 		return question;
 	}
 	
 	private List<Alternative> buildAlternatives(final JsonNode node) {
 		final List<Alternative> alternatives = new ArrayList<>(4);
-		for(int i = 0; i < 4; i++ ) {
-			final String position = String.valueOf(i);
-			if(node.has(position)) {
-				alternatives.add(Alternative
-						.builder()
-						.id(jsonUtil.getFieldLongValue(node.get(position), "id"))
-						.description(jsonUtil.getFieldTextValue(node.get(position), "description"))
-						.skillValue(jsonUtil.getFieldIntegerValue(node.get(position), "skillValue"))
-						.build());
-			} else {
-				alternatives.add(Alternative
-						.builder()
-						.id(jsonUtil.getFieldLongValue(node.get(i), "id"))
-						.description(jsonUtil.getFieldTextValue(node.get(i), "description"))
-						.skillValue(jsonUtil.getFieldIntegerValue(node.get(i), "skillValue"))
-						.build());
-			}
+		for(int index = 0; index < 4; index++ ) {
+			final Alternative alternative = new Alternative(
+					jsonUtil.getFieldLongValue(node.get(index), "id"),
+					jsonUtil.getFieldTextValue(node.get(index), "description"),
+					jsonUtil.getFieldIntegerValue(node.get(index), "skillValue"));
+
+			alternatives.add(alternative);
 		}
 		return alternatives;
 	}
@@ -104,7 +90,7 @@ public class SceneDeserializer extends DefaultJsonDeserializer<SceneWrapper> {
 	
 	private void setIdAndIndex(final JsonNode node, final Scene scene) {
 		scene.setId(jsonUtil.getFieldLongValue(node, "id"));
-		scene.putIndex(jsonUtil.getFieldIntegerValue(node, "index"));
+		scene.setIndex(jsonUtil.getFieldIntegerValue(node, "index"));
 	}
 	
 }

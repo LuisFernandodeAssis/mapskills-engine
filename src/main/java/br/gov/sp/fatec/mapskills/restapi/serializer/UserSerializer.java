@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
-import br.gov.sp.fatec.mapskills.utils.BeanRetriever;
+import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
  * 
  * A classe {@link UserSerializer} e responsavel por serializar um perfil de usuario.
@@ -37,7 +37,7 @@ public class UserSerializer extends DefaultJsonSerializer<UserWrapper> {
 	@SuppressWarnings("unchecked")
 	public UserSerializer() {
 		super();
-		mapSerializer.putAll(BeanRetriever.getBean("mapSerializerStrategy", Map.class));
+		mapSerializer.putAll(ApplicationContextHolder.getBean("mapSerializerStrategy", Map.class));
 	}
 
 	@Override

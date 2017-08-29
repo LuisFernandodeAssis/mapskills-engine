@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import lombok.Getter;
 /**
  * a classe <code>AcademicRegistry</code> eh
@@ -28,24 +29,26 @@ public class AcademicRegistry implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "stu_ra")
+	@Column(name = "STU_RA")
 	@Size(min=13, max=14)
 	private String ra;
 	
-	@Column(name = "ins_code", nullable = false)
+	@Column(name = "INS_CODE", nullable = false)
 	private String institutionCode;
 	
-	@Column(name = "crs_code", nullable = false)
+	@Column(name = "CRS_CODE", nullable = false)
 	private String courseCode;
 	
-	public AcademicRegistry() {
-		// CONSTRUCTOR DEFAULT
+	@SuppressWarnings("unused")
+	private AcademicRegistry() throws MapSkillsException {
+		this("0000000000000");
 	}
-	
-	public AcademicRegistry(final String ra, final String institutionCode, final String courseCode) {
+		
+	public AcademicRegistry(final String ra) throws MapSkillsException {
+		validate(ra);
 		this.ra = ra;
-		this.institutionCode = institutionCode;
-		this.courseCode = courseCode;
+		this.institutionCode = ra.substring(0, 3);
+		this.courseCode = ra.substring(3, 6);
 	}
 	
 	public String getYear() {
@@ -58,6 +61,22 @@ public class AcademicRegistry implements Serializable {
 	
 	public String getStudentCode() {
 		return ra.substring(9);
+	}
+	
+	/**
+	 * metodo que valida o ra contido no documento xlsx
+	 * @param ra
+	 * @throws MapSkillsException
+	 */
+	private void validate(final String ra) throws MapSkillsException {
+		try {
+			Long.parseLong(ra);
+			if(ra.length() < 13 || ra.length() > 14) {
+				throw new RAInvalidException(ra);
+			}
+		} catch (final NumberFormatException e) {
+			throw new RAInvalidException(ra);
+		}
 	}
 	
 }

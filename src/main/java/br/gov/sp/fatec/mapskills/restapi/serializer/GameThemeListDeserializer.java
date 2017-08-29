@@ -5,8 +5,8 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -25,15 +25,14 @@ public class GameThemeListDeserializer extends DefaultJsonDeserializer<GameTheme
 
 	@Override
 	protected GameThemeListWrapper deserialize(final JsonNode node) {
-		final Collection<GameTheme> gameThemes = new LinkedList<>();
+		final List<GameTheme> gameThemes = new LinkedList<>();
         final int sizeArray = node.size();
         for(int i = 0; i < sizeArray; i++) {
         	final JsonNode nodeCurrent = node.get(i);
-        	gameThemes.add(GameTheme.builder()
-        			.id(jsonUtil.getFieldLongValue(nodeCurrent, "id"))
-        			.name(jsonUtil.getFieldTextValue(nodeCurrent, "name"))
-        			.active(jsonUtil.getFieldBooleanValue(nodeCurrent, "active"))
-        			.build());
+        	final GameTheme theme = new GameTheme(jsonUtil.getFieldTextValue(nodeCurrent, "name"));
+        	theme.setId(jsonUtil.getFieldLongValue(nodeCurrent, "id"));
+        	theme.setActive(jsonUtil.getFieldBooleanValue(nodeCurrent, "active"));
+        	gameThemes.add(theme);
         }
         
 		return new GameThemeListWrapper(gameThemes);

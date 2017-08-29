@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import br.gov.sp.fatec.mapskills.domain.scene.Scene;
 import br.gov.sp.fatec.mapskills.domain.scene.SceneRepository;
-import br.gov.sp.fatec.mapskills.infrastructure.RepositoryService;
 import lombok.AllArgsConstructor;
 /**
  * 
@@ -26,15 +25,11 @@ import lombok.AllArgsConstructor;
  */
 @Service
 @AllArgsConstructor
-public class GameThemeService implements RepositoryService {
+public class GameThemeService {
 	
 	private final GameThemeRepository themeRepo;
 	private final SceneRepository sceneRepo;
 	
-	@Override
-	public void deleteAll() {
-		themeRepo.deleteAll();
-	}
 	/**
 	 * Realiza busca de um tema por seu id.
 	 * @param id

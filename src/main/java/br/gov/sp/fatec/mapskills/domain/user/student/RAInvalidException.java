@@ -9,7 +9,7 @@ package br.gov.sp.fatec.mapskills.domain.user.student;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import br.gov.sp.fatec.mapskills.application.MapSkillsException;
+import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 /**
  * A classe <code>RAInvalidException</code> eh lancada caso 
  * encontre uma mal formação no RA informado.
@@ -21,15 +21,9 @@ import br.gov.sp.fatec.mapskills.application.MapSkillsException;
 public class RAInvalidException extends MapSkillsException {
 
 	private static final long serialVersionUID = 1L;	
-	private final String ra;
 	
 	public RAInvalidException(final String ra) {
 		super(String.format("O RA %s se encontra inválido!", ra));
-		this.ra = ra;
 	}
 	
-	public String ra() {
-		return ra;
-	}
-
 }

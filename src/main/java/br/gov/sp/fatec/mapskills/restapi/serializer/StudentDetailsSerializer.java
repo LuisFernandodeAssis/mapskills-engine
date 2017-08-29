@@ -8,12 +8,15 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentDetailsWrapper;
+import lombok.AllArgsConstructor;
 
 /**
  * 
@@ -23,11 +26,14 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentDetailsWrapper;
  * @author Marcelo
  * @version 1.0 11/02/2017
  */
+@Component
+@AllArgsConstructor
 public class StudentDetailsSerializer extends DefaultJsonSerializer<StudentDetailsWrapper> {
+	
+	private final CourseSerializer courseSerializer;
 
 	@Override
 	public void serialize(final StudentDetailsWrapper studentWrapper, final JsonGenerator generator) throws IOException {
-		
 		generator.writeStartObject();
 		this.studentSerialize(studentWrapper.getStudent(), generator);
 		this.courseSerialize(studentWrapper.getCourse(), generator);
@@ -44,14 +50,10 @@ public class StudentDetailsSerializer extends DefaultJsonSerializer<StudentDetai
 		generator.writeStringField(DefaultJsonSerializer.PASS, DefaultJsonSerializer.EMPTY_PASS);
 		generator.writeEndObject();
 	}
-	/*
-	 * TODO metodo duplicado, olhar comentario na classe {@link CourseListSerializer}.
-	 */
+
 	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
 		generator.writeObjectFieldStart("course");
-		generator.writeStringField("code", course.getCode());
-		generator.writeStringField("name", course.getName());
-		generator.writeStringField("period", course.getPeriod());
+		courseSerializer.serialize(course, generator);
 		generator.writeEndObject();
 	}
 	
@@ -63,5 +65,4 @@ public class StudentDetailsSerializer extends DefaultJsonSerializer<StudentDetai
 		generator.writeStringField("city", institution.getCity());
 		generator.writeEndObject();
 	}
-
 }
