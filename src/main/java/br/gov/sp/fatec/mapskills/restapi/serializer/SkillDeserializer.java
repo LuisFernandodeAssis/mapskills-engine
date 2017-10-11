@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillWrapper;
+
 /**
  * 
  * A classe {@link SkillDeserializer} e responsavel
@@ -19,14 +20,11 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillWrapper;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-public class SkillDeserializer extends DefaultJsonDeserializer<SkillWrapper> {
+public class SkillDeserializer extends AbstractJsonDeserializer<SkillWrapper> {
 
 	@Override
 	protected SkillWrapper deserialize(final JsonNode node) {
-		return new SkillWrapper(new Skill(
-				jsonUtil.getFieldLongValue(node, "id"),
-				jsonUtil.getFieldTextValue(node, "type"),
-				jsonUtil.getFieldTextValue(node, "description")));
+		return new SkillWrapper(new Skill(getFieldTextValue(node, SerializationKey.TYPE),
+				getFieldTextValue(node, SerializationKey.DESCRIPTION)));
 	}
-
 }

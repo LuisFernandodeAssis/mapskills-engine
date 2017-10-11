@@ -7,13 +7,13 @@
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListDeserializer;
 import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListSerializer;
 /**
@@ -29,14 +29,14 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListSerializer;
 @JsonDeserialize(using = SceneListDeserializer.class)
 public class SceneListWrapper {
 	
-	private final Collection<Scene> scenes = new ArrayList<>();
+	private final List<Scene> scenes = new ArrayList<>();
 
-	public SceneListWrapper(final Collection<Scene> scenes) {
+	public SceneListWrapper(final List<Scene> scenes) {
 		this.scenes.addAll(scenes);
 	}
 	
-	public Collection<Scene> getScenes() {
-		return Collections.unmodifiableCollection(scenes);
+	public List<Scene> getScenes() {
+		return Collections.unmodifiableList(scenes);
 	}
 
 }

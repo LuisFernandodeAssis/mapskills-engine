@@ -11,7 +11,7 @@ import java.util.Collection;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.restapi.serializer.InstitutionSerializerTest;
 import lombok.Getter;
 /**

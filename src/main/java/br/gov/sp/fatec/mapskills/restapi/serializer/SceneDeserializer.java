@@ -9,12 +9,17 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
-import br.gov.sp.fatec.mapskills.domain.scene.Alternative;
-import br.gov.sp.fatec.mapskills.domain.scene.Question;
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
+import br.gov.sp.fatec.mapskills.domain.skill.Skill;
+import br.gov.sp.fatec.mapskills.domain.skill.SkillRepository;
+import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
+import br.gov.sp.fatec.mapskills.domain.theme.Question;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link SceneDeserializer} e responsavel
@@ -24,23 +29,22 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-public class SceneDeserializer extends DefaultJsonDeserializer<SceneWrapper> {
+@Component
+@AllArgsConstructor
+public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
 	
-	private static final String IP_SERVER = "http://localhost:8585/mapskills/";
-	private static final String BACKGROUND = "background";
+	//private static final String IP_SERVER = "http://localhost:8585/mapskills/images/";
+	private final SkillRepository skillRepository;
 	
 	@Override
 	protected SceneWrapper deserialize(final JsonNode node) {
-		final String[] background = verifyBackground(node);    
-        final String fileImageBase64 = background[0];
-        final String filename = background[1];
+        final String fileImageBase64 = getFileBase64(node);
+        final String filename = getFilename(node);
         		
-        final Question question = this.buildQuestion(node.get("question"));
+        final Question question = buildQuestion(get(node, SerializationKey.QUESTION));
 
-        final Scene scene = new Scene(null, null, jsonUtil.getFieldTextValue(node, "text"), IP_SERVER + "images/" + filename,
-        		question, jsonUtil.getFieldLongValue(node, "gameThemeId"));
-
-        this.setIdAndIndex(node, scene);
+        final Scene scene = new Scene(getFieldIntegerValue(node, SerializationKey.INDEX),
+        		getFieldTextValue(node, SerializationKey.TEXT), filename, question);
         
 		return new SceneWrapper(scene, fileImageBase64, filename);
 	}
@@ -49,48 +53,44 @@ public class SceneDeserializer extends DefaultJsonDeserializer<SceneWrapper> {
 		if(node == null || node.isNull()) {
 			return null;
 		}
-		final List<Alternative> alternatives = buildAlternatives(node.get("alternatives"));
-		final Question question = new Question(null, alternatives, this.getSkillIdFromNode(node));
-		question.setId(jsonUtil.getFieldLongValue(node, "id"));
+		final List<Alternative> alternatives = buildAlternatives(get(node, SerializationKey.ALTERNATIVES));
+		final Question question = new Question(alternatives, getSkillFromNode(node));
 		return question;
 	}
 	
 	private List<Alternative> buildAlternatives(final JsonNode node) {
 		final List<Alternative> alternatives = new ArrayList<>(4);
-		for(int index = 0; index < 4; index++ ) {
+		for (int index = 0; index < 4; index++) {
 			final Alternative alternative = new Alternative(
-					jsonUtil.getFieldLongValue(node.get(index), "id"),
-					jsonUtil.getFieldTextValue(node.get(index), "description"),
-					jsonUtil.getFieldIntegerValue(node.get(index), "skillValue"));
+					getFieldLongValue(node.get(index), SerializationKey.ID),
+					getFieldTextValue(node.get(index), SerializationKey.DESCRIPTION),
+					getFieldIntegerValue(node.get(index), SerializationKey.SKILL_VALUE));
 
 			alternatives.add(alternative);
 		}
 		return alternatives;
 	}
 	
-	private String[] verifyBackground(final JsonNode node) {
-		final String[] background = new String[2];
-		if(!node.has(BACKGROUND)) {
-			return new String[2];
-		}
-		if(jsonUtil.has(node.get(BACKGROUND), "base64")) {
-			background[0] = jsonUtil.getFieldTextValue(node.get(BACKGROUND), "base64");
-        }
-        if(jsonUtil.has(node.get(BACKGROUND), "filename")) {
-        	final String filename = jsonUtil.getFieldTextValue(node.get(BACKGROUND), "filename");
-        	final int lastIndex = filename.lastIndexOf('/');
-        	background[1] = filename.substring(lastIndex + 1);
-        }
-        return background;
+	private String getFileBase64(final JsonNode node) {
+		final JsonNode backgroundNode = get(node, SerializationKey.BACKGROUND);
+		if(has(backgroundNode, SerializationKey.BASE_64)) {
+			return getFieldTextValue(backgroundNode, SerializationKey.BASE_64);
+		}		
+		return null;
 	}
 	
-	private long getSkillIdFromNode(final JsonNode node) {
-		return jsonUtil.getFieldLongValue(node, "skillId");
-	}
+	private String getFilename(final JsonNode node) {
+		final JsonNode backgroundNode = get(node, SerializationKey.BACKGROUND);
+		if(has(backgroundNode, SerializationKey.FILENAME)) {
+			final String sourceFile = getFieldTextValue(backgroundNode, SerializationKey.FILENAME);
+			final int lastIndex = sourceFile.lastIndexOf('/');
+			return sourceFile.substring(lastIndex + 1);
+		}		
+		return null;
+	}	
 	
-	private void setIdAndIndex(final JsonNode node, final Scene scene) {
-		scene.setId(jsonUtil.getFieldLongValue(node, "id"));
-		scene.setIndex(jsonUtil.getFieldIntegerValue(node, "index"));
-	}
-	
+	private Skill getSkillFromNode(final JsonNode node) {
+		final Long id = getFieldLongValue(node, SerializationKey.SKILL_ID);
+		return skillRepository.findOne(id);
+	}	
 }

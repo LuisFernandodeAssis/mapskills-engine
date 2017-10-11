@@ -7,7 +7,6 @@
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,29 +27,28 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.StudentResultSerializer;
 @JsonSerialize(using = StudentResultSerializer.class)
 public class StudentResultWrapper {
 	
-	private final Collection<String> skillsLabels = new LinkedList<>();
-	private final Collection<BigDecimal> values = new LinkedList<>();
-	private final Collection<Skill> skillsDetails = new LinkedList<>();
+	private final List<String> skillLabels = new LinkedList<>();
+	private final List<BigDecimal> skillValues = new LinkedList<>();
+	private final List<Skill> skills = new LinkedList<>();
 	
-	public StudentResultWrapper(final List<Object[]> context) {
+	public StudentResultWrapper(final List<Object[]> context) {		
 		for(final Object[] result : context) {
-			this.skillsLabels.add(String.valueOf(result[1]));
-			this.values.add((BigDecimal) result[3]);
-			this.skillsDetails.add(new Skill(String.valueOf(result[1]), String.valueOf(result[2])));
+			this.skillLabels.add(String.valueOf(result[1]));
+			this.skillValues.add(new BigDecimal(result[3].toString()));
+			this.skills.add(new Skill(String.valueOf(result[1]), String.valueOf(result[2])));
 		}
 
 	}
 	
-	public Collection<String> getSkills() {
-		return Collections.unmodifiableCollection(skillsLabels);
+	public List<String> getSkills() {
+		return Collections.unmodifiableList(skillLabels);
 	}
 	
-	public Collection<BigDecimal> getValues() {
-		return Collections.unmodifiableCollection(values);
+	public List<BigDecimal> getValues() {
+		return Collections.unmodifiableList(skillValues);
 	}
 	
-	public Collection<Skill> getSkillsDeatils() {
-		return Collections.unmodifiableCollection(skillsDetails);
+	public List<Skill> getSkillsDeatils() {
+		return Collections.unmodifiableList(skills);
 	}
-
 }

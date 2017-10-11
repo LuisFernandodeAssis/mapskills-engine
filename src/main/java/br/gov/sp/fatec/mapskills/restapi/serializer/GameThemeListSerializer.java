@@ -21,7 +21,7 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
  * @author Marcelo
  * @version 1.0 22/04/2017
  */
-public class GameThemeListSerializer extends DefaultJsonSerializer<GameThemeListWrapper> {
+public class GameThemeListSerializer extends AbstractJsonSerializer<GameThemeListWrapper> {
 
 	@Override
 	public void serialize(final GameThemeListWrapper gameThemes, final JsonGenerator generator)	throws IOException {

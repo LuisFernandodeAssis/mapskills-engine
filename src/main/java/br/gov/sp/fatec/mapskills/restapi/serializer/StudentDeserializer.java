@@ -21,20 +21,16 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
  * @author Marcelo
  * @version 1.0 24/12/2016
  */
-public class StudentDeserializer extends DefaultJsonDeserializer<StudentWrapper> {
+public class StudentDeserializer extends AbstractJsonDeserializer<StudentWrapper> {
 
 	@Override
 	protected StudentWrapper deserialize(final JsonNode node) throws IOException {
-		
-		final String ra = jsonUtil.getFieldTextValue(node, "ra");
-        
         	try {
-				return new StudentWrapper(new Student(
-						ra,
-						jsonUtil.getFieldTextValue(node, "name"),
-						jsonUtil.getFieldTextValue(node, "phone"),
-						jsonUtil.getFieldTextValue(node, "username"),
-						jsonUtil.getFieldPassValue(node)));
+				return new StudentWrapper(new Student(getFieldTextValue(node, SerializationKey.RA),
+						getFieldTextValue(node, SerializationKey.NAME),
+						getFieldTextValue(node, SerializationKey.PHONE),
+						getFieldTextValue(node, SerializationKey.USERNAME),
+						getFieldPassValue(node)));
 			} catch (final MapSkillsException exception) {
 				throw new IOException(exception);
 			}

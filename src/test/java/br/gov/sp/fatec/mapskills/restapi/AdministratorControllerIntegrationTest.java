@@ -28,23 +28,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
 import br.gov.sp.fatec.mapskills.authentication.DefaultGrantedAuthority;
 import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedAuthentication;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtAuthenticationManager;
 import br.gov.sp.fatec.mapskills.config.AbstractApplicationTest;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.CoursePeriod;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.domain.skill.SkillService;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionDetailsWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
 import br.gov.sp.fatec.mapskills.utils.JsonUtil;
 /**
  * 
@@ -68,7 +68,7 @@ public class AdministratorControllerIntegrationTest extends AbstractApplicationT
 	private InstitutionService institutionService;
 		
 	@Autowired
-	private SkillService skillService;
+	private SkillApplicationServices skillApplicationServices;
 	
 	@Autowired
 	private GameThemeService themeService;
@@ -98,7 +98,7 @@ public class AdministratorControllerIntegrationTest extends AbstractApplicationT
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/skill"), bodyInput)
 			.andExpect(status().isCreated());
 		
-		assertEquals(1, skillService.findAll().size());
+		assertEquals(1, skillApplicationServices.findAll().size());
 	}
 	
 	@Test
@@ -159,12 +159,12 @@ public class AdministratorControllerIntegrationTest extends AbstractApplicationT
 		mockAdminAuthentication();
 		
 		final Institution fatec = institutionService.saveInstitution(getOneInstitution());
-		institutionService.saveCourse(new Course("100", "manutenção de aeronaves", CoursePeriod.NOTURNO, fatec));
+		institutionService.saveCourse(new Course("100", "manutenção de aeronaves", Period.NOTURNO));
 		
 		final String jsonResponse = super.mockMvcPerformWithAuthorizationGet(BASE_PATH.concat("/institution/" + fatec.getId()))
 				.andReturn().getResponse().getContentAsString();
 		
-		final InstitutionDetailsWrapper institutionReturn = objectMapper.readValue(jsonResponse, InstitutionDetailsWrapper.class);
+		final InstitutionWrapper institutionReturn = objectMapper.readValue(jsonResponse, InstitutionWrapper.class);
 		
 		assertEquals(fatec.getId(), institutionReturn.getInstitution().getId());
 		assertEquals(1, institutionReturn.getInstitution().getMentors().size());
@@ -202,7 +202,7 @@ public class AdministratorControllerIntegrationTest extends AbstractApplicationT
 	public void getReportByInstitution() throws Exception {
 		mockAdminAuthentication();
 		for(final Skill skill : super.getSkillsMock()) {
-			skillService.save(skill);
+			skillApplicationServices.save(skill);
 		}
 		
 		super.mockMvcPerformWithAuthorizationGet(BASE_PATH.concat("/report/146"));

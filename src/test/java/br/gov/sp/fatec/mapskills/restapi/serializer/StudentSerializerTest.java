@@ -33,7 +33,7 @@ public class StudentSerializerTest extends JsonSerializer<StudentWrapperTest> {
 		generator.writeStartObject();
 		generator.writeStringField("name", student.getName());
 		generator.writeStringField("phone", student.getPhone());
-		generator.writeStringField("ra", student.getRa());
+		generator.writeStringField("ra", student.getFullRa());
 		generator.writeStringField("username", student.getUsername());
 		generator.writeStringField("password", student.getPassword());
 		generator.writeEndObject();

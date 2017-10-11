@@ -1,0 +1,26 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="sql-file-data-load">
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.01-data-user.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.02-data-mentor.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.03-data-institution.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.04-data-course.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.05-data-student.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.06-data-administrator.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.07-data-skill.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.08-data-game-theme.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.09-data-question.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.10-data-alternative.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.11-data-scene.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.12-data-student-question-context.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.13-update-student-question-context.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="data-load/db.changelog-1.3.0.14-update-student.sql" relativeToChangelogFile="true"/>
+	</changeSet>
+
+</databaseChangeLog>

@@ -23,14 +23,14 @@ import br.gov.sp.fatec.mapskills.domain.institution.Course;
  * @version 1.0 23/08/2017
  */
 @Component
-public class CourseSerializer {
+public class CourseSerializer extends AbstractJsonSerializer<Course> {
 	
+	@Override
 	public void serialize(final Course course, final JsonGenerator generator) throws IOException {
-		generator.writeNumberField("id", course.getId());
-		generator.writeStringField("code", course.getCode());
-		generator.writeStringField("name", course.getName());
-		generator.writeStringField("period", course.getPeriod());
-		generator.writeStringField("institutionCode", course.getInstitutionCode());
+		writeNumberField(SerializationKey.ID, course.getId());
+		writeStringField(SerializationKey.CODE, course.getCode());
+		writeStringField(SerializationKey.NAME, course.getName());
+		writeStringField(SerializationKey.PERIOD, course.getNamePeriod());
+		writeStringField(SerializationKey.INSTITUTION_CODE, course.getInstitutionCode());
 	}
-
 }

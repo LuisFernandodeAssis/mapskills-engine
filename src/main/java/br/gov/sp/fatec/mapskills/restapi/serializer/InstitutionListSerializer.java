@@ -25,9 +25,8 @@ public class InstitutionListSerializer extends AbstractInstitutionSerializer<Ins
 	public void serialize(final InstitutionListWrapper listWrapper, final JsonGenerator generator) throws IOException {
 		generator.writeStartArray();
 		for(final Institution institution : listWrapper.getInstitutions()) {
-			super.defaultSerializer.serialize(institution, generator);
+			serializeDefaultValues(institution, generator);
 		}
 		generator.writeEndArray();
 	}
-
 }

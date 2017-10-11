@@ -18,11 +18,10 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
  * @author Marcelo
  * @version 1.0 08/01/2017
  */
-public class GameThemeDeserializer extends DefaultJsonDeserializer<GameThemeWrapper> {
+public class GameThemeDeserializer extends AbstractJsonDeserializer<GameThemeWrapper> {
 
 	@Override
 	protected GameThemeWrapper deserialize(final JsonNode node) {
-		return new GameThemeWrapper(new GameTheme(jsonUtil.getFieldTextValue(node, "name")));
-	}
-	
+		return new GameThemeWrapper(new GameTheme(getFieldTextValue(node, SerializationKey.NAME)));
+	}	
 }

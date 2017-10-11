@@ -27,15 +27,17 @@ public class StudentSerializer extends DefaultUserSerializer<Student> {
 	
 	@Override
 	public void serialize(final Student student, final JsonGenerator generator) throws IOException {
-		generator.writeStartObject();
-		super.serializeDefaultValues(student, generator);
-		generator.writeStringField("ra", student.getRa());
-		generator.writeStringField("institutionCode", student.getInstitutionCode());
-		generator.writeStringField("courseCode", student.getCourseCode());
-		generator.writeStringField("phone", student.getPhone());
-		generator.writeBooleanField("isCompleted", student.isCompleted());
-		generator.writeEndObject();
-		
+		writeStartObject();
+		serializeCore(student);
+		writeEndObject();		
 	}
 	
+	public void serializeCore(final Student student) throws IOException {
+		super.serializeDefaultValues(student);
+		writeStringField(SerializationKey.RA, student.getFullRa());
+		writeStringField(SerializationKey.INSTITUTION_CODE, student.getInstitutionCode());
+		writeStringField(SerializationKey.COURSE_CODE, student.getCourseCode());
+		writeStringField(SerializationKey.PHONE, student.getPhone());
+		writeBooleanField(SerializationKey.COMPLETED, student.isCompleted());
+	}
 }

@@ -1,0 +1,41 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="add-unique-constraint-user">
+	    <addUniqueConstraint catalogName="MAPSKILLS"
+	            columnNames="USERNAME"
+	            constraintName="UK_USER"
+	            tableName="USER"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-unique-constraint-institution">
+	    <addUniqueConstraint catalogName="MAPSKILLS"
+	            columnNames="CODE"
+	            constraintName="UK_INSTITUTION_CODE"
+	            tableName="INSTITUTION"/>
+	    <addUniqueConstraint catalogName="MAPSKILLS"
+	            columnNames="CNPJ"
+	            constraintName="UK_INSTITUTION_CNPJ"
+	            tableName="INSTITUTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-unique-constraint-course">
+	    <addUniqueConstraint catalogName="MAPSKILLS"
+	            columnNames="CODE, ID_INSTITUTION"
+	            constraintName="UK_COURSE"
+	            tableName="COURSE"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-unique-constraint-student">
+	    <addUniqueConstraint catalogName="MAPSKILLS"
+	            columnNames="RA"
+	            constraintName="UK_STUDENT"
+	            tableName="STUDENT"/>
+	</changeSet>
+	
+</databaseChangeLog>

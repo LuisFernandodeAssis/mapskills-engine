@@ -1,0 +1,116 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-user">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="1133"
+	            tableName="USER"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-mentor">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="1"
+	            tableName="MENTOR"/>
+	</changeSet>
+	
+    <changeSet author="marcelo-inacio" id="add-auto-increment-institution">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="26"
+	            tableName="INSTITUTION"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-course">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="112"
+	            tableName="COURSE"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-student">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="1"
+	            tableName="STUDENT"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-administrator">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="1"
+	            tableName="ADMINISTRATOR"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-skill">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="7"
+	            tableName="SKILL"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-game_theme">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="2"
+	            tableName="GAME_THEME"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-question">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="33"
+	            tableName="QUESTION"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-alternative">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="129"
+	            tableName="ALTERNATIVE"/>
+	</changeSet>
+			
+	<changeSet author="marcelo-inacio" id="add-auto-increment-scene">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="77"
+	            tableName="SCENE"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-auto-increment-student_question_context">
+	    <addAutoIncrement catalogName="MAPSKILLS"
+	            columnDataType="BIGINT"
+	            columnName="ID"
+	            incrementBy="1"
+	            startWith="16588"
+	            tableName="STUDENT_QUESTION_CONTEXT"/>
+	</changeSet>	
+    
+</databaseChangeLog>

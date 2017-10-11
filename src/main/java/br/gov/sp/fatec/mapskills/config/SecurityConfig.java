@@ -106,8 +106,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * @return
 	 */
 	@Bean
-    public SCMCorsFilter corsFilter() {
-        return new SCMCorsFilter();
+    public CorsFilter corsFilter() {
+        return new CorsFilter();
     }
 	/**
 	 * filtro de pre-autenticacao que verifica a preseca

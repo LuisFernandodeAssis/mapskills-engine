@@ -16,10 +16,9 @@ package br.gov.sp.fatec.mapskills.domain.user;
  */
 public enum ProfileType {
 	
-	UNRATED, ADMINISTRATOR, MENTOR, STUDENT;
+	ADMINISTRATOR, MENTOR, STUDENT;
 		
 	public boolean isAdmin() {
 		return this.equals(ADMINISTRATOR);
 	}
-
 }

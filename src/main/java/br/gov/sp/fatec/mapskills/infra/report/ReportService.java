@@ -6,15 +6,17 @@
  */
 package br.gov.sp.fatec.mapskills.infra.report;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import br.gov.sp.fatec.mapskills.dashboard.CsvReport;
+import br.gov.sp.fatec.mapskills.dashboard.ReportFilter;
+import br.gov.sp.fatec.mapskills.dashboard.StudentResultIndicator;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.domain.skill.SkillService;
+import br.gov.sp.fatec.mapskills.domain.skill.SkillRepository;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.ReportViewWrapper;
 import lombok.AllArgsConstructor;
 /**
@@ -32,91 +34,78 @@ public class ReportService {
 	
 	private static final String SEMICOLON = ";";
 	
-	private final SkillService skillService;
+	private final SkillRepository skillRepository;
 	private final ReportRepository reportRepository;
 	
 	/**
 	 * 
-	 * @param institutionCode
-	 * @return
-	 * @throws IOException
 	 */
-	public byte[] getCsvReport(final ReportFilter filter) throws IOException {
+	public byte[] getCsvReport(final ReportFilter filter) {
 		final StringBuilder stringBuilder = new StringBuilder();
 		generateHeader(stringBuilder);
-		final Specification<ReportDefaultData> specification = ReportSpecification.byFilter(filter);
-		final List<ReportDefaultData> resultSet = reportRepository.findAll(specification);
-		for(final ReportDefaultData data : resultSet) {
-			final StringBuilder csvLine = generateDataInfo(data);
-			final List<Object> skillsResult = reportRepository.findAllSkillsByStudentId(data.getStudentId());
-			for(final Object resultGame : skillsResult) {
-				generateResultGame(resultGame, csvLine);
+
+		final List<CsvReport> csvReport = getReportDatas(new ReportSpecification(filter).get());
+		
+		csvReport.stream().forEachOrdered(report -> {
+			final StringBuilder csvLine = generateDataInfo(report);
+			
+			for(final StudentResultIndicator studentIndicator : report.getStudentsIndicator()) {
+				generateResultGame(studentIndicator, csvLine);
 			}
 			stringBuilder.append(csvLine.toString());
 			stringBuilder.append("\n");
-		}
+		});
+		
 		return stringBuilder.toString().getBytes();
 	}
 	
-	public List<ReportDefaultData> getReportDatas(final Specification<ReportDefaultData> specification) {
+	private List<CsvReport> getReportDatas(final Specification<CsvReport> specification) {
 		return reportRepository.findAll(specification);
 	}
 	
-	public List<Object> getScoresByStudentId(final long studentId) {
-		return reportRepository.findAllSkillsByStudentId(studentId);
-	}
-	
 	public ReportViewWrapper getReport(final ReportFilter filter) {
-		final List<Skill> skills = new ArrayList<>();
-		final List<ReportDefaultData> datas = new ArrayList<>();
-		datas.addAll(getReportDatas(ReportSpecification.byFilter(filter)));
-		for(final ReportDefaultData data : datas) {
-			data.setScores(getScoresByStudentId(data.getStudentId()));
-		}
-		skills.addAll(skillService.findAll());
-		return new ReportViewWrapper(skills, datas);
+		final List<CsvReport> reportData = getReportDatas(new ReportSpecification(filter).get());
+		final List<Skill> skills = skillRepository.findAllOrderByName();
+		return new ReportViewWrapper(reportData, skills);
 	}
 	
 	/**
-	 * metodo responsavel por escrever todo o cabecalho do relatorio.
-	 * gerando as competencias dinamicamente.
 	 * 
-	 * @return
+	 * Metodo responsavel por escrever todo o cabecalho do relatorio.
+	 * gerando as competencias dinamicamente.
 	 */
 	private void generateHeader(final StringBuilder stringBuilder) {
-		final StringBuilder defaultHeader = new StringBuilder("RA;ALUNO;CURSO;CODIGO INSTITUIÇÃO;INSTITUIÇÃO;ANO/SEMESTRE;");
-		for(final Skill skill : skillService.findAll()) {
-			defaultHeader.append(String.format("%s;", skill.getType().toUpperCase()));
+		final StringBuilder defaultHeader = new StringBuilder("RA;ALUNO;CURSO;CODIGO INSTITUICAO;INSTITUICAO;ANO/SEMESTRE;");
+		final List<Skill> skills = skillRepository.findAllOrderByName();
+		for(final Skill skill : skills) {
+			defaultHeader.append(String.format("%s;", skill.getName().toUpperCase()));
 		}
-		stringBuilder.append(defaultHeader);
-		stringBuilder.append("\n");
+		stringBuilder.append(defaultHeader).append("\n");
 	}
+	
 	/**
-	 * metodo responsavel por escrever todas informacoes
-	 * basicas do aluno que aparecera no relatorio.
 	 * 
-	 * @param tuple
-	 * @return
+	 * Metodo responsavel por escrever todas informacoes
+	 * basicas do aluno que aparecera no relatorio.
 	 */
-	private StringBuilder generateDataInfo(final ReportDefaultData data) {
+	private StringBuilder generateDataInfo(final CsvReport data) {
 		final StringBuilder dataInfo = new StringBuilder();
 		dataInfo.append(data.getStudentRA()).append(SEMICOLON)
 			.append(data.getStudentName()).append(SEMICOLON)
 			.append(data.getCourseName()).append(SEMICOLON)
-			.append(data.getInstitutionCompany()).append(SEMICOLON)
 			.append(data.getInstitutionCode()).append(SEMICOLON)
+			.append(data.getInstitutionCompany()).append(SEMICOLON)
 			.append(data.getYearSemester()).append(SEMICOLON);
 		return dataInfo;
 	}
+	
 	/**
-	 * metodo responsavel por escrever todos os resultados das competencias
-	 * de um aluno gerada pela aplicacao.
 	 * 
-	 * @param resultGame
-	 * @param dataInfo
+	 * Metodo responsavel por escrever todos os resultados das competencias
+	 * de um aluno gerada pela aplicacao.
 	 */
-	private void generateResultGame(final Object skillResult, final StringBuilder dataInfo) {
-		dataInfo.append(skillResult == null ? "N/A" : skillResult.toString()).append(SEMICOLON);
+	private void generateResultGame(final StudentResultIndicator studentIndicator, final StringBuilder dataInfo) {
+		dataInfo.append(ObjectUtils.isEmpty(studentIndicator.getTotal()) ? "N/A" : studentIndicator.getTotal()).append(SEMICOLON);
 	}
 
 }

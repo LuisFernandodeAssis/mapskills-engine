@@ -12,8 +12,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
-import br.gov.sp.fatec.mapskills.domain.scene.SceneRepository;
 import lombok.AllArgsConstructor;
 /**
  * 
@@ -32,21 +30,26 @@ public class GameThemeService {
 	
 	/**
 	 * Realiza busca de um tema por seu id.
+	 * 
 	 * @param id
 	 */
-	public GameTheme findById(final long id) {
-		return themeRepo.findById(id);
+	public GameTheme findById(final Long id) {
+		return themeRepo.findOne(id);
 	}
+	
 	/**
 	 * Realiza persistencia de um tema caso nao exista.
+	 * 
 	 * @param theme
 	 */
 	public GameTheme save(final GameTheme theme) {
 		return themeRepo.save(theme);			
 	}
+	
 	/**
 	 * Realiza persistencia de uma lista de temas
 	 * verificando se ja estão cadastrados.
+	 * 
 	 * @param themes
 	 */
 	public Collection<GameTheme> save(final Collection<GameTheme> themes) {
@@ -56,8 +59,10 @@ public class GameThemeService {
 		}
 		return themesSaved;
 	}
+	
 	/**
 	 * Metodo que retorna todos temas cadastrados na aplicacao.
+	 * 
 	 * @return lista
 	 */
 	public Collection<GameTheme> findAllThemes() {
@@ -66,15 +71,6 @@ public class GameThemeService {
 			themes.add(theme);
 		}
 		return themes;
-	}
-	/**
-	 * Metodo que retorna todas as cenas que estao ativas de um determinado tema
-	 * de uma determinada instituicao.
-	 * @param themeId
-	 * @return lista
-	 */
-	public Collection<Scene> findAllScenesByThemeId(final long themeId) {
-		return sceneRepo.findAllByGameThemeIdOrderByIndexAsc(themeId);
 	}
 	
 	public Collection<GameTheme> findAllThemesActivated() {

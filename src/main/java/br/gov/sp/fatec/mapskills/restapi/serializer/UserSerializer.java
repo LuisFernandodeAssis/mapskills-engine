@@ -25,7 +25,7 @@ import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
  * @author Marcelo
  * @version 1.0 10/11/2016
  */
-public class UserSerializer extends DefaultJsonSerializer<UserWrapper> {
+public class UserSerializer extends AbstractJsonSerializer<UserWrapper> {
 	
 	private final Map<ProfileType, UserSerilizerStrategy<User>> mapSerializer = new EnumMap<>(ProfileType.class);
 	

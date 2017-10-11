@@ -6,14 +6,29 @@
  */
 package br.gov.sp.fatec.mapskills.domain.theme;
 
-import java.util.Collection;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-
+/**
+ * 
+ * A interface {@link GameThemeRepository}
+ *
+ * @author Marcelo
+ * @version 1.0 04/11/2016
+ */
 public interface GameThemeRepository extends CrudRepository<GameTheme, Long> {
 	
-	public GameTheme findById(final long id);
-	public Collection<GameTheme> findAllByActive(final boolean active);
-	public GameTheme findByName(final String name);
+	List<GameTheme> findAllByActive(final boolean active);
+	
+	GameTheme findByName(final String name);
+	
+	List<GameTheme> findAll();
+	
+	@Query("SELECT theme FROM GameTheme theme"
+			+ "INNER JOIN Institution i ON i.gameTheme = theme"
+			+ "INNER JOIN Student s ON substring(s.ra, 1, 3) = i.code"
+			+ "WHERE s.id = ?1")
+	GameTheme findByStudentId(final Long studentId);
 
 }

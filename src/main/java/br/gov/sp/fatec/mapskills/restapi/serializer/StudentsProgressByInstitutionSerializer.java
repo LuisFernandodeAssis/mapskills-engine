@@ -20,7 +20,7 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressByInstitutionWr
  * @author Marcelo
  * @version 1.0 01/03/2017
  */
-public class StudentsProgressByInstitutionSerializer extends DefaultJsonSerializer<StudentsProgressByInstitutionWrapper> {
+public class StudentsProgressByInstitutionSerializer extends AbstractJsonSerializer<StudentsProgressByInstitutionWrapper> {
 
 	@Override
 	public void serialize(final StudentsProgressByInstitutionWrapper progress, final JsonGenerator generator) throws IOException {

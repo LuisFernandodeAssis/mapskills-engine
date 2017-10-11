@@ -13,7 +13,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 
 import lombok.Getter;
-import lombok.Setter;
 /**
  * A classe <code>Login</code> representa as credenciais de acesso a aplcacao.
  * 
@@ -21,17 +20,16 @@ import lombok.Setter;
  *
  */
 @Getter
-@Setter
 @Embeddable
 public class Login implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "USE_USERNAME", nullable = false, unique = true)
+	@Column(name = "USERNAME", nullable = false, unique = true)
 	private String username;
 	
 	@Lob
-	@Column(name = "USE_PASSWORD", nullable = false)
+	@Column(name = "PASSWORD", nullable = false)
 	private String password;
 	
 	@SuppressWarnings("unused")
@@ -45,8 +43,7 @@ public class Login implements Serializable {
 	}
 	
 	public void update(final Login newLogin) {
-		setUsername(newLogin.getUsername());
-		setPassword(newLogin.getPassword());
-	}
-	
+		username = newLogin.getUsername();
+		password = newLogin.getPassword();
+	}	
 }

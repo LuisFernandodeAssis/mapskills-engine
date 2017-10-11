@@ -17,9 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.gov.sp.fatec.mapskills.dashboard.ReportFilter;
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.infra.ImageNotFoundException;
-import br.gov.sp.fatec.mapskills.infra.report.ReportFilter;
 import br.gov.sp.fatec.mapskills.infra.report.ReportService;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.ReportViewWrapper;
 import lombok.AllArgsConstructor;
@@ -42,9 +40,11 @@ public class ReportController {
 
 	private final ReportService reportService;
 	private final ServletContext servletContext;
+	
 	/**
 	 * End-point para realizar download do relatorio,
 	 * chamado nas interfaces de administrador e mentor.
+	 * 
 	 * @param filter
 	 * 		Filtro para busca do relatorio.
 	 * @param response
@@ -53,32 +53,32 @@ public class ReportController {
 	 * 		Atraves de stream o relatorio.
 	 */
 	@RequestMapping(value = "/report/download", method = RequestMethod.POST)
-	@ResponseBody
 	public HttpEntity<byte[]> getReportDownload(@RequestBody final ReportFilter filter, final HttpServletResponse response) {
-		try {
-			final byte[] report = reportService.getCsvReport(filter);
-		    response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-		    response.setCharacterEncoding("UTF-8");
-			return new HttpEntity<>(report, getHttpHeaders());
-		} catch (final IOException exception) {
-			LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+
+		final byte[] report = reportService.getCsvReport(filter);
+	    response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+	    response.setCharacterEncoding("UTF-8");
+		return new HttpEntity<>(report, getHttpHeaders());
 	}
+	
 	/**
 	 * End-point que recupera um relatorio dos alunos.
+	 * 
 	 * @param filter
 	 * 		Filtro para pesquisa requerida.
 	 * @return
 	 * 		Relatorio em json.
 	 */
 	@RequestMapping(value = "/report/view", method = RequestMethod.POST)
-	public ResponseEntity<ReportViewWrapper> getReportView(@RequestBody final ReportFilter filter) {
-		final ReportViewWrapper reportView = reportService.getReport(filter);
-		return new ResponseEntity<>(reportView, HttpStatus.OK);
+	public ReportViewWrapper getReportView(@RequestBody final ReportFilter filter) {
+		
+		return reportService.getReport(filter);
+
 	}
+	
 	/**
 	 * End-point que recupera uma imagem de cena salva no servidor da aplicacao.
+	 * 
 	 * @param imageName
 	 * 			Nome da imagem a ser recuperada com a respectiva extensao. Ex.: scene00.jpg
 	 * @param response

@@ -19,15 +19,17 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
 
-	public User findByLogin(final Login login);
+	User findByLogin(final Login login);
+	
 	/**
 	 * Metodo que recupera um usuario da aplicao.
+	 * 
 	 * @param username
 	 * 			E-mail que o usuario foi cadastrado.
 	 * @return
 	 * 			Usuario se encontrado, ou nulo caso nao encontrado.
 	 */
 	@Query("SELECT user FROM User user WHERE user.login.username = ?1")
-	public User findByUsername(final String username);
+	User findByUsername(final String username);
 	
 }

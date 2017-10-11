@@ -1,0 +1,124 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="create-table-user">
+		<createTable schemaName="MAPSKILLS" tableName="USER" >
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="NAME" type="java.sql.Types.VARCHAR(250)" />
+			<column name="USERNAME" type="java.sql.Types.VARCHAR(100)" />
+			<column name="PASSWORD" type="java.sql.Types.VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-mentor">
+		<createTable schemaName="MAPSKILLS" tableName="MENTOR">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="ID_USER" type="java.sql.Types.BIGINT" />
+			<column name="ID_INSTITUTION" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-institution">
+		<createTable schemaName="MAPSKILLS" tableName="INSTITUTION">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="CODE" type="java.sql.Types.VARCHAR(5)" />
+			<column name="CNPJ" type="java.sql.Types.BIGINT" />
+			<column name="COMPANY" type="java.sql.Types.VARCHAR(250)" />
+			<column name="CITY" type="java.sql.Types.VARCHAR(250)" />
+			<column name="LEVEL" type="java.sql.Types.NUMERIC" />
+			<column name="ID_GAME_THEME" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-course">
+		<createTable schemaName="MAPSKILLS" tableName="COURSE">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="CODE" type="java.sql.Types.VARCHAR(5)" />
+			<column name="NAME" type="java.sql.Types.VARCHAR(250)" />
+			<column name="PERIOD" type="java.sql.Types.NUMERIC" />
+			<column name="ID_INSTITUTION" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-student">
+		<createTable schemaName="MAPSKILLS" tableName="STUDENT">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="ID_USER" type="java.sql.Types.BIGINT" />
+			<column name="RA" type="java.sql.Types.VARCHAR(15)" />
+			<column name="INSTITUTION_CODE" type="java.sql.Types.VARCHAR(4)" />
+			<column name="COURSE_CODE" type="java.sql.Types.VARCHAR(4)" />
+			<column name="START_YEAR" type="java.sql.Types.INTEGER" />
+			<column name="START_SEMESTER" type="java.sql.Types.SMALLINT" />
+			<column name="CODE" type="java.sql.Types.VARCHAR(6)" />
+			<column name="PHONE" type="java.sql.Types.VARCHAR(15)" />
+			<column name="COMPLETED" type="java.sql.Types.BOOLEAN" />
+			<column name="ID_COURSE" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-administrator">
+		<createTable schemaName="MAPSKILLS" tableName="ADMINISTRATOR">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="ID_USER" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-skill">
+		<createTable schemaName="MAPSKILLS" tableName="SKILL">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="NAME" type="java.sql.Types.VARCHAR(250)" />
+			<column name="DESCRIPTION" type="java.sql.Types.VARCHAR(250)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-game-theme">
+		<createTable schemaName="MAPSKILLS" tableName="GAME_THEME">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="NAME" type="java.sql.Types.VARCHAR(250)" />
+			<column name="ACTIVE" type="java.sql.Types.BOOLEAN" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-question">
+		<createTable schemaName="MAPSKILLS" tableName="QUESTION">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="ID_SKILL" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-alternative">
+		<createTable schemaName="MAPSKILLS" tableName="ALTERNATIVE">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="DESCRIPTION" type="java.sql.Types.VARCHAR(250)" />
+			<column name="SKILL_VALUE" type="java.sql.Types.NUMERIC" />
+			<column name="ID_QUESTION" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-table-scene">
+		<createTable schemaName="MAPSKILLS" tableName="SCENE">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="INDEX" type="java.sql.Types.NUMERIC" />
+			<column name="TEXT" type="java.sql.Types.VARCHAR(250)" />
+			<column name="URL_BACKGROUND" type="java.sql.Types.VARCHAR(250)" />
+			<column name="ID_GAME_THEME" type="java.sql.Types.BIGINT" />
+			<column name="ID_QUESTION" type="java.sql.Types.BIGINT" />
+		</createTable>
+	</changeSet>
+		
+	<changeSet author="marcelo-inacio" id="create-table-student-question-context">
+		<createTable schemaName="MAPSKILLS" tableName="STUDENT_QUESTION_CONTEXT">
+			<column name="ID" type="java.sql.Types.BIGINT" />
+			<column name="DATE" type="java.sql.Types.TIMESTAMP" />
+			<column name="ID_SKILL" type="java.sql.Types.BIGINT" />
+			<column name="SKILL_VALUE" type="java.sql.Types.NUMERIC" />
+			<column name="ID_USER" type="java.sql.Types.BIGINT" />
+			<column name="ID_SCENE" type="java.sql.Types.BIGINT" />
+			<column name="SCENE_INDEX" type="java.sql.Types.NUMERIC" />
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>

@@ -29,5 +29,4 @@ public class Result {
 		this.description = description;
 		this.value = value;
 	}
-
 }

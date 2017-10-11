@@ -6,8 +6,6 @@
  */
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
@@ -25,58 +23,55 @@ import lombok.Getter;
  */
 @Getter
 @Embeddable
-public class AcademicRegistry implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class AcademicRegistry {
 
-	@Column(name = "STU_RA")
-	@Size(min=13, max=14)
-	private String ra;
+	@Column(name = "RA")
+	@Size(min = 13, max = 14)
+	private final String fullRa;
 	
-	@Column(name = "INS_CODE", nullable = false)
-	private String institutionCode;
+	@Column(name = "INSTITUTION_CODE")
+	private final String institutionCode;
 	
-	@Column(name = "CRS_CODE", nullable = false)
-	private String courseCode;
+	@Column(name = "COURSE_CODE")
+	private final String courseCode;
+	
+	@Column(name = "START_YEAR")
+	private final Integer startYear;
+	
+	@Column(name = "START_SEMESTER")
+	private final Short startSemester;
+	
+	@Column(name = "CODE")
+	private final String studentCode;
 	
 	@SuppressWarnings("unused")
 	private AcademicRegistry() throws MapSkillsException {
-		this("0000000000000");
+		this("00000000000000");
 	}
 		
-	public AcademicRegistry(final String ra) throws MapSkillsException {
+	public AcademicRegistry(final String ra) {
 		validate(ra);
-		this.ra = ra;
+		this.fullRa = ra;
 		this.institutionCode = ra.substring(0, 3);
-		this.courseCode = ra.substring(3, 6);
-	}
-	
-	public String getYear() {
-		return ra.substring(6, 8);
-	}
-	
-	public String getSemester() {
-		return ra.substring(8, 9);
-	}
-	
-	public String getStudentCode() {
-		return ra.substring(9);
+		this.courseCode = ra.substring(0, 3);
+		this.startYear = Integer.parseInt("20" + ra.substring(6, 8));
+		this.startSemester = Short.parseShort(ra.substring(8, 9));
+		this.studentCode = ra.substring(9);
 	}
 	
 	/**
-	 * metodo que valida o ra contido no documento xlsx
-	 * @param ra
-	 * @throws MapSkillsException
+	 * Metodo que valida o numero do registro academico do aluno.
+	 * 
+	 * @param ra Numero do RA a ser validado pela aplicacao.
 	 */
-	private void validate(final String ra) throws MapSkillsException {
+	private void validate(final String ra) {
 		try {
 			Long.parseLong(ra);
 			if(ra.length() < 13 || ra.length() > 14) {
-				throw new RAInvalidException(ra);
+				throw new AcademicRegistryException(ra);
 			}
-		} catch (final NumberFormatException e) {
-			throw new RAInvalidException(ra);
+		} catch (final NumberFormatException exception) {
+			throw new AcademicRegistryException(ra, exception);
 		}
-	}
-	
+	}	
 }

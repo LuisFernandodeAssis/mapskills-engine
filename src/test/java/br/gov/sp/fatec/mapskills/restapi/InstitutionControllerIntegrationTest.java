@@ -32,10 +32,10 @@ import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedAuthentication;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtAuthenticationManager;
 import br.gov.sp.fatec.mapskills.config.AbstractApplicationTest;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.CoursePeriod;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapperTest;
@@ -80,7 +80,7 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/student"), bodyJson)
 			.andExpect(status().isCreated());
 		
-		assertTrue(service.findStudentByRa(student.getRa()).getName().equals(student.getName()));
+		assertTrue(service.findStudentByRa(student.getFullRa()).getName().equals(student.getName()));
 	}
 	
 	@Test
@@ -100,8 +100,7 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 	public void saveCourse() throws Exception {
 		mockMentorAuthentication();
 		
-		final Course course = new Course("100", "manutenção de aeronaves", CoursePeriod.NOTURNO, 
-				new Institution("146", null, null, null, null, null, null));
+		final Course course = new Course("100", "manutenção de aeronaves", Period.NOTURNO);
 		final String json = objectMapper.writeValueAsString(new CourseWrapper(course));
 		
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/course"), json)
@@ -133,7 +132,7 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 
 		final Institution fatec = getOneInstitution();
 
-		service.saveCourse(new Course("100", "manutenção de aeronaves", CoursePeriod.NOTURNO, fatec));
+		service.saveCourse(new Course("100", "manutenção de aeronaves", Period.NOTURNO));
 		
 		getCoursesMock(fatec).forEach(course -> {
 			fatec.addCourse(course);
@@ -156,7 +155,7 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 		
 		final Institution institution = getOneInstitution();
 		
-		service.saveCourse(new Course("028", "manutenção de aeronaves", CoursePeriod.NOTURNO, institution));
+		service.saveCourse(new Course("028", "manutenção de aeronaves", Period.NOTURNO));
 		service.saveStudents(getStudentsMock());
 		//TODO criar objetos para as VIEWS do banco de dados.
 		//final MvcResult result = super.mockMvcPerformWithMockHeaderGet(BASE_PATH.concat("/146/progress")).andReturn();
@@ -178,26 +177,26 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 	}
 	
 	private Authentication getMentorMock() {
-		return new PreAuthenticatedAuthentication(new Mentor("mentor", "admin@cps.sp.gov.br", "admin", getOneInstitution()));
+		return new PreAuthenticatedAuthentication(new Mentor("mentor", "admin@cps.sp.gov.br", "admin"));
 	}
 	
 	private List<Course> getCoursesMock(final Institution institution) {
 		final List<Course> courses = new ArrayList<>(3);
-		courses.add(new Course("100", "manutenção de aeronaves", CoursePeriod.NOTURNO, institution));
-		courses.add(new Course("200", "logistica", CoursePeriod.NOTURNO, institution));
-		courses.add(new Course("300", "analise de sistemas", CoursePeriod.NOTURNO, institution));
+		courses.add(new Course("100", "manutenção de aeronaves", Period.NOTURNO));
+		courses.add(new Course("200", "logistica", Period.NOTURNO));
+		courses.add(new Course("300", "analise de sistemas", Period.NOTURNO));
 		return courses;
 	}
 	
 	private void saveCoursesMock() {
 		final Institution institution = getOneInstitutionWithoutCourses();
-		institution.addCourse(new Course("030", "manutenção de aeronaves", CoursePeriod.NOTURNO, institution));
-		institution.addCourse(new Course("031", "manutenção de aeronaves", CoursePeriod.NOTURNO, institution));
+		institution.addCourse(new Course("030", "manutenção de aeronaves", Period.NOTURNO));
+		institution.addCourse(new Course("031", "manutenção de aeronaves", Period.NOTURNO));
 		service.saveInstitution(institution);
 	}
 	
 	private Institution getOneInstitutionWithoutCourses() {
-		return new Institution("146", null, null, null, null, Collections.emptyList(), null);
+		return new Institution("146", null, null, null, null, Collections.emptyList(), Collections.emptyList(), null);
 	}
 
 }

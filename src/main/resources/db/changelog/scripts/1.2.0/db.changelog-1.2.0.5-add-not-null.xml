@@ -1,0 +1,36 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="marcelo-inacio" id="add-not-null-constraint-user">
+	    <addNotNullConstraint catalogName="MAPSKILLS"
+	            columnDataType="VARCHAR(255)"
+	            columnName="PASSWORD"
+	            tableName="USER"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-not-null-constraint-student">
+	    <addNotNullConstraint catalogName="MAPSKILLS"
+	            columnDataType="VARCHAR(15)"
+	            columnName="RA"
+	            tableName="STUDENT"/>
+	</changeSet>
+		
+	<changeSet author="marcelo-inacio" id="add-not-null-constraint-scene">
+	    <addNotNullConstraint catalogName="MAPSKILLS"
+	            columnDataType="NUMERIC"
+	            columnName="INDEX"
+	            tableName="SCENE"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-not-null-constraint-student-question-context">
+	    <addNotNullConstraint catalogName="MAPSKILLS"
+	            columnDataType="NUMERIC"
+	            columnName="SKILL_VALUE"
+	            tableName="STUDENT_QUESTION_CONTEXT"/>
+	</changeSet>
+
+</databaseChangeLog>

@@ -24,7 +24,7 @@ public class UserNotFoundException extends MapSkillsException {
 	private static final long serialVersionUID = 1L;
 	
 	public UserNotFoundException(final String username) {
-		super(username + "não possui permissão");
+		super(username + " não possui permissão");
 	}
 	
 }

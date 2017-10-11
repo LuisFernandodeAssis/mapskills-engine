@@ -8,27 +8,28 @@ package br.gov.sp.fatec.mapskills.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
-import br.gov.sp.fatec.mapskills.domain.scene.Alternative;
-import br.gov.sp.fatec.mapskills.domain.scene.Question;
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
-import br.gov.sp.fatec.mapskills.domain.scene.SceneService;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.domain.skill.SkillService;
+import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
+import br.gov.sp.fatec.mapskills.domain.theme.Question;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
+import br.gov.sp.fatec.mapskills.domain.theme.SceneService;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 /**
  * 
@@ -57,7 +58,7 @@ public class MapSkillsMockBeans {
 	private SceneService sceneService;
 	
 	@Autowired
-	private SkillService skillService;
+	private SkillApplicationServices skillApplicationServices;
 	
 	@Bean
 	public String saveAdmin() {
@@ -69,8 +70,8 @@ public class MapSkillsMockBeans {
 	@Bean
 	public String saveInstitution() {
 		final List<Institution> institutions = new ArrayList<>(1);
-		final Institution fatecA = new Institution("146", "60565187000100", "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, null);
-		fatecA.addMentor(new Mentor("Marquinhos", "marquinhos@cps.sp.gov.br", "mudar@123", fatecA));
+		final Institution fatecA = new Institution("146", "60565187000100", "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
+		fatecA.addMentor(new Mentor("Marquinhos", "marquinhos@cps.sp.gov.br", "mudar@123"));
 		institutions.add(fatecA);
 		institutionService.saveInstitutions(institutions);
 		
@@ -93,24 +94,23 @@ public class MapSkillsMockBeans {
 	
 	@Bean
 	public String saveScenes() {
-		final long themeId = 1L;
-		final long skillId = 1L;
+		final Skill skill = new Skill(1L, null, null);
 		final List<Alternative> alternatives = new ArrayList<>(4);
 		alternatives.addAll(builderMockAlternatives());
-		final Question question = new Question(null, alternatives, skillId);
+		final Question question = new Question(null, alternatives, skill);
 
-		sceneService.save(new Scene(null, null, "introdução", "url://site/img001.png", null, themeId));
-		sceneService.save(new Scene(null, null, "questão", "url://site/img002.png", question, themeId));
-		sceneService.save(new Scene(null, null, "conclusão", "url://site/img003.png", null, themeId));
+		sceneService.save(new Scene(null, "introdução", "url://site/img001.png", null));
+		sceneService.save(new Scene(null, "questão", "url://site/img002.png", question));
+		sceneService.save(new Scene(null, "conclusão", "url://site/img003.png", null));
 		
 		return SUCCESS;
 	}
 	
 	@Bean
 	public String saveSkills() {		
-		skillService.save(new Skill("Comunicação", "Avalia a dicção do aluno"));
-		skillService.save(new Skill("Liderança", "Avalia a liderança do aluno"));
-		skillService.save(new Skill("Gestão de Tempo", "Avalia a gestão de tempo do aluno"));
+		skillApplicationServices.save(new Skill("Comunicação", "Avalia a dicção do aluno"));
+		skillApplicationServices.save(new Skill("Liderança", "Avalia a liderança do aluno"));
+		skillApplicationServices.save(new Skill("Gestão de Tempo", "Avalia a gestão de tempo do aluno"));
 		
 		return SUCCESS;
 	}

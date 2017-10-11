@@ -6,9 +6,15 @@
  */
 package br.gov.sp.fatec.mapskills.domain.user;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 /**
  * 
  * A classe {@link Administrator}
@@ -18,10 +24,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "MAPSKILLS.ADMINISTRATOR")
-@PrimaryKeyJoinColumn(name = "USE_ID")
+@PrimaryKeyJoinColumn(name = "ID_USER")
+@DiscriminatorValue("0")
 public class Administrator extends User {
-
-	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
 	
 	@SuppressWarnings("unused")
 	private Administrator() {
@@ -29,7 +39,11 @@ public class Administrator extends User {
 	}
 		
 	public Administrator(final String name, final String email, final String password) {
-		super(name, new Login(email, password), ProfileType.ADMINISTRATOR);
+		super(name, new Login(email, password));
 	}
 
+	@Override
+	public ProfileType getProfile() {
+		return ProfileType.ADMINISTRATOR;
+	}
 }

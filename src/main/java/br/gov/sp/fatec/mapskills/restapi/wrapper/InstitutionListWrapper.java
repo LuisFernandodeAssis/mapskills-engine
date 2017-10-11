@@ -34,5 +34,4 @@ public class InstitutionListWrapper {
 	public Collection<Institution> getInstitutions() {
 		return Collections.unmodifiableCollection(institutions);
 	}
-
 }

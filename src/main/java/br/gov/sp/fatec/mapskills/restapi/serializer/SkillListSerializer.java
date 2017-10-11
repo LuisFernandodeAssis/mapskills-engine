@@ -20,21 +20,18 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillListWrapper;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-public class SkillListSerializer extends DefaultJsonSerializer<SkillListWrapper> {
+public class SkillListSerializer extends AbstractJsonSerializer<SkillListWrapper> {
 
 	@Override
-	public void serialize(final SkillListWrapper skillList, final JsonGenerator generator) throws IOException {
-		
+	public void serialize(final SkillListWrapper skillsWrapper, final JsonGenerator generator) throws IOException {
 		generator.writeStartArray();
-		for(final Skill skill : skillList.getAllSkills()) {
+		for (final Skill skill : skillsWrapper.getSkills()) {
 			generator.writeStartObject();
 			generator.writeNumberField("id", skill.getId());
-			generator.writeStringField("type", skill.getType());
+			generator.writeStringField("type", skill.getName());
 			generator.writeStringField("description", skill.getDescription());
 			generator.writeEndObject();
 		}
 		generator.writeEndArray();
-		
 	}
-
 }

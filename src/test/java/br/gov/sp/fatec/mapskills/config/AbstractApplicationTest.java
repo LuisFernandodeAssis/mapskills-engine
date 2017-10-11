@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -37,11 +38,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.CoursePeriod;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapperTest;
 
@@ -139,14 +140,14 @@ public abstract class AbstractApplicationTest {
 	}
 	
 	protected Institution getOneInstitution() {
-		final Institution institution = new Institution("146", "33177625000182", "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, null);
-		institution.addMentor(new Mentor("Fabiola Vaz", "fabiola.vaz@fatec.sp.gov.br", "mudar@123", institution));
-		institution.addCourse(getOneCourse(institution));
+		final Institution institution = new Institution("146", "33177625000182", "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, Collections.emptyList(), null);
+		institution.addMentor(new Mentor("Fabiola Vaz", "fabiola.vaz@fatec.sp.gov.br", "mudar@123"));
+		institution.addCourse(getOneCourse());
 		return institution;
 	}
 	
-	protected Course getOneCourse(final Institution institution) {
-		return new Course("028", "Administração", CoursePeriod.MATUTINO, institution);
+	protected Course getOneCourse() {
+		return new Course("028", "Administração", Period.MATUTINO);
 	}
 	
 	protected List<Skill> getSkillsMock() {

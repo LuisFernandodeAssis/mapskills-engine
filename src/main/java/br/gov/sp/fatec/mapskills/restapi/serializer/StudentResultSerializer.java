@@ -22,22 +22,19 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
  * @author Marcelo
  * @version 1.0 04/01/2017
  */
-public class StudentResultSerializer extends DefaultJsonSerializer<StudentResultWrapper> {
+public class StudentResultSerializer extends AbstractJsonSerializer<StudentResultWrapper> {
 
 	@Override
 	public void serialize(final StudentResultWrapper result, final JsonGenerator generator)	throws IOException {
-
 		generator.writeStartObject();
 		this.generateLabels(result, generator);
 		this.geneateValues(result, generator);
-		this.generateSkillsDetails(result, generator);
+		this.generateSkills(result, generator);
 		generator.writeEndObject();
 	}
+	
 	/**
-	 * Responsavel por serializar os label do grafico de radar
-	 * @param result
-	 * @param generator
-	 * @throws IOException
+	 * Responsavel por serializar os label's do grafico de radar.
 	 */
 	private void generateLabels(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
 		generator.writeArrayFieldStart("labels");
@@ -46,11 +43,9 @@ public class StudentResultSerializer extends DefaultJsonSerializer<StudentResult
 		}
 		generator.writeEndArray();
 	}
+	
 	/**
-	 * Responsavel por serializar os valores do grafico de radar
-	 * @param result
-	 * @param generator
-	 * @throws IOException
+	 * Responsavel por serializar os valores do grafico de radar.
 	 */
 	private void geneateValues(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
 		generator.writeArrayFieldStart("datasets");
@@ -59,21 +54,18 @@ public class StudentResultSerializer extends DefaultJsonSerializer<StudentResult
 		}
 		generator.writeEndArray();
 	}
+	
 	/**
-	 * Responsavel por serializar os detalhes das competencias avaliadas pelo aluno.
-	 * @param result
-	 * @param generator
-	 * @throws IOException
+	 * Responsavel por serializar as competencias avaliadas pelo aluno.
 	 */
-	private void generateSkillsDetails(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
+	private void generateSkills(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
 		generator.writeArrayFieldStart("skills");
 		for(final Skill skill : result.getSkillsDeatils()) {
 			generator.writeStartObject();
-			generator.writeStringField("name", skill.getType());
+			generator.writeStringField("name", skill.getName());
 			generator.writeStringField("description", skill.getDescription());
 			generator.writeEndObject();
 		}
 		generator.writeEndArray();
 	}
-
 }

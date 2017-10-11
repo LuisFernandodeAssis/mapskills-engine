@@ -1,0 +1,94 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext 
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-user">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_USER"
+	            tableName="USER"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-mentor">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_MENTOR"
+	            tableName="MENTOR"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-institution">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_INSTITUTION"
+	            tableName="INSTITUTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-course">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_COURSE"
+	            tableName="COURSE"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-student">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_STUDENT"
+	            tableName="STUDENT"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-administrator">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_ADMINISTRATOR"
+	            tableName="ADMINISTRATOR"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-skill">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_SKILL"
+	            tableName="SKILL"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-question">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_QUESTION"
+	            tableName="QUESTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-alternative">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_ALTERNATIVE"
+	            tableName="ALTERNATIVE"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-primary-key-scene">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_SCENE"
+	            tableName="SCENE"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-primary-key-student-question-event">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_STUDENT_QUESTION_CONTEXT"
+	            tableName="STUDENT_QUESTION_CONTEXT"/>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="add-primary-key-game-theme">
+	    <addPrimaryKey catalogName="MAPSKILLS"
+	            columnNames="ID"
+	            constraintName="PK_GAME_THEME"
+	            tableName="GAME_THEME"/>
+	</changeSet>
+
+</databaseChangeLog>

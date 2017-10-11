@@ -8,7 +8,7 @@ package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.serializer.SceneDeserializer;
 /**
  * 

@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.MentorRepository;
+import br.gov.sp.fatec.mapskills.domain.ObjectNotFoundException;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentInvalidException;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentRepository;
-import br.gov.sp.fatec.mapskills.infra.InstitutionExcelFileHandle;
-import br.gov.sp.fatec.mapskills.infra.StudentExcelFileHandle;
+import br.gov.sp.fatec.mapskills.infra.StudentExcelDocumentReader;
 import lombok.AllArgsConstructor;
 
 /**
@@ -44,31 +44,17 @@ public class InstitutionService {
 		
 	private final InstitutionRepository institutionRepository;
 	private final StudentRepository studentRepository;
-	private final MentorRepository mentorRepository;
-	private final StudentExcelFileHandle studentExcelHandle;
-	private final InstitutionExcelFileHandle institutionExcelFileHandle;
-		
-	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) throws MapSkillsException {
-		final List<Institution> institutionsFromExcel = institutionExcelFileHandle.toObjectList(inputStream);
-		return saveInstitutions(institutionsFromExcel);
-	}
+	private final StudentExcelDocumentReader studentExcelHandle;
 	
-	public List<Student> saveStudentsFromExcel(final InputStream inputStream) throws MapSkillsException {
-		final List<Student> studentsFromExcel = studentExcelHandle.toObjectList(inputStream);
-		return saveStudents(studentsFromExcel);
-	}
+		
+	
+	
+	
 
 	@Transactional
 	public List<Institution> saveInstitutions(final List<Institution> institutions) {
-		final List<Institution> institutionsSaved = new ArrayList<>(institutions.size());
-		for(final Institution institution : institutions) {
-			institutionsSaved.add(this.saveInstitution(institution));
-		}
-		return institutionsSaved;
-	}
-	
-	public void saveMentor(final Mentor mentor) {
-		mentorRepository.save(mentor);
+		institutionRepository.save(institutions);
+		return institutions;
 	}
 
 	@Transactional
@@ -80,7 +66,7 @@ public class InstitutionService {
 	public List<Student> saveStudents(final Collection<Student> students) throws MapSkillsException {
 		final List<Student> studentsSaved = new ArrayList<>(students.size());
 		for(final Student student : students) {
-			final Student existingStudent = studentRepository.findByRaOrUsername(student.getRa(), student.getUsername()); 
+			final Student existingStudent = studentRepository.findByRaOrUsername(student.getFullRa(), student.getUsername()); 
 			if(existingStudent == null) {
 				studentsSaved.add(this.saveStudent(student));
 				continue;
@@ -113,18 +99,10 @@ public class InstitutionService {
 		return saveStudent(studentBase);
 	}
 
-	public Institution findInstitutionById(final long id) {
-		return institutionRepository.findById(id);
+	public Institution findInstitutionById(final Long id) {
+		return institutionRepository.findOne(id);
 	}
-	
-	public Institution findInstitutionByCnpj(final String cnpj) {
-		return institutionRepository.findByCnpj(cnpj);
-	}
-	
-	public Mentor findMentorByUsername(final String username) {
-		return mentorRepository.findByLoginUsername(username);
-	}
-	
+		
 	public Institution findInstitutionByCode(final String code) {
 		return institutionRepository.findByCode(code);
 	}
@@ -137,31 +115,16 @@ public class InstitutionService {
 		return studentRepository.findOne(id);
 	}
 	
-	public Collection<Institution> findAllInstitutions() {
-		final List<Institution> institutions = new ArrayList<>();
-		for(final Institution institution : institutionRepository.findAll()) {
-			institutions.add(institution);
-		}
-		return institutions;
-	}
-	
-	public Institution findInstitutionDetailsById(final long id) throws MapSkillsException {
-		final Institution institution = institutionRepository.findById(id);
-		if(institution == null) {
-			throw new InstitutionNotFoundException(id);
-		}
-		return institution;
-	}
-	
 	/**
 	 * Metodo que recupera todos alunos de um curso de uma determinada instituicao
 	 */
-	public Collection<Student> findAllStudentsByCourseAndInstitution(final String courseCode, final String institutionCode) {
+	public List<Student> findAllStudentsByCourseAndInstitution(final String courseCode, final String institutionCode) {
 		return studentRepository.findAllByCourseAndInstitution(courseCode, institutionCode);
 	}
 	
-	public List<Student> findAllStudentsByInstitution(final String institutionCode) {
-		return studentRepository.findAllByRaInstitutionCode(institutionCode);
+	public Page<Student> findAllStudentsByInstitution(final String institutionCode,
+			final Pageable pageable) {
+		return studentRepository.findAllByRaInstitutionCode(institutionCode, pageable);
 	}
 	
 	@Transactional(readOnly = true)
@@ -175,25 +138,13 @@ public class InstitutionService {
 		return institutionRepository.findStudentsProgressByInstitution(institutionCode, yearSemester);
 	}
 	
-	@Transactional(readOnly = true)
-	public List<Object[]> getGlobalPogress() {
-		final String yearSemester = getYearSemesterCurrent();
-		return institutionRepository.findGlobalStudentsProgress(yearSemester);
-	}
 	
 	@Transactional(readOnly = true)
 	public List<Object[]> getLevelPogress(final String level) {
 		final String yearSemester = getYearSemesterCurrent();
 		return institutionRepository.findLevelStudentsProgress(level, yearSemester);
 	}
-	/**
-	 * Metodo que recupera o ano e semestre corrente.
-	 */
-	private String getYearSemesterCurrent() {
-		final LocalDate dateCurrent = LocalDate.now();
-		final String semester = dateCurrent.getMonthValue() < 7 ? "1" : "2";
-		final String year = String.valueOf(dateCurrent.getYear());
-		return year.substring(2).concat(semester);
-	}
+	
+	
 
 }

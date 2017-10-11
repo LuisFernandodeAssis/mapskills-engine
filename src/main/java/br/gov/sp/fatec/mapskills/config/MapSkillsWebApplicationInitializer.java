@@ -28,7 +28,7 @@ public class MapSkillsWebApplicationInitializer extends AbstractAnnotationConfig
 	/** {@inheritDoc} */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {SpringContextConfiguration.class};
+		return new Class[] {SpringContextConfig.class};
 	}
 
 	/** {@inheritDoc} */

@@ -6,23 +6,27 @@
  */
 package br.gov.sp.fatec.mapskills.domain.institution;
 
-import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.Getter;
+import lombok.Setter;
 /**
  * 
- * A classe {@link Course}
+ * A classe {@link Course} representa um curso ao qual
+ * uma intituicao pertence.
  *
  * @author Marcelo
  * @version 1.0 01/11/2016
@@ -30,42 +34,43 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.COURSE")
-public class Course implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Course {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CRS_ID")
+	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "CRS_CODE")
+	@Column(name = "CODE")
 	private String code;
 	
-	@Column(name = "CRS_NAME")
+	@Column(name = "NAME")
 	private String name;
 	
-	@Column(name = "CRS_PERIOD")
-	@Enumerated(value = EnumType.STRING)
-	private CoursePeriod period;
+	@Column(name = "PERIOD")
+	@Enumerated
+	private Period period;
 	
+	@Setter
 	@ManyToOne
-	@JoinColumn(name = "INS_CODE")
+	@JoinColumn(name = "ID_INSTITUTION")
 	private Institution institution;
+	
+	@OneToMany(mappedBy = "course")
+	private final List<Student> students = new LinkedList<>();
 	
 	@SuppressWarnings("unused")
 	private Course() {
-		this(null, null, null, null);
+		this(null, null, null);
 	}
 	
-	public Course(final String code, final String name, final CoursePeriod period, final Institution institution) {
+	public Course(final String code, final String name, final Period period) {
 		this.code = code;
 		this.name = name;
 		this.period = period;
-		this.institution = institution;
 	}
 		
-	public String getPeriod() {
+	public String getNamePeriod() {
 		return period.name();
 	}
 	
@@ -73,12 +78,10 @@ public class Course implements Serializable {
 		return institution.getCode();
 	}
 	
-	public void setId(final long id) {
-		this.id = id;
-	}
-	
-	public void setInstitution(final Institution institution) {
-		this.institution = institution;
+	public void update(final Course updateCourse) {
+		this.code = updateCourse.getCode();
+		this.name = updateCourse.getName();
+		this.period = updateCourse.getPeriod();
 	}
 
 }

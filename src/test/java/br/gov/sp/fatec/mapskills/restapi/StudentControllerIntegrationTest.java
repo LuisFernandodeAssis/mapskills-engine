@@ -22,8 +22,8 @@ import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedAuthentication;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtAuthenticationManager;
 import br.gov.sp.fatec.mapskills.config.AbstractApplicationTest;
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
-import br.gov.sp.fatec.mapskills.domain.answerevent.AnswerEvent;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
+import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
 /**
  * 
  * A classe {@link StudentControllerIntegrationTest}
@@ -52,7 +52,7 @@ public class StudentControllerIntegrationTest extends AbstractApplicationTest {
 	public void sendAnswerTest() throws Exception {
 		mockStudentAuthentication();
 		
-		final AnswerEvent answer = AnswerEvent.builder().sceneIndex(0).sceneId(1L).studentId(1L).skillId(1L).skillValue(10).build();
+		final StudentQuestionContext answer = StudentQuestionContext.builder().sceneIndex(0).sceneId(1L).studentId(1L).skillId(1L).skillValue(10).build();
 		final String answerBody = objectMapper.writeValueAsString(answer);
 		
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/game/answer"), answerBody)

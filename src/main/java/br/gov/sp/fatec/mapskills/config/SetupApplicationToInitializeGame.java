@@ -21,25 +21,22 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Value;
-
+import br.gov.sp.fatec.mapskills.application.UserApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.CoursePeriod;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
-import br.gov.sp.fatec.mapskills.domain.scene.Alternative;
-import br.gov.sp.fatec.mapskills.domain.scene.Question;
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
-import br.gov.sp.fatec.mapskills.domain.scene.SceneService;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 import br.gov.sp.fatec.mapskills.domain.skill.SkillRepository;
+import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
+import br.gov.sp.fatec.mapskills.domain.theme.Question;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
-import br.gov.sp.fatec.mapskills.domain.user.UserService;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
@@ -57,9 +54,7 @@ public class SetupApplicationToInitializeGame {
 	private static final Logger LOGGER = Logger.getLogger(SetupApplicationToInitializeGame.class.getName());
 	
 	private static final String PATH_TXT = "d:/temp/arquivosTexto/";
-	@Value("${app.setup.images.ip}")
-	private static String urServer;
-	private static final long GAME_THEME_ID = 1;
+	
 	private static final String INSTITUTION_CODE = "146";
 	
 	private final Map<Integer, Question> mapQuestion = new HashMap<>(26);
@@ -67,21 +62,20 @@ public class SetupApplicationToInitializeGame {
 	final List<String> textList = new LinkedList<>();
 	
 	private SkillRepository skillRepository = ApplicationContextHolder.getBean("skillRepository", SkillRepository.class);
-	private SceneService sceneService = ApplicationContextHolder.getBean("sceneService", SceneService.class);
 	private GameThemeService themeService = ApplicationContextHolder.getBean("gameThemeService", GameThemeService.class);
 	private InstitutionService institutionService = ApplicationContextHolder.getBean("institutionService", InstitutionService.class);
-	private UserService userService = ApplicationContextHolder.getBean("userService", UserService.class);
+	private UserApplicationServices userService = ApplicationContextHolder.getBean("userService", UserApplicationServices.class);
 	
 	public SetupApplicationToInitializeGame() throws IOException, MapSkillsException {
 		this.createAdmin();
 		this.createInstitution();
 		this.creatStudent();
-		this.createGameTheme();
 		this.createSkills();
+		this.generateQuestions();
 		this.buildTextFromFile();
 		this.generateAlternatives();
-		this.generateQuestions();
-		this.createScenesFromFile();
+		this.createGameTheme(this.buildScenesFromFile());
+		
 	}
 	
 	private void createAdmin() {
@@ -92,39 +86,41 @@ public class SetupApplicationToInitializeGame {
 	 * cria uma nova instituição persistindo-a na base de dados
 	 */
 	private void createInstitution() {
-		final Institution fatec = new Institution(INSTITUTION_CODE, "56381708000194", "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, null);
-		fatec.addMentor(new Mentor("Mentor", "mentor@fatec.sp.gov.br", "$2a$10$wEaMddZtyZp5Kkj/MpObjeCkYNoPFdoNwMKzxLuD7KjCyB63kf6Yy", fatec));
-		fatec.setCourses(createCourses(fatec));
+		final Institution fatec = new Institution(INSTITUTION_CODE, 56381708000194L, "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
+		fatec.addMentor(new Mentor("Mentor", "mentor@fatec.sp.gov.br", "$2a$10$wEaMddZtyZp5Kkj/MpObjeCkYNoPFdoNwMKzxLuD7KjCyB63kf6Yy"));
+		fatec.addAllCourses(createCourses());
 		institutionService.saveInstitution(fatec);
 		LOGGER.log(Level.INFO, "=== INSTITUTION SAVE SUCCESS ===");
 	}
 	/**
 	 * adiciona cursos a instituição
 	 */
-	private List<Course> createCourses(final Institution fatec) {
+	private List<Course> createCourses() {
 		final List<Course> courses = new LinkedList<>();
-		courses.add(new Course("048", "Tecnologia em Análise e Desenvolvimento de Sistemas", CoursePeriod.NOTURNO, fatec));
-		courses.add(new Course("114", "Tecnologia em Automação Manufatura Digital", CoursePeriod.MATUTINO, fatec));
-		courses.add(new Course("028", "Tecnologia em Banco de Dados", CoursePeriod.NOTURNO, fatec));
-		courses.add(new Course("077", "Tecnologia em Gestão da Produção Industrial", CoursePeriod.NOTURNO, fatec));
-		courses.add(new Course("064", "Tecnologia em Gestão Empresarial", CoursePeriod.EAD, fatec));
-		courses.add(new Course("074", "Tecnologia em Logística", CoursePeriod.NOTURNO, fatec));
-		courses.add(new Course("068", "Tecnologia em Manutenção de Aeronaves", CoursePeriod.NOTURNO, fatec));
-		courses.add(new Course("115", "Tecnologia em Projetos de Estruturas Aeronáuticas", CoursePeriod.NOTURNO, fatec));
+		courses.add(new Course("048", "Tecnologia em Análise e Desenvolvimento de Sistemas", Period.NIGHTLY));
+		courses.add(new Course("114", "Tecnologia em Automação Manufatura Digital", Period.MORNING));
+		courses.add(new Course("028", "Tecnologia em Banco de Dados", Period.NIGHTLY));
+		courses.add(new Course("077", "Tecnologia em Gestão da Produção Industrial", Period.NIGHTLY));
+		courses.add(new Course("064", "Tecnologia em Gestão Empresarial", Period.EAD));
+		courses.add(new Course("074", "Tecnologia em Logística", Period.NIGHTLY));
+		courses.add(new Course("068", "Tecnologia em Manutenção de Aeronaves", Period.NIGHTLY));
+		courses.add(new Course("115", "Tecnologia em Projetos de Estruturas Aeronáuticas", Period.NIGHTLY));
 		LOGGER.log(Level.INFO, "=== COURSES SAVE SUCCESS ===");
 		return courses;
 	}
 	
 	private void creatStudent() throws MapSkillsException {
 		institutionService.saveStudent(new Student(INSTITUTION_CODE+"0481713000", "Student User", "1289003400", "aluno@fatec.sp.gov.br", "$2a$10$MfkKiDmLJohCjQ45Kb7vnOAeALBR1SV0OTqkkB6IfcMDA87iOrgmG"));
-		LOGGER.log(Level.INFO, "=== STUDENT SAVE SUCCESS ===");
+		LOGGER.log(Level.INFO, "=== STUDENT SAVE WITH SUCCESS ===");
 	}
 	/**
 	 * cria um tema e persiste-a na base de dados
 	 */
-	private void createGameTheme() {
-		themeService.save(new GameTheme("GERÊNCIA DE PIZZARIA"));
-		LOGGER.log(Level.INFO, "=== THEMES SAVE SUCCESS ===");
+	private void createGameTheme(final List<Scene> scenes) {
+		final GameTheme theme = new GameTheme("GERÊNCIA DE PIZZARIA");
+		scenes.stream().forEachOrdered(s -> theme.addScene(s));
+		themeService.save(theme);
+		LOGGER.log(Level.INFO, "=== THEME CREATED WITH SUCCESS ===");
 	}
 	/**
 	 * cria uma carga inicial das cenas persistindo-as na base de dados,
@@ -133,20 +129,22 @@ public class SetupApplicationToInitializeGame {
 	 * @throws IOException caso ocorra um problema de leitura do arquivo
 	 * 			texto com os nomes das imagens de cada cena (i.e. scene01.jpg)
 	 */
-	private void createScenesFromFile() throws IOException {
+	private List<Scene> buildScenesFromFile() throws IOException {
+		final List<Scene> scenes = new LinkedList<>();
 		final String filePath = PATH_TXT.concat("sequenciaImagensCenasTemaPizzaria.txt");
 		
 		int idQuestion = 1;
 		int imageIndex = 0;
 		for(final String line : this.buildReaderFromFile(filePath)) {
 			if(imageIndex % 3 == 1) {
-				sceneService.save(new Scene(null, null, textList.get(imageIndex++), urServer.concat(line),
-						mapQuestion.get(idQuestion++), GAME_THEME_ID));
+				scenes.add(new Scene(null, textList.get(imageIndex++), line,
+						mapQuestion.get(idQuestion++)));
 				continue;
 			}
-			sceneService.save(new Scene(null, null, textList.get(imageIndex++), urServer.concat(line), null, GAME_THEME_ID));
+			scenes.add(new Scene(null, textList.get(imageIndex++), line, null));
 		}
-		LOGGER.log(Level.INFO, "=== SCENES SAVE SUCCESS ===");
+		LOGGER.log(Level.INFO, "=== SCENES BUILD SUCCESS ===");
+		return scenes;
 	}
 	
 	/**
@@ -170,7 +168,8 @@ public class SetupApplicationToInitializeGame {
 		final Random gerator = new Random();
 		for(int index = 1; index < 26; index++) {
 			final long currentSkillsId = gerator.nextInt(6) + 1L;
-			mapQuestion.put(index, new Question(null, mapAlternatives.get(index), currentSkillsId));
+			final Skill skill = skillRepository.findOne(currentSkillsId);
+			mapQuestion.put(index, new Question(mapAlternatives.get(index), skill));
 		}
 	}
 	

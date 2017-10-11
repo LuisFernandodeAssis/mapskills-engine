@@ -6,7 +6,6 @@
  */
 package br.gov.sp.fatec.mapskills.domain.institution;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,19 +14,20 @@ import java.util.Optional;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.util.CollectionUtils;
 
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
+import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import lombok.Getter;
-import lombok.Setter;
+
 /**
  * 
  * A classe {@link Institution}
@@ -36,36 +36,34 @@ import lombok.Setter;
  * @version 1.0 01/11/2016
  */
 @Getter
-@Setter
 @Entity
 @Table(name = "MAPSKILLS.INSTITUTION")
-public class Institution implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Institution {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "INS_ID")
+	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "INS_CODE", nullable = false, unique = true, length = 10)
+	@Column(name = "CODE", nullable = false, unique = true, length = 5)
 	private String code;
 	
-	@Column(name = "INS_CNPJ", nullable = true, unique = true)
-	private String cnpj;
+	@Column(name = "CNPJ", nullable = true, unique = true)
+	private Long cnpj;
 	
-	@Column(name = "INS_COMPANY", nullable = true)
+	@Column(name = "COMPANY", nullable = true)
 	private String company;
-	
-	@Column(name = "INS_LEVEL", nullable = true)
-	@Enumerated(value = EnumType.ORDINAL)
-	private InstitutionLevel level;
-	
-	@Column(name = "INS_CITY", nullable = true)
+
+	@Column(name = "CITY", nullable = true)
 	private String city;
 	
-	@Column(name = "GTH_ID")
-	private Long gameThemeId;
+	@Enumerated
+	@Column(name = "LEVEL", nullable = true)
+	private InstitutionLevel level;
+		
+	@ManyToOne
+	@JoinColumn(name = "ID_GAME_THEME")
+	private GameTheme gameTheme;
 	
 	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<Course> courses = new LinkedList<>();
@@ -75,31 +73,26 @@ public class Institution implements Serializable {
 
 	@SuppressWarnings("unused")
 	private Institution() {
-		this(null, null, null, null, null, Collections.emptyList(), null);
+		this(null, null, null, null, null, Collections.emptyList(), Collections.emptyList(), null);
 	}
 
-	public Institution (final String code, final String cnpj, final String company,
-			final InstitutionLevel level, final String city, final List<Mentor> mentors, final Long gameThemeId) {
+	public Institution (final String code, final Long cnpj, final String company, final InstitutionLevel level,
+			final String city, final List<Mentor> mentors, final List<Course> courses, final GameTheme gameTheme) {
 		this.code = code;
 		this.cnpj = cnpj;
 		this.company = company;
 		this.level = level;
 		this.city = city;
 		addAllMentors(mentors);
-		this.gameThemeId = gameThemeId;
+		addAllCourses(courses);
+		this.gameTheme = gameTheme;
 	}
 		
-	public void setCourses(final List<Course> courses) {
+	public void addAllCourses(final List<Course> courses) {
 		this.courses.clear();
 		courses.stream().forEach(course -> {
-			course.setInstitution(this);
-			this.courses.add(course);
+			addCourse(course);
 		});
-	}
-	
-	public void setMentors(final List<Mentor> mentors) {
-		this.mentors.clear();
-		addAllMentors(mentors);
 	}
 		
 	public List<Mentor> getMentors() {
@@ -125,13 +118,28 @@ public class Institution implements Serializable {
 		return courseFind.isPresent() ? courseFind.get() : null;
 	}
 	
+	public Mentor getMentorByUsername(final String username) {
+		Optional<Mentor> mentorFind = mentors.stream().filter(mentor -> mentor.getUsername().equals(username)).findFirst();
+		return mentorFind.isPresent() ? mentorFind.get() : null;
+	}
+	
+	public void updateGameTheme(final GameTheme theme) {
+		this.gameTheme = theme;
+	}
+	
+	public void update(final Institution updateInstitution) {
+		this.code = updateInstitution.getCode();
+		this.cnpj = updateInstitution.getCnpj();
+		this.company = updateInstitution.getCompany();
+		this.level = updateInstitution.getLevel();
+		this.city = updateInstitution.getCity();
+	}
+	
 	private void addAllMentors(final List<Mentor> mentors) {
 		if(!CollectionUtils.isEmpty(mentors)) {
 			mentors.stream().forEach(mentor -> {
-				mentor.setInstitution(this);
-				this.mentors.add(mentor);
+				addMentor(mentor);
 			});			
 		}
 	}
-	
 }

@@ -6,15 +6,13 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
-import br.gov.sp.fatec.mapskills.restapi.serializer.GameThemeListDeserializer;
 import br.gov.sp.fatec.mapskills.restapi.serializer.GameThemeListSerializer;
 /**
  * 
@@ -25,16 +23,15 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.GameThemeListSerializer;
  * @version 1.0 24/12/2016
  */
 @JsonSerialize(using = GameThemeListSerializer.class)
-@JsonDeserialize(using = GameThemeListDeserializer.class)
 public class GameThemeListWrapper {
 
-	private final Collection<GameTheme> gameThemes = new ArrayList<>();
+	private final List<GameTheme> gameThemes = new LinkedList<>();
 	
-	public GameThemeListWrapper(final Collection<GameTheme> gameThemes) {
+	public GameThemeListWrapper(final List<GameTheme> gameThemes) {
 		this.gameThemes.addAll(gameThemes);
 	}
 	
-	public Collection<GameTheme> getGameThemes() {
-		return Collections.unmodifiableCollection(gameThemes);
+	public List<GameTheme> getGameThemes() {
+		return Collections.unmodifiableList(gameThemes);
 	}
 }

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentListWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentPageWrapper;
 import lombok.AllArgsConstructor;
 /**
  * 
@@ -26,37 +26,27 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class StudentListSerializer extends DefaultJsonSerializer<StudentListWrapper> {
+public class StudentListSerializer extends AbstractJsonSerializer<StudentPageWrapper> {
 	
 	private final CourseSerializer courseSerializer;
+	private final StudentSerializer studentSerializer;
 
 	@Override
-	public void serialize(final StudentListWrapper studentListWrapper, final JsonGenerator generator) throws IOException {
+	public void serialize(final StudentPageWrapper studentListWrapper, final JsonGenerator generator) throws IOException {
 		
-		generator.writeStartArray();
+		writeStartArray();
 		for(final Student student : studentListWrapper.getStudents()) {
-			generator.writeStartObject();
-			this.studentSerialize(student, generator);
-			this.courseSerialize(studentListWrapper.getCourse(student.getCourseCode()) , generator);
-			generator.writeEndObject();
+			writeStartObject();
+			studentSerializer.serializeCore(student);
+			courseSerialize(student.getCourse(), generator);
+			writeEndObject();
 		}
-		generator.writeEndArray();
-	}
-	
-	private void studentSerialize(final Student student, final JsonGenerator generator) throws IOException {
-		generator.writeNumberField("id", student.getId());
-		generator.writeStringField("name", student.getName());
-		generator.writeStringField("ra", student.getRa());
-		generator.writeStringField("phone", student.getPhone());
-		generator.writeBooleanField("completed", student.isCompleted());
-		generator.writeStringField("username", student.getUsername());
-		generator.writeStringField(DefaultJsonSerializer.PASS, DefaultJsonSerializer.EMPTY_PASS);
-	}
+		writeEndArray();
+	}	
 	
 	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
-		generator.writeObjectFieldStart("course");
+		writeObjectFieldStart(SerializationKey.COURSE);
 		courseSerializer.serialize(course, generator);
-		generator.writeEndObject();
-	}
-	
+		writeEndObject();
+	}	
 }

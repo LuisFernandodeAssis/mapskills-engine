@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.gov.sp.fatec.mapskills.infra.ThreadPool;
 /**
  * 
  * A classe {@link SpringContextTestConfiguration} representa as configuracoes
@@ -33,6 +35,11 @@ public class SpringContextTestConfiguration extends AbstractSpringContextConfigu
 	@Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
+	}
+	
+	@Bean
+	public ThreadPool threadPool() {
+		return new ThreadPool();
 	}
 	
 }

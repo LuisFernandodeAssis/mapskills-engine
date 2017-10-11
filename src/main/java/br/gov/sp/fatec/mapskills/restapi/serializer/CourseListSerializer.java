@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class CourseListSerializer extends DefaultJsonSerializer<CourseListWrapper> {
+public class CourseListSerializer extends AbstractJsonSerializer<CourseListWrapper> {
 
 	private final CourseSerializer courseSerializer;
 	

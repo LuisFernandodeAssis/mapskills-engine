@@ -8,43 +8,40 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
+import br.gov.sp.fatec.mapskills.dashboard.GlobalStudentsIndicator;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressGlobalWrapper;
 /**
  * 
  * A classe {@link StudentsProgressGlobalSerializer} e responavel
  * por serializar os resultados da porcentagem de alunos que finalizaram
- * e nao finalizaram o jogo de todos os curos dos ensinos superiores
+ * e nao finalizaram o jogo de todos os cursos dos ensinos superiores
  * e tecnico.
  *
  * @author Marcelo
  * @version 1.0 01/03/2017
  */
-public class StudentsProgressGlobalSerializer extends DefaultJsonSerializer<StudentsProgressGlobalWrapper> {
+public class StudentsProgressGlobalSerializer extends AbstractJsonSerializer<StudentsProgressGlobalWrapper> {
 
 	@Override
-	public void serialize(final StudentsProgressGlobalWrapper progess, final JsonGenerator generator) throws IOException {
-		
+	public void serialize(final StudentsProgressGlobalWrapper indicators, final JsonGenerator generator) throws IOException {
 		generator.writeStartArray();
-		
-		for(final Object[] tuple : progess.getResultSet() ) {
+		for(final GlobalStudentsIndicator indicator : indicators.getIndicatorResults() ) {
 			generator.writeStartObject();
 			
-			final InstitutionLevel level = InstitutionLevel.valueOf(String.valueOf(tuple[1]));
-			generator.writeStringField("level", level.isSuperior() ? "Fatecs" : "Etecs" );
+			generator.writeStringField("level", indicator.isInstitutionLevelSuperior() ? "Fatecs" : "Etecs" );
 			
 			generator.writeArrayFieldStart("values");
-			generator.writeNumber(tuple[3] != null ? Integer.valueOf(tuple[3].toString()) : 0);
-			generator.writeNumber(tuple[2] != null ? Integer.valueOf(tuple[2].toString()) : 0);
+			generator.writeNumber(ObjectUtils.isEmpty(indicator.getFinalized()) ? 0 : indicator.getFinalized());
+			generator.writeNumber(ObjectUtils.isEmpty(indicator.getNotFinalized()) ? 0 : indicator.getNotFinalized());
+			
 			generator.writeEndArray();
 			
 			generator.writeEndObject();
-		}
-		
+		}		
 		generator.writeEndArray();
-		
 	}
-
 }

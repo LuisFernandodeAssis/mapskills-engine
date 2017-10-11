@@ -13,8 +13,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+import br.gov.sp.fatec.mapskills.dashboard.CsvReport;
+import br.gov.sp.fatec.mapskills.dashboard.StudentResultIndicator;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.infra.report.ReportDefaultData;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.ReportViewWrapper;
 /**
  * 
@@ -28,12 +29,12 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.ReportViewWrapper;
 public class ReportViewSerializer extends JsonSerializer<ReportViewWrapper> {
 
 	@Override
-	public void serialize(final ReportViewWrapper report, final JsonGenerator generator, final SerializerProvider arg2)
-			throws IOException {
+	public void serialize(final ReportViewWrapper report, final JsonGenerator generator,
+			final SerializerProvider arg2) throws IOException {
 		
 		generator.writeStartObject();
-		this.generateHeaderLabel(report.getSkills(), generator);
-		this.generateDataInfo(report.getDatas(), generator);
+		generateHeaderLabel(report.getSkills(), generator);
+		generateDataInfo(report.getData(), generator);
 		generator.writeEndObject();
 	}
 	
@@ -42,23 +43,22 @@ public class ReportViewSerializer extends JsonSerializer<ReportViewWrapper> {
 		generator.writeString("RA");
 		generator.writeString("NOME");
 		for(final Skill skill : skills) {
-			generator.writeString(skill.getType());
+			generator.writeString(skill.getName());
 		}
 		generator.writeEndArray();
 	}
 	
-	private void generateDataInfo(final List<ReportDefaultData> datas, final JsonGenerator generator) throws IOException {
-		generator.writeArrayFieldStart("datas");
-		for(final ReportDefaultData data : datas) {
+	private void generateDataInfo(final List<CsvReport> report, final JsonGenerator generator) throws IOException {
+		generator.writeArrayFieldStart("data");
+		for(final CsvReport data : report) {
 			generator.writeStartArray();
 			generator.writeString(data.getStudentRA());
 			generator.writeString(data.getStudentName());
-			for(final Object score : data.getScores()) {
-				generator.writeString(score.toString());
+			for(final StudentResultIndicator score : data.getStudentsIndicator()) {
+				generator.writeNumber(score.getTotal());
 			}
 			generator.writeEndArray();
 		}
 		generator.writeEndArray();
 	}
-
 }

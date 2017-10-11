@@ -40,6 +40,7 @@ public class SaveImageService {
 	
 	/**
 	 * Metodo que salva a imagem no diretorio do servidor definido como padrao.
+	 * 
 	 * @param Base64 imagem no formato base 64.
 	 * @param filename Nome do arquivo.
 	 * @return o Nome da imagem gravada.
@@ -59,7 +60,7 @@ public class SaveImageService {
 		    return filename;
 		} catch (final IOException exception) {
 			LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
-			throw new SaveImageException(filename, exception);
+			throw new FileHandlerException(filename, exception);
 		}
 	}
 	

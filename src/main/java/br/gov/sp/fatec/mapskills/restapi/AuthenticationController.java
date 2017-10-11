@@ -6,15 +6,12 @@
  */
 package br.gov.sp.fatec.mapskills.restapi;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.gov.sp.fatec.mapskills.application.UserApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.user.User;
-import br.gov.sp.fatec.mapskills.domain.user.UserService;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
 import lombok.AllArgsConstructor;
 
@@ -29,32 +26,27 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticationController {
 	
-	private final UserService userService;
+	private final UserApplicationServices userService;
 	
 	/**
-	 * Metodo que retorna os detalhes do usuário logado na aplicacao.
-	 * @param username
-	 * @return <code>ResponseEntity -UserWrapper-</code>
+	 * 
+	 * Metodo que retorna os detalhes do usuario logado na aplicacao.
 	 */
-	@RequestMapping(value = "/user/details", method = RequestMethod.POST)
-	public ResponseEntity<UserWrapper> login(@RequestParam("username") String username) {
+	@PostMapping(value = "/user/details")
+	public UserWrapper login(@RequestParam("username") final String username) {
 		
 		final User user = userService.findByUsername(username);
-		final UserWrapper userWrapper = new UserWrapper(user);
-		return new ResponseEntity<>(userWrapper, HttpStatus.OK);
+		return new UserWrapper(user);
 	}
+	
 	/**
-	 * Metodo que realiza a alteracao de senha do usuario
-	 * @param username
-	 * @param newPassword
-	 * @return
+	 * 
+	 * End-point que expoe servico para realizacao da troca de senha de usuario da aplicacao.
 	 */
-	@RequestMapping(value = "/user/change/password", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> changePassword(@RequestParam("username") String username,
-			@RequestParam("newPassword") String newPassword) {
+	@PostMapping(value = "/user/change/password")
+	public void changePassword(@RequestParam("username") final String username,
+			@RequestParam("newPassword") final String newPassword) {
 		
 		userService.updatePassword(username, newPassword);
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
 }

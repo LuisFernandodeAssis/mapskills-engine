@@ -11,8 +11,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import br.gov.sp.fatec.mapskills.application.UserApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.user.User;
-import br.gov.sp.fatec.mapskills.domain.user.UserService;
 /**
  * 
  * A classe {@link DefaultAuthenticationProvider} responsavel
@@ -24,7 +24,7 @@ import br.gov.sp.fatec.mapskills.domain.user.UserService;
 @Component
 public class DefaultAuthenticationProvider implements AuthenticationProvider {
 		
-	private UserService userService;
+	private UserApplicationServices userService;
 
 	@Override
 	public Authentication authenticate(final Authentication authentication) {
@@ -43,7 +43,7 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
 	}
 	
 	@Autowired
-	public void setUserService(final UserService userService) {
+	public void setUserService(final UserApplicationServices userService) {
 		this.userService = userService;
 	}
 	

@@ -11,11 +11,8 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.CoursePeriod;
-import br.gov.sp.fatec.mapskills.domain.institution.Institution;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionRepository;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseWrapper;
-import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link CourseDeserializer} é responsavel
@@ -26,21 +23,12 @@ import lombok.AllArgsConstructor;
  * @version 1.0 15/01/2017
  */
 @Component
-@AllArgsConstructor
-public class CourseDeserializer extends DefaultJsonDeserializer<CourseWrapper> {
-	
-	private final InstitutionRepository institutionRepository;
+public class CourseDeserializer extends AbstractJsonDeserializer<CourseWrapper> {
 
 	@Override
 	protected CourseWrapper deserialize(final JsonNode node) {
-		return new CourseWrapper(new Course(jsonUtil.getFieldTextValue(node, "code"),
-				jsonUtil.getFieldTextValue(node, "name"),
-				CoursePeriod.valueOf(jsonUtil.getFieldTextValue(node, "period")),
-				getInstitutionByCode(jsonUtil.getFieldTextValue(node, "institutionCode"))));
-	}
-	
-	private Institution getInstitutionByCode(final String code) {
-		return institutionRepository.findByCode(code);
-	}
-
+		return new CourseWrapper(new Course(getFieldTextValue(node, SerializationKey.CODE),
+				getFieldTextValue(node, SerializationKey.NAME),
+				Period.valueOf(getFieldTextValue(node, SerializationKey.PERIOD))));
+	}	
 }

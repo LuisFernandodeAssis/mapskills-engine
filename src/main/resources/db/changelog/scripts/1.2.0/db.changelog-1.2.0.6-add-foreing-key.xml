@@ -1,0 +1,98 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-mentor">
+	    <addForeignKeyConstraint baseColumnNames="ID_USER"
+	            baseTableName="MENTOR"
+	            constraintName="FK_MENTOR_USER"
+	            referencedColumnNames="ID"
+	            referencedTableName="USER"/>
+	    <addForeignKeyConstraint baseColumnNames="ID_INSTITUTION"
+	            baseTableName="MENTOR"
+	            constraintName="FK_MENTOR_INSTITUTION"
+	            referencedColumnNames="ID"
+	            referencedTableName="INSTITUTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-course">
+	    <addForeignKeyConstraint baseColumnNames="ID_INSTITUTION"
+	            baseTableName="COURSE"
+	            constraintName="FK_COURSE_INSTITUTION"
+	            referencedColumnNames="ID"
+	            referencedTableName="INSTITUTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-student">
+	    <addForeignKeyConstraint baseColumnNames="ID_USER"
+	            baseTableName="STUDENT"
+	            constraintName="FK_STUDENT_USER"
+	            referencedColumnNames="ID"
+	            referencedTableName="USER"/>
+	    <addForeignKeyConstraint baseColumnNames="ID_COURSE"
+	            baseTableName="STUDENT"
+	            constraintName="FK_STUDENT_COURSE"
+	            referencedColumnNames="ID"
+	            referencedTableName="COURSE"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-administrator">
+	    <addForeignKeyConstraint baseColumnNames="ID_USER"
+	            baseTableName="ADMINISTRATOR"
+	            constraintName="FK_ADMINISTRATOR_USER"
+	            referencedColumnNames="ID"
+	            referencedTableName="USER"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-question">
+	    <addForeignKeyConstraint baseColumnNames="ID_SKILL"
+	            baseTableName="QUESTION"
+	            constraintName="FK_QUESTION_SKILL"
+	            referencedColumnNames="ID"
+	            referencedTableName="SKILL"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-alternative">
+	    <addForeignKeyConstraint baseColumnNames="ID_QUESTION"
+	            baseTableName="ALTERNATIVE"
+	            constraintName="FK_ALTERNATIVE_QUESTION"
+	            referencedColumnNames="ID"
+	            referencedTableName="QUESTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-scene">
+	    <addForeignKeyConstraint baseColumnNames="ID_GAME_THEME"
+	            baseTableName="SCENE"
+	            constraintName="FK_SCENE_GAME_THEME"
+	            referencedColumnNames="ID"
+	            referencedTableName="GAME_THEME"/>
+	    <addForeignKeyConstraint baseColumnNames="ID_QUESTION"
+	            baseTableName="SCENE"
+	            constraintName="FK_SCENE_QUESTION"
+	            referencedColumnNames="ID"
+	            referencedTableName="QUESTION"/>
+	</changeSet>
+
+	<changeSet author="marcelo-inacio" id="add-foreign-key-constraint-student-question-context">
+	    <addForeignKeyConstraint baseColumnNames="ID_STUDENT"
+	            baseTableName="STUDENT_QUESTION_CONTEXT"
+	            constraintName="FK_STUDENT_QUESTION_CONTEXT_STUDENT"
+	            referencedColumnNames="ID"
+	            referencedTableName="STUDENT"/>
+	    <addForeignKeyConstraint baseColumnNames="ID_SCENE"
+	            baseTableName="STUDENT_QUESTION_CONTEXT"
+	            constraintName="FK_STUDENT_QUESTION_CONTEXT_SCENE"
+	            referencedColumnNames="ID"
+	            referencedTableName="SCENE"/>
+	    <addForeignKeyConstraint baseColumnNames="ID_SKILL"
+	            baseTableName="STUDENT_QUESTION_CONTEXT"
+	            constraintName="FK_STUDENT_QUESTION_CONTEXT_SKILL"
+	            referencedColumnNames="ID"
+	            referencedTableName="SKILL"/>
+	</changeSet>	
+	
+</databaseChangeLog>

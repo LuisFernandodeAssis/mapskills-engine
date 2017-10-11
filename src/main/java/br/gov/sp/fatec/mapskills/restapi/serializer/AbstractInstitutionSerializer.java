@@ -6,6 +6,11 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+
+import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
  * 
@@ -16,12 +21,16 @@ import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
  * @author Marcelo
  * @version 1.0 07/05/2017
  */
-public abstract class AbstractInstitutionSerializer<T> extends DefaultJsonSerializer<T> {
+public abstract class AbstractInstitutionSerializer<T> extends AbstractJsonSerializer<T> {
 
-	protected final DefaultInstitutionSerializer defaultSerializer;
+	private final DefaultInstitutionSerializer defaultSerializer;
 	
 	public AbstractInstitutionSerializer() {
 		this.defaultSerializer = ApplicationContextHolder.getBean("defaultInstitutionSerializer", DefaultInstitutionSerializer.class);
+	}
+	
+	public void serializeDefaultValues(final Institution institution, final JsonGenerator generator) throws IOException {
+		defaultSerializer.serializeDefaultValues(institution, generator);
 	}
 
 }

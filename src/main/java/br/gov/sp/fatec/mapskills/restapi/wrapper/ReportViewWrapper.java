@@ -6,14 +6,14 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.gov.sp.fatec.mapskills.dashboard.CsvReport;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.infra.report.ReportDefaultData;
 import br.gov.sp.fatec.mapskills.restapi.serializer.ReportViewSerializer;
 /**
  * 
@@ -26,23 +26,19 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.ReportViewSerializer;
 @JsonSerialize(using = ReportViewSerializer.class)
 public class ReportViewWrapper {
 	
-	private final List<Skill> skills = new ArrayList<>();
-	private final List<ReportDefaultData> datas = new ArrayList<>();
+	private final List<CsvReport> report = new LinkedList<>();
+	private final List<Skill> skills = new LinkedList<>();
 	
-	public ReportViewWrapper(final List<Skill> skills, final List<ReportDefaultData> datas) {
-		this.skills.clear();
+	public ReportViewWrapper(final List<CsvReport> report, final List<Skill> skills) {
+		this.report.addAll(report);
 		this.skills.addAll(skills);
-		this.datas.clear();
-		this.datas.addAll(datas);
 	}
 	
+	public List<CsvReport> getData() {
+		return Collections.unmodifiableList(report);
+	}
 	
 	public List<Skill> getSkills() {
-		return Collections.unmodifiableList(this.skills);
+		return Collections.unmodifiableList(skills);
 	}
-	
-	public List<ReportDefaultData> getDatas() {
-		return Collections.unmodifiableList(this.datas);
-	}
-
 }

@@ -28,41 +28,38 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class StudentDetailsSerializer extends DefaultJsonSerializer<StudentDetailsWrapper> {
+public class StudentDetailsSerializer extends AbstractJsonSerializer<StudentDetailsWrapper> {
 	
 	private final CourseSerializer courseSerializer;
+	private final StudentSerializer studentSerializer;
 
 	@Override
 	public void serialize(final StudentDetailsWrapper studentWrapper, final JsonGenerator generator) throws IOException {
-		generator.writeStartObject();
-		this.studentSerialize(studentWrapper.getStudent(), generator);
-		this.courseSerialize(studentWrapper.getCourse(), generator);
-		this.institutionSerialize(studentWrapper.getInstitution(), generator);
-		generator.writeEndObject();
+		writeStartObject();
+		studentSerialize(studentWrapper.getStudent());
+		courseSerialize(studentWrapper.getCourse(), generator);
+		institutionSerialize(studentWrapper.getInstitution());
+		writeEndObject();
 	}
 	
-	private void studentSerialize(final Student student, final JsonGenerator generator) throws IOException {
-		generator.writeObjectFieldStart("student");
-		generator.writeStringField("name", student.getName());
-		generator.writeStringField("ra", student.getRa());
-		generator.writeStringField("phone", student.getPhone());
-		generator.writeStringField("username", student.getUsername());
-		generator.writeStringField(DefaultJsonSerializer.PASS, DefaultJsonSerializer.EMPTY_PASS);
-		generator.writeEndObject();
+	private void studentSerialize(final Student student) throws IOException {
+		writeObjectFieldStart(SerializationKey.STUDENT);
+		studentSerializer.serializeCore(student);
+		writeEndObject();
 	}
 
 	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
-		generator.writeObjectFieldStart("course");
+		writeObjectFieldStart(SerializationKey.COURSE);
 		courseSerializer.serialize(course, generator);
-		generator.writeEndObject();
+		writeEndObject();
 	}
 	
-	private void institutionSerialize(final Institution institution, final JsonGenerator generator) throws IOException {
-		generator.writeObjectFieldStart("institution");
-		generator.writeStringField("code", institution.getCode());
-		generator.writeStringField("company", institution.getCompany());
-		generator.writeStringField("cnpj", institution.getCnpj());
-		generator.writeStringField("city", institution.getCity());
-		generator.writeEndObject();
+	private void institutionSerialize(final Institution institution) throws IOException {
+		writeObjectFieldStart(SerializationKey.INSTITUTION);
+		writeStringField(SerializationKey.CODE, institution.getCode());
+		writeStringField(SerializationKey.COMPANY, institution.getCompany());
+		writeNumberField(SerializationKey.CNPJ, institution.getCnpj());
+		writeStringField(SerializationKey.CITY, institution.getCity());
+		writeEndObject();
 	}
 }

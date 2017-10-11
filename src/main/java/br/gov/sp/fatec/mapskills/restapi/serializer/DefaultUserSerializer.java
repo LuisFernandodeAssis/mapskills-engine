@@ -23,19 +23,20 @@ import br.gov.sp.fatec.mapskills.domain.user.User;
  * @version 1.0 10/11/2016
  */
 @Component
-public class DefaultUserSerializer<T extends User> implements UserSerilizerStrategy<T> {
+public class DefaultUserSerializer<T extends User> extends AbstractJsonSerializer<T> implements UserSerilizerStrategy<T> {
 	
-	protected void serializeDefaultValues(final T user, final JsonGenerator generator) throws IOException {
-		generator.writeNumberField("id", user.getId());
-		generator.writeStringField("name", user.getName());
-		generator.writeStringField("profile", user.getProfile().name());
+	protected void serializeDefaultValues(final T user) throws IOException {
+		writeNumberField(SerializationKey.ID, user.getId());
+		writeStringField(SerializationKey.NAME, user.getName());
+		writeStringField(SerializationKey.PROFILE, user.getProfile());
+		writeStringField(SerializationKey.USERNAME, user.getUsername());
+		writeStringField(SerializationKey.PASS, SerializationKey.EMPTY_PASS);
 	}
 
 	@Override
 	public void serialize(final T user, final JsonGenerator generator) throws IOException {
-		generator.writeStartObject();
-		serializeDefaultValues(user, generator);
-		generator.writeEndObject();
+		writeStartObject();
+		serializeDefaultValues(user);
+		writeEndObject();
 	}
-
 }

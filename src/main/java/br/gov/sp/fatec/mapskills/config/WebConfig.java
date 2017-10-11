@@ -6,6 +6,8 @@
  */
 package br.gov.sp.fatec.mapskills.config;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
@@ -14,8 +16,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -45,6 +50,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 	
 	@Bean
+    public PageableHandlerMethodArgumentResolver pageableResolver() {
+        final PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+        resolver.setFallbackPageable(new PageRequest(0, 20));
+        return resolver;
+    }
+	
+	@Bean
     public ContentNegotiatingViewResolver contentViewResolver() {
         final ContentNegotiationManagerFactoryBean contentNegotiationManager = new ContentNegotiationManagerFactoryBean();
         contentNegotiationManager.addMediaType("json", MediaType.APPLICATION_JSON);
@@ -59,6 +71,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
+	
     /**
      * configuracao que permite acesso a pasta images da aplicacao sem restricao,
      * com spring security configurado 
@@ -76,6 +89,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
        
         registry.addResourceHandler("/webjars/**")
         		.addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+    
+    @Override
+    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> argumentResolvers) {
+    	argumentResolvers.add(pageableResolver());
+    	super.addArgumentResolvers(argumentResolvers);
     }
 
 }

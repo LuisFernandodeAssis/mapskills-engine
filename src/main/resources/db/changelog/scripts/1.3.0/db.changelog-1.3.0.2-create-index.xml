@@ -1,0 +1,48 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="create-index-institution">
+		<createIndex indexName="INDEX_INSTITUTION"
+				schemaName="MAPSKILLS"
+				tableName="INSTITUTION"
+				unique="true">
+			<column name="CODE" type="java.sql.Types.VARCHAR(5)" />
+		</createIndex>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-index-course">
+		<createIndex indexName="INDEX_COURSE"
+				schemaName="MAPSKILLS"
+				tableName="COURSE"
+				unique="true">
+			<column name="CODE" type="java.sql.Types.VARCHAR(5)" />
+		</createIndex>
+	</changeSet>
+	
+	<changeSet author="marcelo-inacio" id="create-index-student">
+		<createIndex indexName="INDEX_RA_STUDENT"
+				schemaName="MAPSKILLS"
+				tableName="STUDENT"
+				unique="true">
+			<column name="RA" type="java.sql.Types.VARCHAR(15)" />
+		</createIndex>
+		<createIndex indexName="INDEX_INSTITUTION_CODE_STUDENT"
+				schemaName="MAPSKILLS"
+				tableName="STUDENT"
+				unique="false">
+			<column name="INSTITUTION_CODE" type="java.sql.Types.VARCHAR(4)" />
+		</createIndex>
+		<createIndex indexName="INDEX_COURSE_CODE_STUDENT"
+				schemaName="MAPSKILLS"
+				tableName="STUDENT"
+				unique="false">
+			<column name="COURSE_CODE" type="java.sql.Types.VARCHAR(4)" />
+		</createIndex>
+	</changeSet>
+
+</databaseChangeLog>

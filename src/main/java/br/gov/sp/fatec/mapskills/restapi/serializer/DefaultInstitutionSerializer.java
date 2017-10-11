@@ -27,7 +27,7 @@ public class DefaultInstitutionSerializer implements InstitutionSerializerStrate
 	protected void serializeDefaultValues(final Institution institution, final JsonGenerator generator) throws IOException {
 		generator.writeNumberField("id", institution.getId());
 		generator.writeStringField("code", institution.getCode());
-		generator.writeStringField("cnpj", institution.getCnpj());
+		generator.writeNumberField("cnpj", institution.getCnpj());
 		generator.writeStringField("company", institution.getCompany());
 		generator.writeStringField("level", institution.getLevel().name());
 		generator.writeStringField("city", institution.getCity());
@@ -38,7 +38,5 @@ public class DefaultInstitutionSerializer implements InstitutionSerializerStrate
 		generator.writeStartObject();
 		serializeDefaultValues(institution, generator);
 		generator.writeEndObject();
-		
 	}
-
 }

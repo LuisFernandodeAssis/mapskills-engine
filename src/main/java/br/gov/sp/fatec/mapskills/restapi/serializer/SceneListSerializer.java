@@ -10,9 +10,9 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.domain.scene.Alternative;
-import br.gov.sp.fatec.mapskills.domain.scene.Question;
-import br.gov.sp.fatec.mapskills.domain.scene.Scene;
+import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
+import br.gov.sp.fatec.mapskills.domain.theme.Question;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 
 /**
@@ -23,7 +23,7 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper> {
+public class SceneListSerializer extends AbstractJsonSerializer<SceneListWrapper> {
 
 	@Override
 	public void serialize(final SceneListWrapper scenesList, final JsonGenerator generator)	throws IOException {
@@ -37,8 +37,10 @@ public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper>
 		generator.writeEndArray();
 		
 	}
+	
 	/**
 	 * Metodo responsavel por serializar a cena do jogo
+	 * 
 	 * @param generator
 	 * @param scene
 	 * @throws IOException
@@ -47,7 +49,6 @@ public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper>
 		generator.writeNumberField("id", scene.getId());
 		generator.writeNumberField("index", scene.getIndex());
 		generator.writeStringField("text", scene.getText());
-		generator.writeNumberField("gameThemeId", scene.getGameThemeId());
 		generator.writeObjectFieldStart("background");
 		generator.writeStringField("filename", scene.getUrlBackground());
 		generator.writeEndObject();
@@ -57,8 +58,10 @@ public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper>
 			generator.writeNullField("question");
 		}
 	}
+	
 	/**
-	 * Metodo responsavel por serializar a questão da cena
+	 * Metodo responsavel por serializar a questão da cena.
+	 * 
 	 * @param generator
 	 * @param question
 	 * @throws IOException
@@ -76,8 +79,10 @@ public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper>
 		generator.writeEndArray();
 		generator.writeEndObject();
 	}
+	
 	/**
 	 * Metodo responsavel por serializar as alternativas da questao.
+	 * 
 	 * @param generator
 	 * @param alternatives
 	 * @throws IOException
@@ -87,6 +92,5 @@ public class SceneListSerializer extends DefaultJsonSerializer<SceneListWrapper>
 			generator.writeStringField("description", alternative.getDescription());
 			generator.writeNumberField("skillValue", alternative.getSkillValue());
 	}
-
 	
 }

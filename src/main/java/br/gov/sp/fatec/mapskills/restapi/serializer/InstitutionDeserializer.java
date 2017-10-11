@@ -5,6 +5,7 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,9 +15,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.domain.user.mentor.Mentor;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionDetailsWrapper;
-import lombok.AllArgsConstructor;
+import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
 /**
  * 
  * A classe {@link InstitutionDeserializer} e responsavel
@@ -27,51 +27,40 @@ import lombok.AllArgsConstructor;
  * @version 1.0 08/01/2017
  */
 @Component
-@AllArgsConstructor
-public class InstitutionDeserializer extends DefaultJsonDeserializer<InstitutionDetailsWrapper> {
-	
-	private static final String MENTOR = "mentor";
+public class InstitutionDeserializer extends AbstractJsonDeserializer<InstitutionWrapper> {
 	
 	@Override
-	protected InstitutionDetailsWrapper deserialize(final JsonNode node) {
+	protected InstitutionWrapper deserialize(final JsonNode node) {
 		final List<Mentor> mentors = new LinkedList<>();
         
-        if(node.has(MENTOR)) {
-        	mentors.add(this.mentorDeserialize(node.get(MENTOR)));
+        if(has(node, SerializationKey.MENTOR)) {
+        	mentors.add(this.mentorDeserialize(get(node, SerializationKey.MENTOR)));
         } else {
-        	mentors.addAll(this.mentorListDeserialize(node.get("mentors")));
+        	mentors.addAll(this.mentorListDeserialize(get(node, SerializationKey.MENTORS)));
         }
         
 		final Institution institution = new Institution(
-				jsonUtil.getFieldTextValue(node, "code"),
-				jsonUtil.getFieldTextValue(node, "cnpj"),
-				jsonUtil.getFieldTextValue(node, "company"),
-				InstitutionLevel.valueOf(jsonUtil.getFieldTextValue(node, "level")),
-				jsonUtil.getFieldTextValue(node, "city"),
-				mentors, null);
+				getFieldTextValue(node, SerializationKey.CODE),
+				getFieldLongValue(node, SerializationKey.CNPJ),
+				getFieldTextValue(node, SerializationKey.COMPANY),
+				InstitutionLevel.valueOf(getFieldTextValue(node, SerializationKey.LEVEL)),
+				getFieldTextValue(node, SerializationKey.CITY),
+				mentors, Collections.emptyList(), null);
 		
-		institution.setId(jsonUtil.getFieldLongValue(node, "id"));
-		
-		return new InstitutionDetailsWrapper(institution);
+		return new InstitutionWrapper(institution);
 	}
 
 	private Mentor mentorDeserialize(final JsonNode node) {
-		final Mentor mentor = new Mentor(jsonUtil.getFieldTextValue(node, "name"),
-				jsonUtil.getFieldTextValue(node, "username"),
-				jsonUtil.getFieldPassValue(node),
-				null);
-		
-        return mentor;
+		return new Mentor(getFieldTextValue(node, SerializationKey.NAME),
+				getFieldTextValue(node, SerializationKey.USERNAME),
+				getFieldPassValue(node));
 	}
 	
 	private List<Mentor> mentorListDeserialize(final JsonNode node) {
-		final int sizeArray = node.size();
 		final List<Mentor> mentors = new LinkedList<>();
-		for(int i = 0; i < sizeArray; i++ ) {
-			final JsonNode nodeCurrent = node.get(i);
-			mentors.add(mentorDeserialize(nodeCurrent));
-		}
+		node.forEach(currentNode -> {
+			mentors.add(mentorDeserialize(currentNode));
+		});
 		return mentors;
-	}	
-
+	}
 }
