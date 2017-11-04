@@ -79,5 +79,4 @@ public class DataBaseConfig {
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 		return transactionManager;
 	}
-
 }

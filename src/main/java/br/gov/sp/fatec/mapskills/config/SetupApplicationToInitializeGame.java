@@ -21,14 +21,14 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.gov.sp.fatec.mapskills.application.UserApplicationServices;
+import br.gov.sp.fatec.mapskills.application.InstitutionApplicationServices;
+import br.gov.sp.fatec.mapskills.application.StudentApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
+import br.gov.sp.fatec.mapskills.domain.institution.Period;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 import br.gov.sp.fatec.mapskills.domain.skill.SkillRepository;
 import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
@@ -36,7 +36,6 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
 import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
-import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
@@ -63,11 +62,10 @@ public class SetupApplicationToInitializeGame {
 	
 	private SkillRepository skillRepository = ApplicationContextHolder.getBean("skillRepository", SkillRepository.class);
 	private GameThemeService themeService = ApplicationContextHolder.getBean("gameThemeService", GameThemeService.class);
-	private InstitutionService institutionService = ApplicationContextHolder.getBean("institutionService", InstitutionService.class);
-	private UserApplicationServices userService = ApplicationContextHolder.getBean("userService", UserApplicationServices.class);
+	private InstitutionApplicationServices institutionServices = ApplicationContextHolder.getBean("institutionApplicationServices", InstitutionApplicationServices.class);
+	private StudentApplicationServices studentServices = ApplicationContextHolder.getBean("studentApplicationServices", StudentApplicationServices.class);
 	
 	public SetupApplicationToInitializeGame() throws IOException, MapSkillsException {
-		this.createAdmin();
 		this.createInstitution();
 		this.creatStudent();
 		this.createSkills();
@@ -77,11 +75,7 @@ public class SetupApplicationToInitializeGame {
 		this.createGameTheme(this.buildScenesFromFile());
 		
 	}
-	
-	private void createAdmin() {
-		userService.save(new Administrator("AdministradorCPS", "admin@cps.sp.gov.br", "$2a$10$q9jtl3BMIBxnpPZJm1hy5.7xDwKgUlfL93c0CbrzagZZUpyfRncVC"));
-		LOGGER.log(Level.INFO, "=== ADMINISTATOR SAVE SUCCESS ===");
-	}
+
 	/**
 	 * cria uma nova instituição persistindo-a na base de dados
 	 */
@@ -89,7 +83,7 @@ public class SetupApplicationToInitializeGame {
 		final Institution fatec = new Institution(INSTITUTION_CODE, 56381708000194L, "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
 		fatec.addMentor(new Mentor("Mentor", "mentor@fatec.sp.gov.br", "$2a$10$wEaMddZtyZp5Kkj/MpObjeCkYNoPFdoNwMKzxLuD7KjCyB63kf6Yy"));
 		fatec.addAllCourses(createCourses());
-		institutionService.saveInstitution(fatec);
+		institutionServices.saveInstitution(fatec);
 		LOGGER.log(Level.INFO, "=== INSTITUTION SAVE SUCCESS ===");
 	}
 	/**
@@ -110,7 +104,7 @@ public class SetupApplicationToInitializeGame {
 	}
 	
 	private void creatStudent() throws MapSkillsException {
-		institutionService.saveStudent(new Student(INSTITUTION_CODE+"0481713000", "Student User", "1289003400", "aluno@fatec.sp.gov.br", "$2a$10$MfkKiDmLJohCjQ45Kb7vnOAeALBR1SV0OTqkkB6IfcMDA87iOrgmG"));
+		studentServices.saveStudent(new Student(INSTITUTION_CODE+"0481713000", "Student User", "1289003400", "aluno@fatec.sp.gov.br", "$2a$10$MfkKiDmLJohCjQ45Kb7vnOAeALBR1SV0OTqkkB6IfcMDA87iOrgmG"));
 		LOGGER.log(Level.INFO, "=== STUDENT SAVE WITH SUCCESS ===");
 	}
 	/**

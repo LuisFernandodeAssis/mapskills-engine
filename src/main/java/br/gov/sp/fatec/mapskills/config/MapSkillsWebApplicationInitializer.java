@@ -49,7 +49,6 @@ public class MapSkillsWebApplicationInitializer extends AbstractAnnotationConfig
         final CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setForceEncoding(true);
         encodingFilter.setEncoding("UTF-8");
-
         return new Filter[] {encodingFilter};
     }
 	
@@ -58,5 +57,4 @@ public class MapSkillsWebApplicationInitializer extends AbstractAnnotationConfig
         super.onStartup(context);
         context.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class).addMappingForUrlPatterns(null, false, "/*");
     }
-
 }

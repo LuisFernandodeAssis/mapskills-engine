@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -41,6 +42,7 @@ import br.gov.sp.fatec.mapskills.authentication.AuthenticationListener;
 import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedUserFilter;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtSignatureVerifier;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtVerifier;
+import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 
 /**
  * 
@@ -77,17 +79,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(corsFilter(), ChannelProcessingFilter.class).csrf().disable();
 		http.addFilter(preAuthenticationFilter());
 		http.addFilter(loginFilter());
-		http.authorizeRequests().antMatchers("/login").permitAll();
-		http.authorizeRequests().antMatchers("/images/**").permitAll();
-		http.authorizeRequests().antMatchers("/user/details").authenticated();
+		http.authorizeRequests().antMatchers(HttpMethod.POST).fullyAuthenticated();
+		http.authorizeRequests().antMatchers(HttpMethod.PUT).fullyAuthenticated();
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE).fullyAuthenticated();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").permitAll();
 		// For ADMIN or MENTOR
-		http.authorizeRequests().antMatchers("/admin/institution/**").access("hasAnyRole({'ROLE_ADMINISTRATOR', 'ROLE_MENTOR'})");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/game/themes").hasAnyRole(ProfileType.ADMINISTRATOR.name(), ProfileType.MENTOR.name());
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/report/**").hasAnyRole(ProfileType.ADMINISTRATOR.name(), ProfileType.MENTOR.name());
 		// For ADMIN only.
-        http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMINISTRATOR')");
+		http.authorizeRequests().antMatchers("/skill").hasRole(ProfileType.ADMINISTRATOR.name());
+		http.authorizeRequests().antMatchers("/skills").hasRole(ProfileType.ADMINISTRATOR.name());
+        http.authorizeRequests().antMatchers("/game/**").hasRole(ProfileType.ADMINISTRATOR.name());
+        http.authorizeRequests().antMatchers("/institution/upload").hasRole(ProfileType.ADMINISTRATOR.name());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/institution").hasRole(ProfileType.ADMINISTRATOR.name());
         //For MENTOR only.
-        http.authorizeRequests().antMatchers("/institution/**").access("hasRole('ROLE_MENTOR')");
+        http.authorizeRequests().antMatchers("/institution/**").hasRole(ProfileType.MENTOR.name());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/students").hasRole(ProfileType.MENTOR.name());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/student").hasRole(ProfileType.MENTOR.name());
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/student").hasAnyRole(ProfileType.MENTOR.name(), ProfileType.STUDENT.name());
         //For STUDENT only.
-        http.authorizeRequests().antMatchers("/student/**").access("hasRole('ROLE_STUDENT')");
+        http.authorizeRequests().antMatchers("/student/**").hasRole(ProfileType.STUDENT.name());
+        
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	/**
@@ -180,6 +193,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         methodInvokingFactoryBean.setTargetMethod("setStrategyName");
         methodInvokingFactoryBean.setArguments(new Object[] {SecurityContextHolder.MODE_INHERITABLETHREADLOCAL});
         return methodInvokingFactoryBean;
-    }
-	
+    }	
 }

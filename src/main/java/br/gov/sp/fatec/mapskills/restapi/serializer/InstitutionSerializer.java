@@ -29,18 +29,17 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class InstitutionSerializer extends AbstractInstitutionSerializer<InstitutionWrapper> {
+public class InstitutionSerializer extends AbstractJsonSerializer<InstitutionWrapper> {
 	
+	private final DefaultInstitutionSerializer defaultSerializer;
 	private final CourseSerializer courseSerializer;
 	private final MentorSerializer mentorSerializer;
 		
 	@Override
 	public void serialize(final InstitutionWrapper wrapper, final JsonGenerator generator) throws IOException {
-
 		final Institution institution = wrapper.getInstitution();
-		
 		writeStartObject();
-		serializeDefaultValues(institution, generator);
+		defaultSerializer.serialize(institution, generator);
 		courseListSerialize(institution, generator);
 		mentorsSerialize(institution.getMentors(), generator);
 		writeEndObject();
@@ -71,7 +70,7 @@ public class InstitutionSerializer extends AbstractInstitutionSerializer<Institu
 	
 	private void mentorSerialize(final Mentor mentor, final JsonGenerator generator) throws IOException {
 		writeStartObject();
-		mentorSerializer.serializeCore(mentor);
+		mentorSerializer.serializeInstitution(mentor);
 		writeEndObject();
 	}
 }

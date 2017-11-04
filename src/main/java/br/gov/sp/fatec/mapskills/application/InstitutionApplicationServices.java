@@ -10,11 +10,15 @@ package br.gov.sp.fatec.mapskills.application;
 import java.io.InputStream;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionDomainServices;
+import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.AllArgsConstructor;
 
 /**
@@ -28,40 +32,55 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class InstitutionApplicationServices {
 	
-	private final InstitutionDomainServices domainService;
+	private final InstitutionDomainServices domainServices;
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
 	public void updateGameThemeInstitution(final String institutionCode, final Long gameThemeId) {
-		domainService.updateGameTheme(institutionCode, gameThemeId);
+		domainServices.updateGameTheme(institutionCode, gameThemeId);
 	}
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) {
-		return domainService.saveInstituionFromExcel(inputStream);
+		return domainServices.saveInstituionFromExcel(inputStream);
 	}
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
 	public Institution saveInstitution(final Institution newInstitution) {
-		return domainService.saveInstitution(newInstitution);
+		return domainServices.saveInstitution(newInstitution);
 	}
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
 	public Institution updateInstitution(final Long id, final Institution institution) {
-		return domainService.updateInstitution(id, institution);
+		return domainServices.updateInstitution(id, institution);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Institution> getAllInstitutions() {
-		return domainService.getAllInstitutions();
+		return domainServices.getAllInstitutions();
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public Institution getInstitutionById(final Long id) {
-		return domainService.getInstitutionById(id);
+		return domainServices.getInstitutionById(id);
 	}
 	
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public List<Course> saveCourse(final Course newCourse) {
+		return domainServices.saveCourse(newCourse);
+	}
+
+	@PreAuthorize("isFullyAuthenticated()")
+	public Page<Student> getStudentsByInstitutionCode(final String institutionCode, final Pageable pageable) {
+		return domainServices.getStudentsByInstitutionCode(institutionCode, pageable);
+	}
+
+	@PreAuthorize("isFullyAuthenticated()")
+	public List<Course> getCoursesByInstitutionCode(final String institutionCode) {
+		return domainServices.getCoursesByInstitutionCode(institutionCode);
+	}	
 }

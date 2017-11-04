@@ -23,7 +23,7 @@ import br.gov.sp.fatec.mapskills.infra.ThreadPool;
  * @version 1.0 01/11/2016
  */
 @Configuration
-@Import({DataBaseConfig.class, MongoConfig.class})
+@Import({DataBaseConfig.class})
 public class SpringContextConfig extends AbstractSpringContextConfiguration {
 	
 	@Bean
@@ -39,6 +39,5 @@ public class SpringContextConfig extends AbstractSpringContextConfiguration {
 	@Bean
 	public ThreadPool threadPool() {
 		return new ThreadPool();
-	}
-	
+	}	
 }

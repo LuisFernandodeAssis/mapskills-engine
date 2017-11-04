@@ -25,6 +25,5 @@ public class UserNotFoundException extends MapSkillsException {
 	
 	public UserNotFoundException(final String username) {
 		super(username + " não possui permissão");
-	}
-	
+	}	
 }

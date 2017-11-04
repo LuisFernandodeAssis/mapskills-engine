@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import br.gov.sp.fatec.mapskills.domain.user.User;
+
 /**
  * 
  * A classe {@link PreAuthenticatedAuthentication}
@@ -46,8 +47,10 @@ public class PreAuthenticatedAuthentication extends PreAuthenticatedAuthenticati
         }
         return false;
     }
+    
     /**
-     * Metodo responsavel por criar a autorizacao que o usuario logado possue.
+     * Metodo responsavel por criar a autorizacao que o usuario logado possua.
+     * 
      * @param user um usuario da aplicacao.
      * @return uma colecao de autorizacoes ao qual possui acesso.
      */
@@ -56,5 +59,4 @@ public class PreAuthenticatedAuthentication extends PreAuthenticatedAuthenticati
 		authorities.add(new DefaultGrantedAuthority(user.getProfile()));
 		return authorities;
 	}
-
 }

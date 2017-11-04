@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,6 +28,8 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
+
+import net.minidev.json.JSONValue;
 
 /**
  * A classe {@link AbstractIntegrationTest}
@@ -137,6 +140,15 @@ public abstract class AbstractIntegrationTest {
 			throw new RuntimeException("Cannot read the dataset file " + dataset + "!", exception);
 		}
 	}
+	
+	protected String getJsonAsString(final String path) throws UnsupportedEncodingException, FileNotFoundException {
+        final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/json/%s", path));
+        if (inputStream == null) {
+            throw new FileNotFoundException("File " + path + " not found. A file named " + path + " must be present "
+                    + "in the src/test/resources folder of the project whose class matches being tested.");
+        }
+        return JSONValue.parse(new InputStreamReader(inputStream, "UTF-8")).toString();
+    }
 
 	private static Properties loadProperties() throws Exception {
 		final InputStream stream = ClassLoader.getSystemResourceAsStream("datasource.properties");
@@ -169,5 +181,4 @@ public abstract class AbstractIntegrationTest {
 	private String getDataFile() {
 		return "/br/gov/sp/fatec/mapskills/database/data.sql";
 	}
-
 }

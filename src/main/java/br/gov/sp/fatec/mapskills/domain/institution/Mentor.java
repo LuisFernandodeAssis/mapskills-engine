@@ -6,15 +6,9 @@
  */
 package br.gov.sp.fatec.mapskills.domain.institution;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import br.gov.sp.fatec.mapskills.domain.user.Login;
@@ -33,14 +27,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.MENTOR")
-@PrimaryKeyJoinColumn(name = "ID_USER")
-@DiscriminatorValue("1")
 public class Mentor extends User {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	private Long id;
 	
 	@Setter
 	@ManyToOne

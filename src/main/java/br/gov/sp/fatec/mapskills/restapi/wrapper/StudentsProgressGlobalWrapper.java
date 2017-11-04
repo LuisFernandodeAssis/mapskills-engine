@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import br.gov.sp.fatec.mapskills.dashboard.GlobalStudentsIndicator;
+import br.gov.sp.fatec.mapskills.report.entity.GlobalStudentsIndicator;
 import br.gov.sp.fatec.mapskills.restapi.serializer.StudentsProgressGlobalSerializer;
 /**
  * 

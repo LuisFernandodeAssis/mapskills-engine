@@ -10,6 +10,8 @@ package br.gov.sp.fatec.mapskills.domain.institution;
 import java.io.InputStream;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -17,7 +19,9 @@ import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.ObjectNotFoundException;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeRepository;
+import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
+import br.gov.sp.fatec.mapskills.domain.user.student.StudentRepository;
 import br.gov.sp.fatec.mapskills.infra.InstitutionExcelDocumentReader;
 import lombok.AllArgsConstructor;
 
@@ -34,6 +38,8 @@ public class InstitutionDomainServices {
 	private final InstitutionRepository institutionRepository;
 	private final GameThemeRepository themeRepository;
 	private final InstitutionExcelDocumentReader institutionExcelFileHandle;
+	private final UserRepository userRepository;
+	private final StudentRepository studentRepository;
 	
 	public void updateGameTheme(final String institutionCode, final Long themeId) {
 		final Institution institution = institutionRepository.findByCode(institutionCode);
@@ -53,9 +59,9 @@ public class InstitutionDomainServices {
 	}
 	
 	public Institution updateInstitution(final Long id, final Institution institution) {
-		final Institution institutionReady = institutionRepository.findOne(id);
-		institutionReady.update(institution);
-		return institutionReady;
+		final Institution institutionFound = institutionRepository.findOne(id);
+		institutionFound.update(institution);
+		return institutionFound;
 	}
 	
 	public List<Institution> getAllInstitutions() {
@@ -65,8 +71,25 @@ public class InstitutionDomainServices {
 	public Institution getInstitutionById(final Long id) {
 		final Institution institution = institutionRepository.findOne(id);
 		if(ObjectUtils.isEmpty(institution)) {
-			throw new ObjectNotFoundException("instituição de ID = " + id + "não encontrado");
+			throw new ObjectNotFoundException("instituição de ID = " + id + " não encontrado");
 		}
 		return institution;
+	}
+	
+	public List<Course> saveCourse(final Course newCourse) {
+		final Mentor mentor = (Mentor) userRepository.getLoggedUser();
+		final Institution institution = getInstitutionById(mentor.getInstitutionId());
+		institution.addCourse(newCourse);
+		institutionRepository.save(institution);
+		return institution.getCourses();
+	}
+
+	public Page<Student> getStudentsByInstitutionCode(final String institutionCode, final Pageable pageable) {
+		return studentRepository.findAllByRaInstitutionCode(institutionCode, pageable);
+	}
+
+	public List<Course> getCoursesByInstitutionCode(final String institutionCode) {
+		final Institution institution = institutionRepository.findByCode(institutionCode);
+		return institution.getCourses();
 	}
 }

@@ -30,5 +30,4 @@ public class StudentWrapper {
 	public Student getStudent() {
 		return student;
 	}
-
 }

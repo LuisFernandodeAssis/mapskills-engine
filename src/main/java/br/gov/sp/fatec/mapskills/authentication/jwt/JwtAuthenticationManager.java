@@ -1,8 +1,8 @@
 /*
  * @(#)JwtAuthenticationManager.java 1.0 28/01/2017
  *
- * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.authentication.jwt;
 
@@ -74,5 +74,4 @@ public class JwtAuthenticationManager implements AuthenticationManager {
     public void setVerifiersList(final List<JwtVerifier> verifiersList) {
         this.verifiersList.addAll(verifiersList);
     }
-
 }

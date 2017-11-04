@@ -54,5 +54,4 @@ public class DefaultUserDetails implements UserDetailsService {
 	public void setUserRepository(final UserRepository userRepository) {
 		this.repository = userRepository;
 	}
-
 }

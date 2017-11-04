@@ -24,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import lombok.Getter;
@@ -125,6 +126,10 @@ public class Institution {
 	
 	public void updateGameTheme(final GameTheme theme) {
 		this.gameTheme = theme;
+	}
+	
+	public Long getGameThemeId() {
+		return ObjectUtils.isEmpty(gameTheme) ? null : gameTheme.getId();
 	}
 	
 	public void update(final Institution updateInstitution) {

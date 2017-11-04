@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.GameThemeApplicationServices;
@@ -43,7 +44,7 @@ public class GameThemeController {
 	 * 
 	 * Expoe endpoint para que seja realizado o cadastro de um novo tema na aplicacao.
 	 */
-	@PostMapping(value = "/game/theme")
+	@PostMapping("/game/theme")
 	public GameThemeWrapper createTheme(@RequestBody final GameThemeWrapper themeWrapper) {
 		final GameTheme themeCreated = applicationServices.createGameTheme(themeWrapper.getGameTheme());
 		return new GameThemeWrapper(themeCreated);
@@ -53,9 +54,10 @@ public class GameThemeController {
 	 * 
 	 * Expoe endpoint para que retorne todos temas cadastrados na aplicacao.
 	 */
-	@GetMapping(value = "/game/themes")
-	public GameThemeListWrapper getAllThemes() {
-		final List<GameTheme> themes = applicationServices.getAllGameThemes();
+	@GetMapping("/game/themes")
+	public GameThemeListWrapper getThemes(
+			@RequestParam(value = "onlyActives", required = false) final Boolean onlyActives) {
+		final List<GameTheme> themes = applicationServices.getAllGameThemes(onlyActives);
 		return new GameThemeListWrapper(themes); 
 	}
 	
@@ -63,56 +65,47 @@ public class GameThemeController {
 	 * 
 	 * Expoe endpoint para que seja criada uma nova cena para um tema do jogo na aplicacao.
 	 */
-	@PostMapping(value = "/game/{id}/scene")
+	@PostMapping("/game/{id}/scene")
 	public void createScene(@PathVariable("id") final Long gameThemeId, @RequestBody final SceneWrapper sceneWrapper) {
-		
 		applicationServices.createScene(gameThemeId, sceneWrapper);
-		
 	}
 	
 	/**
 	 * 
 	 * Expoe endpoint para que retorne todas as cenas de um tema de jogo contido na aplicacao.
 	 */
-	@GetMapping(value = "/game/theme/{themeId}")
+	@GetMapping("/game/theme/{themeId}")
 	public SceneListWrapper getAllScenesByThemeId(@PathVariable("themeId") final Long themeId) {
-
 		return new SceneListWrapper(applicationServices.getAllScenesByThemeId(themeId));
-
 	}
 	
 	/**
 	 * 
-	 * Expoe endpoint para
+	 * Expoe endpoint para excluir uma questao de cena.
 	 */
-	@DeleteMapping(value = "/game/{themeId}/scene/{sceneId}/question")//alterar end point no front
+	@DeleteMapping("/game/{themeId}/scene/{sceneId}/question")//alterar end point no front
 	public void deleteQuestion(@PathVariable("themeId") final Long themeId,
 			@PathVariable("sceneId") final Long sceneId) {
-		
 		applicationServices.deleteQuestion(themeId, sceneId);
-
 	}
 	
 	/**
 	 * 
-	 * Expoe endpoint para
+	 * Expoe endpoint para remocao de um tema.
 	 */
-	@DeleteMapping(value = "/game/{themeId}/scene/{sceneId}")//alterar end point no front
+	@DeleteMapping("/game/{themeId}/scene/{sceneId}")//alterar end point no front
 	public void deleteScene(@PathVariable("themeId") final Long themeId,
 			@PathVariable("sceneId") final Long sceneId) {
-		
 		applicationServices.deleteScene(themeId, sceneId);
-		
 	}
 	
 	/**
 	 * 
 	 * Expoe endpoint para realiza atualizacao das ordens das cenas de um tema.
 	 */
-	@PutMapping(value = "/game/{themeId}/scenes")//alterar end point no front
+	@PutMapping("/game/{themeId}/scenes")//alterar end point no front
 	public void updateIndexScenes(@PathVariable("themeId") final Long themeId,
 			@RequestBody final SceneListWrapper sceneListWrapper) {
 		applicationServices.updateSceneIndexes(themeId, sceneListWrapper.getScenes());
 	}
-
 }

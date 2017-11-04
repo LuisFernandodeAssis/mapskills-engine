@@ -140,14 +140,14 @@ public abstract class AbstractApplicationTest {
 	}
 	
 	protected Institution getOneInstitution() {
-		final Institution institution = new Institution("146", "33177625000182", "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, Collections.emptyList(), null);
+		final Institution institution = new Institution("146", 33177625000182L, "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, Collections.emptyList(), null);
 		institution.addMentor(new Mentor("Fabiola Vaz", "fabiola.vaz@fatec.sp.gov.br", "mudar@123"));
 		institution.addCourse(getOneCourse());
 		return institution;
 	}
 	
 	protected Course getOneCourse() {
-		return new Course("028", "Administração", Period.MATUTINO);
+		return new Course("028", "Administração", Period.MORNING);
 	}
 	
 	protected List<Skill> getSkillsMock() {

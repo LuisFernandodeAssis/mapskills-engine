@@ -83,5 +83,4 @@ public class Course {
 		this.name = updateCourse.getName();
 		this.period = updateCourse.getPeriod();
 	}
-
 }

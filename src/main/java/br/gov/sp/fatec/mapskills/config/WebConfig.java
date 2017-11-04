@@ -96,5 +96,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     	argumentResolvers.add(pageableResolver());
     	super.addArgumentResolvers(argumentResolvers);
     }
-
 }

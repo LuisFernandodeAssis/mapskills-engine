@@ -6,8 +6,6 @@
  */
 package br.gov.sp.fatec.mapskills.domain.theme;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ import lombok.AllArgsConstructor;
 public class GameThemeService {
 	
 	private final GameThemeRepository themeRepo;
-	private final SceneRepository sceneRepo;
 	
 	/**
 	 * Realiza busca de um tema por seu id.
@@ -46,35 +43,13 @@ public class GameThemeService {
 		return themeRepo.save(theme);			
 	}
 	
-	/**
-	 * Realiza persistencia de uma lista de temas
-	 * verificando se ja estão cadastrados.
-	 * 
-	 * @param themes
-	 */
-	public Collection<GameTheme> save(final Collection<GameTheme> themes) {
-		final Collection<GameTheme> themesSaved = new ArrayList<>(themes.size());
-		for(final GameTheme theme : themes) {
-			themesSaved.add(this.save(theme));	
-		}
-		return themesSaved;
-	}
-	
+		
 	/**
 	 * Metodo que retorna todos temas cadastrados na aplicacao.
 	 * 
 	 * @return lista
 	 */
-	public Collection<GameTheme> findAllThemes() {
-		final List<GameTheme> themes = new ArrayList<>();
-		for(final GameTheme theme : themeRepo.findAll()) {
-			themes.add(theme);
-		}
-		return themes;
+	public List<GameTheme> findAllThemes() {
+		return themeRepo.findAll();
 	}
-	
-	public Collection<GameTheme> findAllThemesActivated() {
-		return themeRepo.findAllByActive(true);
-	}
-	
 }

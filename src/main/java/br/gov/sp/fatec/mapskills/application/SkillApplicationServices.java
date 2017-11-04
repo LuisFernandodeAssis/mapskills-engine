@@ -36,7 +36,6 @@ public class SkillApplicationServices {
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Skill> findAll() {
-		return repository.findAll();
+		return repository.findAllByOrderByNameAsc();
 	}
-
 }

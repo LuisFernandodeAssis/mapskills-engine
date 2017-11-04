@@ -25,10 +25,9 @@ public interface GameThemeRepository extends CrudRepository<GameTheme, Long> {
 	
 	List<GameTheme> findAll();
 	
-	@Query("SELECT theme FROM GameTheme theme"
-			+ "INNER JOIN Institution i ON i.gameTheme = theme"
-			+ "INNER JOIN Student s ON substring(s.ra, 1, 3) = i.code"
+	@Query("SELECT theme FROM GameTheme theme "
+			+ "INNER JOIN Institution i ON i.gameTheme.id = theme.id "
+			+ "INNER JOIN Student s ON s.ra.institutionCode = i.code "
 			+ "WHERE s.id = ?1")
 	GameTheme findByStudentId(final Long studentId);
-
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
-import lombok.AllArgsConstructor;
 
 /**
  * A classe {@link FileManagerApplicationServices} e responsavel
@@ -23,13 +22,13 @@ import lombok.AllArgsConstructor;
  * @version 1.0 03/09/2017
  */
 @Component
-@AllArgsConstructor
+//@AllArgsConstructor
 public class FileManagerApplicationServices {
 	
 	@Value("${file.manager.server}")
-	private String fileManagerServer;
+	private String fileManagerServer = "";
 	
-	private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate = null;
 	
 	/**
 	 * Metodo responsavel por realizar um <b>request</b>
@@ -40,5 +39,4 @@ public class FileManagerApplicationServices {
 	public void saveImage(final SceneWrapper sceneWrapper) {
 		restTemplate.postForObject(fileManagerServer, sceneWrapper, SceneWrapper.class);
 	}
-
 }

@@ -26,5 +26,4 @@ public class ReadFileException extends MapSkillsException {
 	public ReadFileException(final String message, final Throwable arg1) {
 		super(message, arg1);
 	}
-
 }

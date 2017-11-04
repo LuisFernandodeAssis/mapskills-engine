@@ -22,5 +22,4 @@ public class JwtTokenException extends AuthenticationException {
     public JwtTokenException(final String message) {
         super(message);
     }
-
 }

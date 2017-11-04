@@ -23,5 +23,4 @@ public class ObjectNotFoundException extends MapSkillsException {
 	public ObjectNotFoundException(final String message) {
 		super(message);
 	}
-
 }

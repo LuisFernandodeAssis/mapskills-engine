@@ -28,6 +28,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.gov.sp.fatec.mapskills.application.InstitutionApplicationServices;
+import br.gov.sp.fatec.mapskills.application.StudentApplicationServices;
 import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedAuthentication;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtAuthenticationManager;
 import br.gov.sp.fatec.mapskills.config.AbstractApplicationTest;
@@ -54,7 +56,10 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 	private JwtAuthenticationManager jwtAuthenticationManager;
 	
 	@Autowired
-	private InstitutionService service;
+	private InstitutionApplicationServices services;
+	
+	@Autowired
+	private StudentApplicationServices studentServices;
 	
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -80,7 +85,7 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/student"), bodyJson)
 			.andExpect(status().isCreated());
 		
-		assertTrue(service.findStudentByRa(student.getFullRa()).getName().equals(student.getName()));
+		assertTrue(studentServices.findStudentByRa(student.getFullRa()).getName().equals(student.getName()));
 	}
 	
 	@Test
@@ -93,28 +98,28 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/upload/students"), json)
 			.andExpect(status().isCreated());
 		
-		assertEquals(2, service.findAllStudentsByInstitution("146").size());
+		assertEquals(2, services.findAllStudentsByInstitution("146").size());
 	}
 	
 	@Test
 	public void saveCourse() throws Exception {
 		mockMentorAuthentication();
 		
-		final Course course = new Course("100", "manutenção de aeronaves", Period.NOTURNO);
+		final Course course = new Course("100", "manutenção de aeronaves", Period.NIGHTLY);
 		final String json = objectMapper.writeValueAsString(new CourseWrapper(course));
 		
 		super.mockMvcPerformWithAuthorizationPost(BASE_PATH.concat("/course"), json)
 			.andExpect(status().isCreated());
 		
-		assertEquals(1, service.findInstitutionByCode("146").getCourses().size());
+		assertEquals(1, services.findInstitutionByCode("146").getCourses().size());
 	}
 	
 	@Test
 	public void findAllStudentsByInstitutionCode() throws Exception {
 		mockMentorAuthentication();
 		
-		service.saveInstitution(getOneInstitution());
-		service.saveStudents(getStudentsMock());
+		services.saveInstitution(getOneInstitution());
+		services.saveStudents(getStudentsMock());
 		
 		final MvcResult result = super.mockMvcPerformWithAuthorizationGet(BASE_PATH.concat("/146/students")).andReturn();
 		
@@ -132,13 +137,13 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 
 		final Institution fatec = getOneInstitution();
 
-		service.saveCourse(new Course("100", "manutenção de aeronaves", Period.NOTURNO));
+		fatec.addCourse(new Course("100", "manutenção de aeronaves", Period.NIGHTLY));
 		
 		getCoursesMock(fatec).forEach(course -> {
 			fatec.addCourse(course);
 		});
 
-		service.saveInstitution(fatec);
+		services.saveInstitution(fatec);
 		
 		final MvcResult result = super.mockMvcPerformWithAuthorizationGet(BASE_PATH.concat("/146/courses")).andReturn();
 		
@@ -155,8 +160,8 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 		
 		final Institution institution = getOneInstitution();
 		
-		service.saveCourse(new Course("028", "manutenção de aeronaves", Period.NOTURNO));
-		service.saveStudents(getStudentsMock());
+		institution.addCourse(new Course("028", "manutenção de aeronaves", Period.NIGHTLY));
+		studentServices.saveStudents(getStudentsMock());
 		//TODO criar objetos para as VIEWS do banco de dados.
 		//final MvcResult result = super.mockMvcPerformWithMockHeaderGet(BASE_PATH.concat("/146/progress")).andReturn();
 	}
@@ -182,21 +187,20 @@ public class InstitutionControllerIntegrationTest extends AbstractApplicationTes
 	
 	private List<Course> getCoursesMock(final Institution institution) {
 		final List<Course> courses = new ArrayList<>(3);
-		courses.add(new Course("100", "manutenção de aeronaves", Period.NOTURNO));
-		courses.add(new Course("200", "logistica", Period.NOTURNO));
-		courses.add(new Course("300", "analise de sistemas", Period.NOTURNO));
+		courses.add(new Course("100", "manutenção de aeronaves", Period.NIGHTLY));
+		courses.add(new Course("200", "logistica", Period.NIGHTLY));
+		courses.add(new Course("300", "analise de sistemas", Period.NIGHTLY));
 		return courses;
 	}
 	
 	private void saveCoursesMock() {
 		final Institution institution = getOneInstitutionWithoutCourses();
-		institution.addCourse(new Course("030", "manutenção de aeronaves", Period.NOTURNO));
-		institution.addCourse(new Course("031", "manutenção de aeronaves", Period.NOTURNO));
-		service.saveInstitution(institution);
+		institution.addCourse(new Course("030", "manutenção de aeronaves", Period.NIGHTLY));
+		institution.addCourse(new Course("031", "manutenção de aeronaves", Period.NIGHTLY));
+		services.saveInstitution(institution);
 	}
 	
 	private Institution getOneInstitutionWithoutCourses() {
 		return new Institution("146", null, null, null, null, Collections.emptyList(), Collections.emptyList(), null);
 	}
-
 }

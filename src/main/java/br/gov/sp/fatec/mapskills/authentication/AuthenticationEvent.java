@@ -44,6 +44,5 @@ public class AuthenticationEvent extends AuthenticationSuccessEvent {
 
     private Principal getUser() {
         return getAuthentication().getPrincipal();
-    }
-  
+    }  
 }

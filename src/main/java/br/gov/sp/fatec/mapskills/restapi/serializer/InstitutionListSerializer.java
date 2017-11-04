@@ -7,10 +7,13 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionListWrapper;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link InstitutionListSerializer} e responsavel
@@ -19,14 +22,20 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionListWrapper;
  * @author Marcelo
  * @version 1.0 08/01/2017
  */
-public class InstitutionListSerializer extends AbstractInstitutionSerializer<InstitutionListWrapper> {
+@Component
+@AllArgsConstructor
+public class InstitutionListSerializer extends AbstractJsonSerializer<InstitutionListWrapper> {
+	
+	private final DefaultInstitutionSerializer defaultSerializer;
 	
 	@Override
 	public void serialize(final InstitutionListWrapper listWrapper, final JsonGenerator generator) throws IOException {
-		generator.writeStartArray();
+		writeStartArray();
 		for(final Institution institution : listWrapper.getInstitutions()) {
-			serializeDefaultValues(institution, generator);
+			writeStartObject();
+			defaultSerializer.serialize(institution, generator);
+			writeEndObject();
 		}
-		generator.writeEndArray();
+		writeEndArray();
 	}
 }

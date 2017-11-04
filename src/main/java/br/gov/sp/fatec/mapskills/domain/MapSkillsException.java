@@ -24,5 +24,4 @@ public abstract class MapSkillsException extends RuntimeException {
 	public MapSkillsException(final String message) {
 		super(message);
 	}
-
 }

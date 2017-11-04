@@ -1,8 +1,8 @@
 /*
  * @(#)AcademicRegistry.java 1.0 10/11/2016
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
@@ -10,8 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
-import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import lombok.Getter;
+
 /**
  * a classe <code>AcademicRegistry</code> eh
  * um Value Object que representa a RA do aluno,
@@ -45,7 +45,7 @@ public class AcademicRegistry {
 	private final String studentCode;
 	
 	@SuppressWarnings("unused")
-	private AcademicRegistry() throws MapSkillsException {
+	private AcademicRegistry() {
 		this("00000000000000");
 	}
 		

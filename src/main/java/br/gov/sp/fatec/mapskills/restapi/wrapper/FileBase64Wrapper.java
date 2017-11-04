@@ -10,8 +10,8 @@ import java.io.InputStream;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import br.gov.sp.fatec.mapskills.infra.Base64Parser;
 import br.gov.sp.fatec.mapskills.restapi.serializer.FileBase64Deserializer;
-import br.gov.sp.fatec.mapskills.utils.Base64Parser;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
 /**
  * 

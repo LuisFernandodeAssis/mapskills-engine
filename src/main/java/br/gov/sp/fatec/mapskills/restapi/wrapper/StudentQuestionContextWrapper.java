@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
 import br.gov.sp.fatec.mapskills.restapi.serializer.StudentQuestionContextDeserializer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 /**
  * 
  * A classe {@link StudentQuestionContextWrapper} contem o contexto
@@ -19,15 +21,10 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.StudentQuestionContextDeseri
  * @version 1.0 04/01/2017
  */
 @JsonDeserialize(using = StudentQuestionContextDeserializer.class)
+@AllArgsConstructor
+@Getter
 public class StudentQuestionContextWrapper {
 	
 	private final StudentQuestionContext context;
-	
-	public StudentQuestionContextWrapper(final StudentQuestionContext context) {
-		this.context = context;
-	}
-	
-	public StudentQuestionContext getContext() {
-		return context;
-	}
+	private final int remainingScenes;
 }

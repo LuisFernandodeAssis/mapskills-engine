@@ -42,7 +42,10 @@ public class GameThemeDomainServices {
 		return newScene;
 	}
 	
-	public List<GameTheme> getAllGameThemes() {
+	public List<GameTheme> getAllGameThemes(final Boolean onlyActives) {
+		if(onlyActives) {
+			return repository.findAllByActive(onlyActives);
+		}
 		return repository.findAll();
 	}
 	
@@ -73,5 +76,4 @@ public class GameThemeDomainServices {
 		final GameTheme theme = repository.findByStudentId(studentId);
 		return theme.getScenesNotAnswered(context);
 	}
-
 }

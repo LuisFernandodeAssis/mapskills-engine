@@ -23,10 +23,10 @@ public interface StudentRepository extends PagingAndSortingRepository<Student, L
 	@Query("SELECT student FROM Student student WHERE student.ra.courseCode = ?1 AND student.ra.institutionCode = ?2")
 	List<Student> findAllByCourseAndInstitution(final String courseCode, final String institutionCode);
 	
-	@Query("SELECT student FROM Student student WHERE student.ra.ra = ?1 OR student.login.username = ?2")
+	@Query("SELECT student FROM Student student WHERE student.ra.fullRa = ?1 OR student.login.username = ?2")
 	Student findByRaOrUsername(final String ra, final String username);
 	
-	Student findByRaRa(final String ra);
+	Student findByRaFullRa(final String ra);
 	
 	/**
 	 * Recupera todos alunos de uma instituicao
@@ -38,5 +38,4 @@ public interface StudentRepository extends PagingAndSortingRepository<Student, L
 	 * 			que possui o codigo.
 	 */
 	Page<Student> findAllByRaInstitutionCode(final String institutionCode, final Pageable pageable);
-
 }

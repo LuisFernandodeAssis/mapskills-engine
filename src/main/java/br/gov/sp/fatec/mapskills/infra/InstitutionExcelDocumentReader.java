@@ -1,4 +1,4 @@
-/* @(#)InstitutionExcelFileHandle.java 1.0 03/11/2016
+/* @(#)InstitutionExcelDocumentReader.java 1.0 03/11/2016
  *
  * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
@@ -32,7 +32,7 @@ public class InstitutionExcelDocumentReader extends ExcelDocumentReader<Institut
 	protected Institution buildEntity(final List<String> attributes) {		
 		final Mentor mentor = buildMentor(attributes);
 		return new Institution(attributes.get(0),
-				Integer.getInteger(attributes.get(1)),
+				Long.getLong(attributes.get(1)),
 				attributes.get(2),
 				InstitutionLevel.withLevel(attributes.get(3)),
 				attributes.get(4),

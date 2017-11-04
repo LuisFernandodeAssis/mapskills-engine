@@ -20,16 +20,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @PropertySource({"classpath:application.properties",
 				 "classpath:authentication.properties"})
+@ComponentScan(basePackages = "br.gov.sp.fatec.mapskills.*")
+@EnableJpaRepositories(basePackages = "br.gov.sp.fatec.mapskills.*")
 @Import({SerializersConfig.class, SecurityConfig.class})
-@ComponentScan(basePackages = {
-		"br.gov.sp.fatec.mapskills.domain",
-		"br.gov.sp.fatec.mapskills.utils",
-		"br.gov.sp.fatec.mapskills.restapi",
-		"br.gov.sp.fatec.mapskills.authentication",
-		"br.gov.sp.fatec.mapskills.infra",
-		"br.gov.sp.fatec.mapskills.infra.report"})
-@EnableJpaRepositories(basePackages = {
-		"br.gov.sp.fatec.mapskills.domain",
-		"br.gov.sp.fatec.mapskills.infra.report"})
 public abstract class AbstractSpringContextConfiguration {
 }

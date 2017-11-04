@@ -1,8 +1,8 @@
 /*
  * @(#)IssuerReferenceClaimsVerifier.java 1.0 27/01/2017
  *
- * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.authentication.jwt;
 
@@ -25,11 +25,10 @@ public class IssuerReferenceClaimsVerifier implements JwtVerifier {
         } catch (final ParseException exception) {
             throw new JwtTokenException("Invalid JWT.");
         }
-        final String issuerReference = "ssh:mapskills.fatec.sp.gov.br";
+        final String issuerReference = "https://mapskills.fatec.sp.gov.br";
         final String issuer = claims.getIssuer();
         if (!issuerReference.equals(issuer)) {
             throw new JwtTokenException("Invalid issuer");
         }
     }
-
 }

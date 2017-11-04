@@ -7,11 +7,13 @@
 package br.gov.sp.fatec.mapskills.authentication;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+
 /**
  * 
  * A classe {@link ResponseHeaderAuthenticationListener} e
@@ -39,7 +42,7 @@ import com.nimbusds.jwt.SignedJWT;
 @Component
 public class ResponseHeaderAuthenticationListener implements AuthenticationListener {
 	
-	private static final Logger LOGGER = Logger.getLogger(ResponseHeaderAuthenticationListener.class.getName());
+	private static Logger logger = Logger.getLogger(ResponseHeaderAuthenticationListener.class.getName());
 	private static final long FIVE_HOURS_IN_MILLISECONDS = 60000L * 300L;
     private final JWSSigner signer;
     
@@ -57,7 +60,7 @@ public class ResponseHeaderAuthenticationListener implements AuthenticationListe
 				.claim("username", event.getUserDomain().getUsername())
 				.claim("profile", event.getUserDomain().getProfile())
 				.issueTime(new Date(now))
-				.issuer("ssh:mapskills.fatec.sp.gov.br")
+				.issuer("https://mapskills.fatec.sp.gov.br")
 				.expirationTime(new Date(now + FIVE_HOURS_IN_MILLISECONDS))
 				.notBeforeTime(new Date(now))
 				.build();
@@ -67,12 +70,15 @@ public class ResponseHeaderAuthenticationListener implements AuthenticationListe
         try {
             signedJWT.sign(signer);
         } catch (final JOSEException e) {
-        	LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        	logger.log(Level.SEVERE, e.getMessage(), e);
             throw new AuthenticationServiceException("The given JWT could not be signed.");
         }
 
         final HttpServletResponse resp = event.getResponse();
-        resp.setHeader("Authorization", String.format("Bearer %s", signedJWT.serialize()));
+        final String bearer = String.format("Bearer %s", signedJWT.serialize());
+        resp.setHeader("Authorization", bearer);
+        final Cookie cookie = new Cookie("Authorization", URLEncoder.encode(bearer, "UTF-8"));
+        cookie.setHttpOnly(true);
+        resp.addCookie(cookie);
 	}
-
 }

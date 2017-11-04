@@ -8,11 +8,13 @@
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import br.gov.sp.fatec.mapskills.infra.StudentExcelDocumentReader;
 import lombok.AllArgsConstructor;
@@ -32,10 +34,29 @@ public class StudentDomainServices {
 	
 	public List<Student> saveStudentsFromExcel(final InputStream inputStream) {
 		final List<Student> students = documentReader.readDocument(inputStream);
-		final Iterable<Student> studentsSaved = repository.save(students);
+		final List<Student> studentsToSave = new LinkedList<>();
+		students.stream().forEach(student -> {
+			final Student studentFound = repository.findByRaOrUsername(student.getFullRa(), student.getUsername());
+			if (ObjectUtils.isEmpty(studentFound)) {
+				studentsToSave.add(student);
+				return;
+			}
+			studentFound.update(student);
+			studentsToSave.add(studentFound);
+		});		
+		final Iterable<Student> studentsSaved = repository.save(studentsToSave);
 		final List<Student> studentsAsList = StreamSupport.stream(studentsSaved.spliterator(), false)
 			      .collect(Collectors.toList());
 		return studentsAsList;
 	}
-
+	
+	public Student saveStudent(final Student student) {
+		return repository.save(student);
+	}
+	
+	public Student updateStudent(final Long id, final Student student) {
+		final Student studentFound = repository.findOne(id);
+		studentFound.update(studentFound);
+		return repository.save(studentFound);
+	}
 }

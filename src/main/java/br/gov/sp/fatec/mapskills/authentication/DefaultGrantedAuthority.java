@@ -36,5 +36,4 @@ public class DefaultGrantedAuthority implements GrantedAuthority {
 	public boolean isAdmin() {
         return role.isAdmin();
     }
-
 }

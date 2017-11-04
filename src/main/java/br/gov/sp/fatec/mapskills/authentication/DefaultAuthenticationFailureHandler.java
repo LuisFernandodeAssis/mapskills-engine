@@ -6,7 +6,6 @@
  */
 package br.gov.sp.fatec.mapskills.authentication;
 
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -25,12 +24,10 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
 	private static final String JSON = "{\"errorCode\": %d, \"message\": \"%s\"}";
 
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-			throws IOException, ServletException {
+	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
+			final AuthenticationException exception) throws IOException, ServletException {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getOutputStream().print(String.format(JSON, HttpStatus.UNAUTHORIZED.value(), exception.getMessage()));
-
 	}
-
 }

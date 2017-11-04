@@ -8,7 +8,6 @@
 package br.gov.sp.fatec.mapskills.application;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +19,10 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameThemeDomainServices;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentDomainServices;
+import br.gov.sp.fatec.mapskills.domain.user.student.StudentFinishedGameEvent;
+import br.gov.sp.fatec.mapskills.domain.user.student.UpdateReportServiceListener;
+import br.gov.sp.fatec.mapskills.report.StudentResultRepository;
+import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
 import lombok.AllArgsConstructor;
 
 /**
@@ -36,6 +39,8 @@ public class StudentApplicationServices {
 	private final StudentDomainServices domainServices;
 	private final StudentQuestionContextRepository answerRepository;
 	private final GameThemeDomainServices gameDomainServices;
+	private final UpdateReportServiceListener updateReportListener;
+	private final StudentResultRepository studentResultRepository;
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
@@ -45,17 +50,29 @@ public class StudentApplicationServices {
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public void registryAnswerContext(final StudentQuestionContext context) {
+	public Student saveStudent(final Student student) {
+		return domainServices.saveStudent(student);
+	}
+	
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public Student updateStudent(final Long id, final Student student) {
+		return domainServices.updateStudent(id, student);
+	}
+	
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public void registryAnswerContext(final StudentQuestionContext context, final int remainingScenes) {
 		answerRepository.save(context);
+		if(remainingScenes == 0) {
+			final StudentResult result = studentResultRepository.findOne(context.getStudentId());
+			updateReportListener.notify(new StudentFinishedGameEvent(result));
+		}
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Scene> getSceneNotAnswered(final Long studentId) {
+	public List<Scene> getScenesNotAnswered(final Long studentId) {
 		final List<StudentQuestionContext> context = answerRepository.findByStudentId(studentId);
-		final List<Scene> scenes = gameDomainServices.getScenesNotAnswered(studentId, context);
-		if (scenes.isEmpty()) {
-			//marca que o aluno terminou
-		}
-		return scenes;
+		return gameDomainServices.getScenesNotAnswered(studentId, context);
 	}
 }

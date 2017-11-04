@@ -23,7 +23,7 @@ import br.gov.sp.fatec.mapskills.domain.user.User;
  * @version 1.0 10/11/2016
  */
 @Component
-public class DefaultUserSerializer<T extends User> extends AbstractJsonSerializer<T> implements UserSerilizerStrategy<T> {
+public class DefaultUserSerializer<T extends User> extends AbstractJsonSerializer<T> {
 	
 	protected void serializeDefaultValues(final T user) throws IOException {
 		writeNumberField(SerializationKey.ID, user.getId());
@@ -35,6 +35,7 @@ public class DefaultUserSerializer<T extends User> extends AbstractJsonSerialize
 
 	@Override
 	public void serialize(final T user, final JsonGenerator generator) throws IOException {
+		setGenerator(generator);
 		writeStartObject();
 		serializeDefaultValues(user);
 		writeEndObject();

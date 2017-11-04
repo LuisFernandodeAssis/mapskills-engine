@@ -1,5 +1,5 @@
 /*
- * @(#)CoursePeriod.java 1.0 12/12/2016
+ * @(#)Period.java 1.0 12/12/2016
  *
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
@@ -29,6 +29,5 @@ public enum Period {
 	/**
 	 * Estudo a distancia
 	 */
-	EAD;
-	
+	EAD;	
 }

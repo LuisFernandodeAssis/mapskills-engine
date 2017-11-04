@@ -9,7 +9,6 @@ package br.gov.sp.fatec.mapskills.domain.skill;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 /**
  * 
  * A classe {@link SkillRepository}
@@ -17,10 +16,8 @@ import org.springframework.stereotype.Repository;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-@Repository
 public interface SkillRepository extends CrudRepository<Skill, Long> {
 	
 	Skill findById(final Long id);
-	List<Skill> findAllOrderByName();
-
+	List<Skill> findAllByOrderByNameAsc();
 }

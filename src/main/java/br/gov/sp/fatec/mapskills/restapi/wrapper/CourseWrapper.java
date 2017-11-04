@@ -31,5 +31,4 @@ public class CourseWrapper {
 	public Course getCourse() {
 		return course;
 	}
-
 }

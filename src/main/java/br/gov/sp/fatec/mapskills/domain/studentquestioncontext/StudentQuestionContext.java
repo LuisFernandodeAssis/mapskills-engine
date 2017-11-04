@@ -1,4 +1,4 @@
-/* @(#)AnswerEvent.java 1.0 04/01/2017
+/* @(#)StudentQuestionContext.java 1.0 04/01/2017
  *
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.

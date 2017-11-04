@@ -23,5 +23,4 @@ public class ThreadPool {
 	public void execute(final Runnable runnable) {
 		executor.execute(runnable);
 	}
-
 }

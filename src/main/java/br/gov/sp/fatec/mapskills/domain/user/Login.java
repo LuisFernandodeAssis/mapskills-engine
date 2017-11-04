@@ -1,16 +1,18 @@
 /*
  * @(#)Login.java 1.0 02/11/2016
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
- * proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
+ * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.domain.user;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 
 import lombok.Getter;
 /**
@@ -20,10 +22,14 @@ import lombok.Getter;
  *
  */
 @Getter
-@Embeddable
-public class Login implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "MAPSKILLS.LOGIN")
+public class Login {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Long id;
 
 	@Column(name = "USERNAME", nullable = false, unique = true)
 	private String username;

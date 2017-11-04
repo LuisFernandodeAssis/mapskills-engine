@@ -1,20 +1,19 @@
 /*
- * @(#)UserService.java 1.0 01/11/2016
+ * @(#)UserApplicationServices.java 1.0 01/11/2016
  *
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 package br.gov.sp.fatec.mapskills.application;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ObjectUtils;
 
-import br.gov.sp.fatec.mapskills.domain.user.Administrator;
+import br.gov.sp.fatec.mapskills.domain.user.Login;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 import br.gov.sp.fatec.mapskills.domain.user.UserNotFoundException;
 import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
@@ -32,14 +31,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserApplicationServices {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserApplicationServices.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private final UserRepository repository;
 	private final PasswordEncoder encoder;
-	
-	public void save(final Administrator admin) {
-		repository.save(admin);
-	}
 
 	public User findUserByUsername(final String username) {
 		final User user = repository.findByUsername(username);
@@ -47,10 +42,6 @@ public class UserApplicationServices {
 			throw new UserNotFoundException(username);
 		}
 		return user;
-	}
-	
-	public User findByUsername(final String username) {
-		return repository.findByUsername(username);
 	}
 	
 	/**
@@ -61,14 +52,15 @@ public class UserApplicationServices {
 	 */
 	public void authenticate(final User user, final String password) {
 		if (ObjectUtils.isEmpty(user) || !encoder.matches(password, user.getPassword())) {
-			LOGGER.warn("username/password invalid");
+			logger.warn("username/password invalid");
 			throw new BadCredentialsException("username/password invalid");
 		}
 	}
 	
+	@PreAuthorize("isFullyAuthenticated()")
 	public void updatePassword(final String username, final String newPassword) {
 		final User user = repository.findByUsername(username);
-		user.setPassword(encoder.encode(newPassword));
+		user.updateLogin(new Login(user.getUsername(), encoder.encode(newPassword)));
 		repository.save(user);
 	}	
 }

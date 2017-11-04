@@ -6,9 +6,9 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -25,15 +25,13 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.CourseListSerializer;
 @JsonSerialize(using = CourseListSerializer.class)
 public class CourseListWrapper {
 	
-	private final Collection<Course> courses = new ArrayList<>();
+	private final List<Course> courses = new LinkedList<>();
 	
-	public CourseListWrapper(final Collection<Course> courses) {
-		this.courses.clear();
+	public CourseListWrapper(final List<Course> courses) {
 		this.courses.addAll(courses);
 	}
 	
-	public Collection<Course> getCourses() {
-		return Collections.unmodifiableCollection(courses);
+	public List<Course> getCourses() {
+		return Collections.unmodifiableList(courses);
 	}
-
 }

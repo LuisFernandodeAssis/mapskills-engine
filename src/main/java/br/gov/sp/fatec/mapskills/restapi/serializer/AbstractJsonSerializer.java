@@ -14,6 +14,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+import lombok.Setter;
+
 /**
  * 
  * A classe {@link AbstractJsonSerializer} define metodos
@@ -24,14 +26,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public abstract class AbstractJsonSerializer<T> extends JsonSerializer<T> {
 	
+	@Setter
 	private JsonGenerator generator;
 	
 	protected abstract void serialize(final T object, final JsonGenerator generator) throws IOException;
 
 	@Override
-	public void serialize(final T wrapper, final JsonGenerator generator, final SerializerProvider arg2)
-			throws IOException {
-		
+	public void serialize(final T wrapper, final JsonGenerator generator,
+			final SerializerProvider arg2) throws IOException {
 		this.generator = generator;
 		this.serialize(wrapper, generator);
 	}
@@ -42,6 +44,10 @@ public abstract class AbstractJsonSerializer<T> extends JsonSerializer<T> {
 			return;
 		}
 		generator.writeNumberField(key.toString(), value);
+	}
+	
+	protected void writeNumber(final Integer value) throws IOException {
+		generator.writeNumber(value);
 	}
 	
 	protected void writeStringField(final Enum<?> key, final String value) throws IOException {
@@ -79,5 +85,4 @@ public abstract class AbstractJsonSerializer<T> extends JsonSerializer<T> {
 	protected void writeArrayFieldStart(final Enum<?> key) throws IOException {
 		generator.writeArrayFieldStart(key.toString());
 	}
-
 }

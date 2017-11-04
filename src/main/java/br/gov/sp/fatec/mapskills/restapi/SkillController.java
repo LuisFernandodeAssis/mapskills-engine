@@ -10,7 +10,6 @@ package br.gov.sp.fatec.mapskills.restapi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
@@ -26,23 +25,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping(SkillController.BASE_PATH)
 public class SkillController {
 	
-	public static final String BASE_PATH = "/admin";
-	
-	private final SkillApplicationServices skillApplicationServices;
+	private final SkillApplicationServices applicationServices;
 	
 	/**
 	 * End-point reponsavel por criar uma nova competencia na aplicacao.
 	 * 
 	 * @param skillWrapper Competencia a ser cadastrada.
 	 */
-	@PostMapping(value = "/skill")
+	@PostMapping("/skill")
 	public void createSkill(@RequestBody final SkillWrapper skillWrapper) {
-
-		skillApplicationServices.save(skillWrapper.getSkill());
-
+		applicationServices.save(skillWrapper.getSkill());
 	}
 	
 	/**
@@ -51,8 +45,8 @@ public class SkillController {
 	 * 
 	 * @return Todas as competencias.
 	 */
-	@GetMapping(value = "/skills")
+	@GetMapping("/skills")
 	public SkillListWrapper getAllSkills() {
-		return new SkillListWrapper(skillApplicationServices.findAll()); 
+		return new SkillListWrapper(applicationServices.findAll()); 
 	}
 }

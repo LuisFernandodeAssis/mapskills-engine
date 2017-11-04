@@ -12,7 +12,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.dashboard.GlobalStudentsIndicator;
+import br.gov.sp.fatec.mapskills.report.entity.GlobalStudentsIndicator;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressGlobalWrapper;
 /**
  * 

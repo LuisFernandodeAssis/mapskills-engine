@@ -27,7 +27,7 @@ import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
  */
 public class UserSerializer extends AbstractJsonSerializer<UserWrapper> {
 	
-	private final Map<ProfileType, UserSerilizerStrategy<User>> mapSerializer = new EnumMap<>(ProfileType.class);
+	private final Map<ProfileType, AbstractJsonSerializer<User>> mapSerializer = new EnumMap<>(ProfileType.class);
 	
 	/**
 	 * No construtor da classe e recuperado o mapa de serializadores que se encontra
@@ -42,10 +42,7 @@ public class UserSerializer extends AbstractJsonSerializer<UserWrapper> {
 
 	@Override
 	public void serialize(final UserWrapper userWrapper, final JsonGenerator generator)	throws IOException {
-		
-		final UserSerilizerStrategy<User> serializer = mapSerializer.get(userWrapper.getProfile());
+		final AbstractJsonSerializer<User> serializer = mapSerializer.get(userWrapper.getProfile());
 		serializer.serialize(userWrapper.getUser(), generator);
-		
 	}
-
 }

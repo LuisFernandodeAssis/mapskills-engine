@@ -49,6 +49,7 @@ public enum SerializationKey {
 	CNPJ("cnpj"),
 	CITY("city"),
 	MENTORS("mentors"),
+	GAME_THEME_ID("gameThemeId"),
 	
 	/*ANSWER EVENT*/
 	SCENE_ID("sceneId"),
@@ -56,6 +57,7 @@ public enum SerializationKey {
 	STUDENT_ID("studentId"),
 	SKILL_ID("skillId"),
 	SKILL_VALUE("skillValue"),
+	REMAINING_SCENES("remainingScenes"),
 	
 	/*ALTERNATIVE*/
 	ALTERNATIVES("alternatives"),
@@ -73,10 +75,8 @@ public enum SerializationKey {
 	BASE_64("base64"),
 	FILENAME("filename"),
 	
-	/*FILTER*/
-	START_DATE("startDate"),
-	END_DATE("endDate");
-	
+	/*REPORT*/
+	VALUES("values");
 	
 	private final String key;
 	

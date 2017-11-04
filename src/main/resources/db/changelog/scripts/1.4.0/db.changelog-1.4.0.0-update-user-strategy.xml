@@ -1,0 +1,16 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="marcelo-inacio" id="sql-file-update-user-strategy">
+	    <sqlFile encoding="utf8" path="update-user-strategy/db.changelog-1.4.0.01-update-administrator.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="update-user-strategy/db.changelog-1.4.0.02-update-mentor.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="update-user-strategy/db.changelog-1.4.0.03-update-student.sql" relativeToChangelogFile="true"/>
+	    <sqlFile encoding="utf8" path="update-user-strategy/db.changelog-1.4.0.04-update-user.sql" relativeToChangelogFile="true"/>
+	</changeSet>
+
+</databaseChangeLog>

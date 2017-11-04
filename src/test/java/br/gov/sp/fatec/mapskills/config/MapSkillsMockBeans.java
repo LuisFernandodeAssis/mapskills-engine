@@ -27,7 +27,6 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
 import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
-import br.gov.sp.fatec.mapskills.domain.theme.SceneService;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
@@ -55,9 +54,6 @@ public class MapSkillsMockBeans {
 	private GameThemeService themeService;
 	
 	@Autowired
-	private SceneService sceneService;
-	
-	@Autowired
 	private SkillApplicationServices skillApplicationServices;
 	
 	@Bean
@@ -70,7 +66,7 @@ public class MapSkillsMockBeans {
 	@Bean
 	public String saveInstitution() {
 		final List<Institution> institutions = new ArrayList<>(1);
-		final Institution fatecA = new Institution("146", "60565187000100", "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
+		final Institution fatecA = new Institution("146", 60565187000100L, "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
 		fatecA.addMentor(new Mentor("Marquinhos", "marquinhos@cps.sp.gov.br", "mudar@123"));
 		institutions.add(fatecA);
 		institutionService.saveInstitutions(institutions);
@@ -94,14 +90,18 @@ public class MapSkillsMockBeans {
 	
 	@Bean
 	public String saveScenes() {
-		final Skill skill = new Skill(1L, null, null);
+		final Skill skill = new Skill(null, null);
 		final List<Alternative> alternatives = new ArrayList<>(4);
 		alternatives.addAll(builderMockAlternatives());
-		final Question question = new Question(null, alternatives, skill);
+		final Question question = new Question(alternatives, skill);
 
-		sceneService.save(new Scene(null, "introdução", "url://site/img001.png", null));
-		sceneService.save(new Scene(null, "questão", "url://site/img002.png", question));
-		sceneService.save(new Scene(null, "conclusão", "url://site/img003.png", null));
+		final GameTheme game = themeService.findById(1L);
+		
+		game.addScene(new Scene(null, "introdução", "url://site/img001.png", null));
+		game.addScene(new Scene(null, "questão", "url://site/img002.png", question));
+		game.addScene(new Scene(null, "conclusão", "url://site/img003.png", null));
+		
+		themeService.save(game);
 		
 		return SUCCESS;
 	}

@@ -6,9 +6,9 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -25,13 +25,13 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.InstitutionListSerializer;
 @JsonSerialize(using = InstitutionListSerializer.class)
 public class InstitutionListWrapper {
 	
-	private final Collection<Institution> institutions = new ArrayList<>();
+	private final List<Institution> institutions = new LinkedList<>();
 	
-	public InstitutionListWrapper(final Collection<Institution> institutions) {
+	public InstitutionListWrapper(final List<Institution> institutions) {
 		this.institutions.addAll(institutions);
 	}
 	
-	public Collection<Institution> getInstitutions() {
-		return Collections.unmodifiableCollection(institutions);
+	public List<Institution> getInstitutions() {
+		return Collections.unmodifiableList(institutions);
 	}
 }

@@ -14,7 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.dashboard.InstitutionStudentsIndicator;
+import br.gov.sp.fatec.mapskills.report.entity.InstitutionStudentsIndicator;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentsProgressLevelWrapper;
 /**
  * 

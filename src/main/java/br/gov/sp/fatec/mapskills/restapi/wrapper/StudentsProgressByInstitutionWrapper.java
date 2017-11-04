@@ -6,12 +6,13 @@
  */
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import br.gov.sp.fatec.mapskills.report.entity.CourseStudentsIndicator;
 import br.gov.sp.fatec.mapskills.restapi.serializer.StudentsProgressByInstitutionSerializer;
 /**
  * 
@@ -27,15 +28,13 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.StudentsProgressByInstitutio
 @JsonSerialize(using = StudentsProgressByInstitutionSerializer.class)
 public class StudentsProgressByInstitutionWrapper {
 	
-	private final List<Object[]> resultSet = new ArrayList<>();
+	private final List<CourseStudentsIndicator> indicators = new LinkedList<>();
 	
-	public StudentsProgressByInstitutionWrapper(final List<Object[]> resultSet) {
-		this.resultSet.clear();
-		this.resultSet.addAll(resultSet);
+	public StudentsProgressByInstitutionWrapper(final List<CourseStudentsIndicator> indicators) {
+		this.indicators.addAll(indicators);
 	}
 	
-	public List<Object[]> getResultSet() {
-		return Collections.unmodifiableList(resultSet);
+	public List<CourseStudentsIndicator> getIndicators() {
+		return Collections.unmodifiableList(indicators);
 	}
-
 }

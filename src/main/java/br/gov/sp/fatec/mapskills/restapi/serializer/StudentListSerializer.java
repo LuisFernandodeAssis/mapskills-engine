@@ -37,7 +37,7 @@ public class StudentListSerializer extends AbstractJsonSerializer<StudentPageWra
 		writeStartArray();
 		for(final Student student : studentListWrapper.getStudents()) {
 			writeStartObject();
-			studentSerializer.serializeCore(student);
+			studentSerializer.serializeCore(student, generator);
 			courseSerialize(student.getCourse(), generator);
 			writeEndObject();
 		}

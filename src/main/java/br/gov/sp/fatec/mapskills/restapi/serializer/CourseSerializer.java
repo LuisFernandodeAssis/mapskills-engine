@@ -27,6 +27,7 @@ public class CourseSerializer extends AbstractJsonSerializer<Course> {
 	
 	@Override
 	public void serialize(final Course course, final JsonGenerator generator) throws IOException {
+		setGenerator(generator);
 		writeNumberField(SerializationKey.ID, course.getId());
 		writeStringField(SerializationKey.CODE, course.getCode());
 		writeStringField(SerializationKey.NAME, course.getName());

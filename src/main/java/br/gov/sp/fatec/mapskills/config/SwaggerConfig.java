@@ -1,5 +1,5 @@
 /*
- * @(#)WebConfig.java 1.0 06/05/2017
+ * @(#)SwaggerConfig.java 1.0 06/05/2017
  *
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
@@ -36,5 +36,4 @@ public class SwaggerConfig {
           .paths(PathSelectors.any())                          
           .build();                                           
     }
-
 }

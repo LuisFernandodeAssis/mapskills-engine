@@ -30,14 +30,13 @@ public class CourseListSerializer extends AbstractJsonSerializer<CourseListWrapp
 	private final CourseSerializer courseSerializer;
 	
 	@Override
-	public void serialize(final CourseListWrapper courseList, final JsonGenerator generator) throws IOException {
+	public void serialize(final CourseListWrapper wrapper, final JsonGenerator generator) throws IOException {
 		generator.writeStartArray();
-		for(final Course course : courseList.getCourses()) {
+		for(final Course course : wrapper.getCourses()) {
 			generator.writeStartObject();
 			this.courseSerializer.serialize(course, generator);
 			generator.writeEndObject();
 		}
 		generator.writeEndArray();
-	}
-	
+	}	
 }

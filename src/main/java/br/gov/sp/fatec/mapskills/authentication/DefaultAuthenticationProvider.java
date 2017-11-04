@@ -29,22 +29,20 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(final Authentication authentication) {
 		
-		final User user = userService.findByUsername(authentication.getName());
+		final User user = userService.findUserByUsername(authentication.getName());
 		
 		userService.authenticate(user, authentication.getCredentials().toString());
 	
-		return new PreAuthenticatedAuthentication(user);
-		
+		return new PreAuthenticatedAuthentication(user);		
 	}
 
 	@Override
-	public boolean supports(Class<?> arg0) {
+	public boolean supports(final Class<?> arg0) {
 		return true;
 	}
 	
 	@Autowired
 	public void setUserService(final UserApplicationServices userService) {
 		this.userService = userService;
-	}
-	
+	}	
 }

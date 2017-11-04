@@ -101,5 +101,4 @@ public class DatabaseTestConfig {
         transactionManager.setDataSource(dataSource);
         return transactionManager;
     }
-
 }

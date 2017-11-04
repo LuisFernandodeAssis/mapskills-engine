@@ -26,6 +26,6 @@ public interface AuthenticationListener {
      *             Caso ocorra algum problema ao lidar com os objetos de
      *             requisição do usuário.
      */
-    public void onAuthenticationSuccess(final AuthenticationEvent event) throws IOException, ServletException;
+    void onAuthenticationSuccess(final AuthenticationEvent event) throws IOException, ServletException;
 
 }

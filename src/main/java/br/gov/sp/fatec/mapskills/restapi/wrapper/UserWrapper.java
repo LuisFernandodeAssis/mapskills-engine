@@ -35,5 +35,4 @@ public class UserWrapper {
 	public User getUser() {
 		return user;
 	}
-
 }

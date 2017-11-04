@@ -43,8 +43,8 @@ public class GameThemeApplicationServices {
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<GameTheme> getAllGameThemes() {
-		return domainServices.getAllGameThemes();
+	public List<GameTheme> getAllGameThemes(final Boolean onlyActives) {
+		return domainServices.getAllGameThemes(onlyActives);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")

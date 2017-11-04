@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
+import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
-import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link MentorSerializer} e responsavel
@@ -25,32 +23,24 @@ import lombok.AllArgsConstructor;
  * @version 1.0 31/12/2016
  */
 @Component
-@AllArgsConstructor
 public class MentorSerializer extends DefaultUserSerializer<Mentor> {
-
-	private final InstitutionService service;
 	
 	@Override
 	public void serialize(final Mentor mentor, final JsonGenerator generator) throws IOException {
-		generator.writeStartObject();
-		serializeCore(mentor);
-		generator.writeEndObject();
-	}
-	
-	public void serializeCore(final Mentor mentor) throws IOException {
+		setGenerator(generator);
+		writeStartObject();
 		serializeDefaultValues(mentor);
-		writeStringField(SerializationKey.INSTITUTION_CODE, mentor.getInstitutionCode());
-		writeNumberField(SerializationKey.INSTITUTION_ID, mentor.getInstitutionId());
-		writeStringField(SerializationKey.INSTITUTION_LEVEL, getLevel(mentor.getInstitutionCode()));
+		serializeInstitution(mentor);
+		writeEndObject();
 	}
 	
-	/**
-	 * 
-	 * @param institutionCode
-	 * @return O nível da instituição que o mentor pertence.
-	 */
-	private InstitutionLevel getLevel(final String institutionCode) {
-		return service.findInstitutionByCode(institutionCode).getLevel();
+	public void serializeInstitution(final Mentor mentor) throws IOException {
+		final Institution institution = mentor.getInstitution();
+		writeObjectFieldStart(SerializationKey.INSTITUTION);
+		writeNumberField(SerializationKey.ID, institution.getId());
+		writeStringField(SerializationKey.CODE, institution.getCode());
+		writeStringField(SerializationKey.LEVEL, institution.getLevel());
+		writeNumberField(SerializationKey.GAME_THEME_ID, institution.getGameThemeId());
+		writeEndObject();
 	}
-
 }

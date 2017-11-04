@@ -6,18 +6,17 @@
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.domain.skill.Skill;
+import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
+import br.gov.sp.fatec.mapskills.report.entity.StudentResultIndicator;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 /**
  * 
- * A classe {@link StudentResultSerializer} e responsavel
- * por serializar o resultado de um aluno para que seja
- * exibida no grafico de radar. Devolve o objeto preparado
- * para que o componente de grafico do JS receba.
+ * A classe {@link StudentResultSerializer} responsavel
+ * por serializar as informacoes para o servico de integracao.
  *
  * @author Marcelo
  * @version 1.0 04/01/2017
@@ -25,47 +24,31 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 public class StudentResultSerializer extends AbstractJsonSerializer<StudentResultWrapper> {
 
 	@Override
-	public void serialize(final StudentResultWrapper result, final JsonGenerator generator)	throws IOException {
-		generator.writeStartObject();
-		this.generateLabels(result, generator);
-		this.geneateValues(result, generator);
-		this.generateSkills(result, generator);
-		generator.writeEndObject();
+	public void serialize(final StudentResultWrapper wrapper,
+			final JsonGenerator gen) throws IOException {
+		final StudentResult studentResult = wrapper.getStudentResult();
+		writeStartObject();
+		writeNumberField(SerializationKey.ID, studentResult.getStudentId());
+		writeStringField(SerializationKey.RA, studentResult.getStudentRA());
+		writeStringField(SerializationKey.NAME, studentResult.getStudentName());
+		gen.writeStringField("courseCode", studentResult.getCourseCode());
+		gen.writeStringField("courseName", studentResult.getCourseName());
+		writeStringField(SerializationKey.INSTITUTION_CODE, studentResult.getInstitutionCode());
+		gen.writeStringField("institutionCompany", studentResult.getInstitutionCompany());
+		writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel().name());
+		gen.writeStringField("yearSemester", studentResult.getYearSemester());
+		serializeIndicators(studentResult.getStudentIndicators(), gen);
+		writeEndObject();
 	}
-	
-	/**
-	 * Responsavel por serializar os label's do grafico de radar.
-	 */
-	private void generateLabels(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
-		generator.writeArrayFieldStart("labels");
-		for(final String skill : result.getSkills()) {
-			generator.writeString(skill);
+
+	private void serializeIndicators(final List<StudentResultIndicator> studentsIndicator,
+			final JsonGenerator gen) throws IOException {
+		gen.writeArrayFieldStart("studentIndicators");
+		for(final StudentResultIndicator indicator : studentsIndicator) {
+			gen.writeStringField("skillName", indicator.getSkillName());
+			gen.writeStringField("skillDescription", indicator.getSkillDescription());
+			gen.writeNumberField("total", indicator.getTotal());
 		}
-		generator.writeEndArray();
-	}
-	
-	/**
-	 * Responsavel por serializar os valores do grafico de radar.
-	 */
-	private void geneateValues(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
-		generator.writeArrayFieldStart("datasets");
-		for(final BigDecimal value : result.getValues()) {
-			generator.writeNumber(value);
-		}
-		generator.writeEndArray();
-	}
-	
-	/**
-	 * Responsavel por serializar as competencias avaliadas pelo aluno.
-	 */
-	private void generateSkills(final StudentResultWrapper result, final JsonGenerator generator) throws IOException {
-		generator.writeArrayFieldStart("skills");
-		for(final Skill skill : result.getSkillsDeatils()) {
-			generator.writeStartObject();
-			generator.writeStringField("name", skill.getName());
-			generator.writeStringField("description", skill.getDescription());
-			generator.writeEndObject();
-		}
-		generator.writeEndArray();
+		gen.writeEndArray();		
 	}
 }
