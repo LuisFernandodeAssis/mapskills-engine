@@ -75,7 +75,7 @@ public class StudentController {
 	 */
 	@PostMapping("/student/game/answer")
 	public void saveAnswer(@RequestBody final StudentQuestionContextWrapper contextWrapper) {
-		applicationServices.registryAnswerContext(contextWrapper.getContext(), contextWrapper.getRemainingScenes());
+		applicationServices.registryAnswerContext(contextWrapper.getContext(), contextWrapper.getRemainingQuestions());
 	}
 	
 	/**

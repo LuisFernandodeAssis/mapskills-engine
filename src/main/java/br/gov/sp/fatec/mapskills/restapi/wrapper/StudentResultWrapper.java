@@ -8,8 +8,8 @@ package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
 import br.gov.sp.fatec.mapskills.restapi.serializer.StudentResultSerializer;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

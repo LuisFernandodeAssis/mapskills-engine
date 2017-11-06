@@ -31,12 +31,10 @@ public class DataBaseHsqldbConfig {
 	@Bean
 	public DataSource dataSource() {
 		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
 		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
 		dataSource.setUrl("jdbc:hsqldb:mem:mapskills");
 		dataSource.setUsername("sa");
 		dataSource.setPassword("sa");
-
 		return dataSource;
 	}
 
@@ -45,12 +43,16 @@ public class DataBaseHsqldbConfig {
 		final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		entityManagerFactoryBean
-				.setPackagesToScan("br.gov.sp.fatec.mapskills");
-
+		entityManagerFactoryBean.setPackagesToScan("br.gov.sp.fatec.mapskills");
 		entityManagerFactoryBean.setJpaProperties(hibProperties());
-
 		return entityManagerFactoryBean;
+	}
+
+	@Bean
+	public JpaTransactionManager transactionManager() {
+		final JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+		return transactionManager;
 	}
 	
 	private Properties hibProperties() {
@@ -61,13 +63,4 @@ public class DataBaseHsqldbConfig {
 		properties.put("hibernate.hbm2ddl.auto", "update");
 		return properties;
 	}
-
-	@Bean
-	public JpaTransactionManager transactionManager() {
-		final JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		return transactionManager;
-	}
-
-
 }

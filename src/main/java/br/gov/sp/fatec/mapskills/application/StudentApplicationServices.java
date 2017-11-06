@@ -21,8 +21,8 @@ import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentDomainServices;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentFinishedGameEvent;
 import br.gov.sp.fatec.mapskills.domain.user.student.UpdateReportServiceListener;
-import br.gov.sp.fatec.mapskills.report.StudentResultRepository;
-import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResultRepository;
 import lombok.AllArgsConstructor;
 
 /**
@@ -62,9 +62,9 @@ public class StudentApplicationServices {
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public void registryAnswerContext(final StudentQuestionContext context, final int remainingScenes) {
+	public void registryAnswerContext(final StudentQuestionContext context, final int remainingQuestions) {
 		answerRepository.save(context);
-		if(remainingScenes == 0) {
+		if(remainingQuestions == 0) {
 			final StudentResult result = studentResultRepository.findOne(context.getStudentId());
 			updateReportListener.notify(new StudentFinishedGameEvent(result));
 		}

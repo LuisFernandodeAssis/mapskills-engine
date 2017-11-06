@@ -20,11 +20,11 @@ import lombok.Getter;
  * @author Marcelo
  * @version 1.0 04/01/2017
  */
-@JsonDeserialize(using = StudentQuestionContextDeserializer.class)
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
+@JsonDeserialize(using = StudentQuestionContextDeserializer.class)
 public class StudentQuestionContextWrapper {
 	
 	private final StudentQuestionContext context;
-	private final int remainingScenes;
+	private final int remainingQuestions;
 }

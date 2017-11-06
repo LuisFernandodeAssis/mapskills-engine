@@ -1,5 +1,5 @@
 /*
- * @(#)GameThemeServices.java 1.0 1 02/09/2017
+ * @(#)GameThemeApplicationServices.java 1.0 1 02/09/2017
  *
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.

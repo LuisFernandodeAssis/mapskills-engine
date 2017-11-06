@@ -8,14 +8,11 @@ package br.gov.sp.fatec.mapskills.config;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
@@ -40,9 +37,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 @ComponentScan("br.gov.sp.fatec.mapskills.restapi")
 @Import({SwaggerConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
-	
-	@Resource
-    private Environment env;
 
 	@Override
     public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {

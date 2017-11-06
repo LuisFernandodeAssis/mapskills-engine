@@ -5,7 +5,7 @@
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 
-package br.gov.sp.fatec.mapskills.report.entity;
+package br.gov.sp.fatec.mapskills.studentresult;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import lombok.Getter;
 
 /**
  * A classe {@link StudentResultIndicator} representa
- * o resultado de uma competencia avaliada por uma aluno.
+ * o resultado de uma competencia avaliada por um aluno.
  *
  * @author Marcelo
  * @version 1.0 08/10/2017
@@ -27,7 +27,7 @@ import lombok.Getter;
 @Entity
 @Immutable
 @Table(name = "MAPSKILLS.STUDENT_RADAR_RESULT_VIEW")
-public class StudentResultIndicator implements StudentIndicator {
+public class StudentResultIndicator {
 	
 	@Id
 	@Column(name = "ID_STUDENT")

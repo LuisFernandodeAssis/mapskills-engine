@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
-import br.gov.sp.fatec.mapskills.report.entity.StudentResultIndicator;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResultIndicator;
 /**
  * 
  * A classe {@link StudentResultSerializer} responsavel
@@ -35,8 +35,9 @@ public class StudentResultSerializer extends AbstractJsonSerializer<StudentResul
 		gen.writeStringField("courseName", studentResult.getCourseName());
 		writeStringField(SerializationKey.INSTITUTION_CODE, studentResult.getInstitutionCode());
 		gen.writeStringField("institutionCompany", studentResult.getInstitutionCompany());
-		writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel().name());
-		gen.writeStringField("yearSemester", studentResult.getYearSemester());
+		writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel());
+		gen.writeNumberField("startYear", studentResult.getStartYear());
+		gen.writeNumberField("startSemester", studentResult.getStartSemester());
 		serializeIndicators(studentResult.getStudentIndicators(), gen);
 		writeEndObject();
 	}

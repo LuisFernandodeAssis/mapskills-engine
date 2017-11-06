@@ -11,7 +11,7 @@ import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.STUDENT_FIN
 
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventType;
-import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 
 /**
  * A classe {@link StudentFinishedGameEvent} sinaliza

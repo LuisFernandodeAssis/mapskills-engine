@@ -49,17 +49,17 @@ public class Institution {
 	@Column(name = "CODE", nullable = false, unique = true, length = 5)
 	private String code;
 	
-	@Column(name = "CNPJ", nullable = true, unique = true)
+	@Column(name = "CNPJ", nullable = false, unique = true)
 	private Long cnpj;
 	
-	@Column(name = "COMPANY", nullable = true)
+	@Column(name = "COMPANY", nullable = false)
 	private String company;
 
-	@Column(name = "CITY", nullable = true)
+	@Column(name = "CITY", nullable = false)
 	private String city;
 	
 	@Enumerated
-	@Column(name = "LEVEL", nullable = true)
+	@Column(name = "LEVEL", nullable = false)
 	private InstitutionLevel level;
 		
 	@ManyToOne

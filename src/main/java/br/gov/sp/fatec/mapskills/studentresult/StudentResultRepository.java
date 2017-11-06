@@ -4,11 +4,9 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
-package br.gov.sp.fatec.mapskills.report;
+package br.gov.sp.fatec.mapskills.studentresult;
 
 import org.springframework.data.repository.CrudRepository;
-
-import br.gov.sp.fatec.mapskills.report.entity.StudentResult;
 /**
  * 
  * A classe {@link StudentResultRepository} trata das consultas a base de dados

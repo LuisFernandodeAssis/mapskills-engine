@@ -4,7 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
-package br.gov.sp.fatec.mapskills.report.entity;
+package br.gov.sp.fatec.mapskills.studentresult;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,9 +12,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -28,8 +27,9 @@ import lombok.Getter;
 
 /**
  * 
- * A classe {@link StudentResult} representa a view
- * da base de dados com as informações para os relatorios simples.
+ * A classe {@link StudentResult} representa a sumarizacao
+ * dos resultados apurados das competencias avaliadas pelo
+ * aluno.
  *
  * @author Marcelo
  * @version 1.0 18/03/2017
@@ -41,34 +41,36 @@ import lombok.Getter;
 public class StudentResult {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="STUDENT_ID")
+	@Column(name = "STUDENT_ID")
 	private final Long studentId;
 	
-	@Column(name="STUDENT_RA")
+	@Column(name = "STUDENT_RA")
 	private final String studentRA;
 	
-	@Column(name="STUDENT_NAME")
+	@Column(name = "STUDENT_NAME")
 	private final String studentName;
 	
-	@Column(name="COURSE_CODE")
+	@Column(name = "COURSE_CODE")
 	private final String courseCode;
 	
-	@Column(name="COURSE_NAME")
+	@Column(name = "COURSE_NAME")
 	private final String courseName;
 	
-	@Column(name="INSTITUTION_CODE")
+	@Column(name = "INSTITUTION_CODE")
 	private final String institutionCode;
 	
-	@Column(name="INSTITUTION_COMPANY")
+	@Column(name = "INSTITUTION_COMPANY")
 	private final String institutionCompany;
 	
-	@Enumerated
-	@Column(name="INSTITUTION_LEVEL")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "INSTITUTION_LEVEL")
 	private final InstitutionLevel institutionLevel;
 	
-	@Column(name="YEAR_SEMESTER")
-	private final String yearSemester;
+	@Column(name = "START_YEAR")
+	private final Integer startYear;
+	
+	@Column(name = "START_SEMESTER")
+	private final Short startSemester;
 	
 	@OneToMany
 	@JoinColumn(name = "ID_STUDENT")
@@ -83,7 +85,8 @@ public class StudentResult {
 		this.institutionCode = null;
 		this.institutionCompany = null;
 		this.institutionLevel = null;
-		this.yearSemester = null;
+		this.startYear = null;
+		this.startSemester = null;
 		this.courseCode = null;
 	}
 	
