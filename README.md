@@ -33,7 +33,7 @@ Versionador de Banco de Dados : [Liquibase](http://www.liquibase.org "Liquibase"
 ----
 
 Documentação da API : [Swagger](https://swagger.io/ "Swagger")
-- URL : host:port/mapskills/swagger-ui.htm
+- URL : host:port/swagger-ui.html
 
 ----
 
