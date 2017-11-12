@@ -1,77 +1,61 @@
 /*
- * @(#)DataBaseConfig.java 1.0 01/11/2016
+ * @(#)MySqlConfig.java 1.0 1 04/11/2017
  *
- * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
- * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
+ * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
+
 /**
- * 
- * A classe {@link DataBaseConfig} representa as
- * configuracoes de banco de dados.
+ * A classe {@link DataBaseConfig} contem as configuracoes
+ * do banco de dados <b>MySql</b>.
  *
  * @author Marcelo
- * @version 1.0 01/11/2016
+ * @version 1.0 04/11/2017
  */
 @Configuration
-public class DataBaseConfig {
+@EnableTransactionManagement
+@EntityScan(basePackages = {"br.gov.sp.fatec.mapskills.*"})
+@EnableJpaRepositories(basePackages = "br.gov.sp.fatec.mapskills.*")
+public class DataBaseConfig extends JpaBaseConfiguration {
 
-	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
-	private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
-	private static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
-	private static final String PROPERTY_NAME_DATABASE_PASS = "db.password";
-
-	private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
-	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
-
-	@Resource
-	private Environment env;
-
-	@Bean
-	public DataSource dataSource() {
-		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
-		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASS));
-		return dataSource;
+	protected DataBaseConfig(final DataSource dataSource, final JpaProperties properties,
+			final ObjectProvider<JtaTransactionManager> jtaTransactionManager,
+			final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
+		super(dataSource, properties, jtaTransactionManager, transactionManagerCustomizers);
 	}
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		entityManagerFactoryBean.setPackagesToScan(env.getRequiredProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
-		entityManagerFactoryBean.setJpaProperties(hibProperties());
-		return entityManagerFactoryBean;
+	@Override
+	protected AbstractJpaVendorAdapter createJpaVendorAdapter() {
+		return new EclipseLinkJpaVendorAdapter();
 	}
 
-	private Properties hibProperties() {
-		final Properties properties = new Properties();
-		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
-		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
-		return properties;
-	}
-
-	@Bean
-	public JpaTransactionManager transactionManager() {
-		final JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		return transactionManager;
+	@Override
+	protected Map<String, Object> getVendorProperties() {
+		final Map<String, Object> vendorProperties = new HashMap<>();
+		vendorProperties.put("eclipselink.cache.shared.default", "false");
+        vendorProperties.put("eclipselink.cache-usage", "CheckCacheThenDatabase");
+		vendorProperties.put("eclipselink.jdbc.cache-statements", "false");
+		vendorProperties.put("eclipselink.weaving", "static");
+		vendorProperties.put("eclipselink.query-results-cache", "true");
+		return vendorProperties;
 	}
 }

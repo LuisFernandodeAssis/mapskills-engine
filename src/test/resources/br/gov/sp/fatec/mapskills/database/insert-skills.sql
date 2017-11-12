@@ -1,0 +1,1 @@
+INSERT INTO MAPSKILLS.SKILL (NAME, DESCRIPTION) VALUES ('Liderança', 'Descrição da habilidade liderança');

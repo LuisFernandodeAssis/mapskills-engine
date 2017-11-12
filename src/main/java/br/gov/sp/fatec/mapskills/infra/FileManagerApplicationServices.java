@@ -22,13 +22,17 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
  * @version 1.0 03/09/2017
  */
 @Component
-//@AllArgsConstructor
 public class FileManagerApplicationServices {
 	
-	@Value("${file.manager.server}")
-	private String fileManagerServer = "";
+	private final String fileManagerServer;
 	
-	private final RestTemplate restTemplate = null;
+	public FileManagerApplicationServices(@Value("${ws.filemanager.url}") final String urlServer,
+			final RestTemplate restTemplate) {
+		this.fileManagerServer = urlServer;
+		this.restTemplate = restTemplate;
+	}
+	
+	private final RestTemplate restTemplate;
 	
 	/**
 	 * Metodo responsavel por realizar um <b>request</b>

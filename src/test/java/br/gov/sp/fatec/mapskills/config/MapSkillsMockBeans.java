@@ -8,7 +8,6 @@ package br.gov.sp.fatec.mapskills.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
-import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
-import br.gov.sp.fatec.mapskills.domain.institution.Institution;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
-import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 import br.gov.sp.fatec.mapskills.domain.theme.Alternative;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
@@ -29,7 +23,6 @@ import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
-import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 /**
  * 
  * A classe {@link MapSkillsMockBeans} contem metodos
@@ -39,16 +32,13 @@ import br.gov.sp.fatec.mapskills.domain.user.student.Student;
  * @author Marcelo
  * @version 1.0 08/01/2017
  */
-@Configuration
+//@Configuration
 public class MapSkillsMockBeans {
 	
 	private static final String SUCCESS = "SUCCESS"; 
 	
 	@Autowired
 	private UserRepository userRepo;
-	
-	@Autowired
-	private InstitutionService institutionService;
 	
 	@Autowired
 	private GameThemeService themeService;
@@ -62,24 +52,7 @@ public class MapSkillsMockBeans {
 		userRepo.save(admin);
 		return SUCCESS;
 	}
-	
-	@Bean
-	public String saveInstitution() {
-		final List<Institution> institutions = new ArrayList<>(1);
-		final Institution fatecA = new Institution("146", 60565187000100L, "Jessen Vidal", InstitutionLevel.SUPERIOR, "São José", null, Collections.emptyList(), null);
-		fatecA.addMentor(new Mentor("Marquinhos", "marquinhos@cps.sp.gov.br", "mudar@123"));
-		institutions.add(fatecA);
-		institutionService.saveInstitutions(institutions);
-		
-		return SUCCESS;
-	}
-	
-	@Bean
-	public String saveStudent() throws MapSkillsException {
-		final Student student = new Student("1460281423050", "Student MockE", "1289003400", "student@fatec.sp.gov.br", "mudar@123");
-		institutionService.saveStudent(student);
-		return SUCCESS;
-	}
+
 	
 	@Bean
 	public String saveGameTheme() {

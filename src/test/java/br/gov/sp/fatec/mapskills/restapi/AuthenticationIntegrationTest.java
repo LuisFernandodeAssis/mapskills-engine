@@ -28,7 +28,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import br.gov.sp.fatec.mapskills.config.AbstractApplicationTest;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionService;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 /**
  * 
@@ -40,9 +39,6 @@ import br.gov.sp.fatec.mapskills.domain.user.User;
  */
 public class AuthenticationIntegrationTest extends AbstractApplicationTest {
 		
-	@Autowired
-	private InstitutionService institutionService;
-		
 	@Before
 	public void setUp() {
 		super.setUpContext();
@@ -50,7 +46,7 @@ public class AuthenticationIntegrationTest extends AbstractApplicationTest {
 	
 	@Test
 	public void login() throws Exception {
-		institutionService.saveStudent(getOneStudent());
+		///institutionService.saveStudent(getOneStudent());
 		
 		mockMvc.perform(post("/login")
 			.param("username", "aluno@fatec.sp.gov.br")
@@ -61,7 +57,7 @@ public class AuthenticationIntegrationTest extends AbstractApplicationTest {
 	
 	@Test
 	public void jwtReturn() throws Exception {
-		institutionService.saveStudent(getOneStudent());
+		//institutionService.saveStudent(getOneStudent());
 		
 		super.mockMvcPerformLogin("aluno@fatec.sp.gov.br", "mudar@123")
 			.andReturn()
@@ -78,7 +74,7 @@ public class AuthenticationIntegrationTest extends AbstractApplicationTest {
 	@Test
 	public void jwtVerify() throws Exception {
 		
-		institutionService.saveStudent(getOneStudent());		
+		//institutionService.saveStudent(getOneStudent());		
 		
 		final String token = super.mockMvcPerformLogin("aluno@fatec.sp.gov.br", "mudar@123")
 									.andReturn()

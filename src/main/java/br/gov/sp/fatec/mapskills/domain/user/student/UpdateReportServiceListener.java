@@ -26,18 +26,18 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 @EventListener
 public class UpdateReportServiceListener implements DomainEventListener {
 	
-	private final String fileManagerUrl;
+	private final String reportServerUrl;
 	private final RestTemplate rest;
 	
-	public UpdateReportServiceListener(@Value("${file.manager.server}") final String server,
+	public UpdateReportServiceListener(@Value("${ws.report.server.url}") final String urlServer,
 			final RestTemplate rest) {
-		this.fileManagerUrl = server;
+		this.reportServerUrl = urlServer;
 		this.rest = rest;
 	}
 
 	@Override
 	public void notify(final DomainEvent sourceEvent) {
 		final StudentFinishedGameEvent event = (StudentFinishedGameEvent) sourceEvent;
-		rest.postForEntity(fileManagerUrl, new StudentResultWrapper(event.getSource()), String.class);
+		rest.postForEntity(reportServerUrl, new StudentResultWrapper(event.getSource()), String.class);
 	}
 }

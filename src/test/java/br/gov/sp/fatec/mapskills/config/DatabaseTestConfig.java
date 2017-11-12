@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -34,6 +36,8 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author Roberto Perillo
  * @version 1.0 23/09/2015
  */
+@Profile("test")
+@Configuration
 @PropertySource("classpath:/br/gov/sp/fatec/mapskills/config/datasource.properties")
 public class DatabaseTestConfig {
 	
@@ -95,10 +99,12 @@ public class DatabaseTestConfig {
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(final EntityManagerFactory factory, final DataSource dataSource) {
+    public JpaTransactionManager transactionManager(final EntityManagerFactory factory, final DataSource dataSource,
+    		final JpaDialect dialect) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(factory);
         transactionManager.setDataSource(dataSource);
+        transactionManager.setJpaDialect(dialect);
         return transactionManager;
     }
 }

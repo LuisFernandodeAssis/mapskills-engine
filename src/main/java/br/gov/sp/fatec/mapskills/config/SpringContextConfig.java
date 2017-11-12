@@ -8,7 +8,8 @@ package br.gov.sp.fatec.mapskills.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +24,13 @@ import br.gov.sp.fatec.mapskills.infra.ThreadPool;
  * @version 1.0 01/11/2016
  */
 @Configuration
-@Import({DataBaseConfig.class})
-public class SpringContextConfig extends AbstractSpringContextConfiguration {
+@PropertySource({"classpath:application.properties", "classpath:authentication.properties"})
+public class SpringContextConfig {
+	
+	@Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 	
 	@Bean
 	public ObjectMapper objectMapper() {

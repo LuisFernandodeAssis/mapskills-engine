@@ -31,10 +31,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
 import com.nimbusds.jose.JOSEException;
 
@@ -42,7 +42,6 @@ import br.gov.sp.fatec.mapskills.authentication.AuthenticationListener;
 import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedUserFilter;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtSignatureVerifier;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtVerifier;
-import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 
 /**
  * 
@@ -75,36 +74,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.csrf().disable();
-		http.addFilterBefore(corsFilter(), ChannelProcessingFilter.class).csrf().disable();
+		http.addFilterBefore(corsFilter(), AbstractPreAuthenticatedProcessingFilter.class);
 		http.addFilter(preAuthenticationFilter());
 		http.addFilter(loginFilter());
-		http.authorizeRequests().antMatchers(HttpMethod.POST).fullyAuthenticated();
-		http.authorizeRequests().antMatchers(HttpMethod.PUT).fullyAuthenticated();
-		http.authorizeRequests().antMatchers(HttpMethod.DELETE).fullyAuthenticated();
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").permitAll();
-		// For ADMIN or MENTOR
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/game/themes").hasAnyRole(ProfileType.ADMINISTRATOR.name(), ProfileType.MENTOR.name());
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/report/**").hasAnyRole(ProfileType.ADMINISTRATOR.name(), ProfileType.MENTOR.name());
-		// For ADMIN only.
-		http.authorizeRequests().antMatchers("/skill").hasRole(ProfileType.ADMINISTRATOR.name());
-		http.authorizeRequests().antMatchers("/skills").hasRole(ProfileType.ADMINISTRATOR.name());
-        http.authorizeRequests().antMatchers("/game/**").hasRole(ProfileType.ADMINISTRATOR.name());
-        http.authorizeRequests().antMatchers("/institution/upload").hasRole(ProfileType.ADMINISTRATOR.name());
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/institution").hasRole(ProfileType.ADMINISTRATOR.name());
-        //For MENTOR only.
-        http.authorizeRequests().antMatchers("/institution/**").hasRole(ProfileType.MENTOR.name());
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/students").hasRole(ProfileType.MENTOR.name());
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/student").hasRole(ProfileType.MENTOR.name());
-        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/student").hasAnyRole(ProfileType.MENTOR.name(), ProfileType.STUDENT.name());
-        //For STUDENT only.
-        http.authorizeRequests().antMatchers("/student/**").hasRole(ProfileType.STUDENT.name());
-        
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.authorizeRequests()
+			.antMatchers(HttpMethod.POST, "/login").permitAll()
+			.antMatchers(HttpMethod.GET, "/images/**").permitAll();
 	}
+	
 	/**
-	 * permite acesso as imagens do jogo com spring security,
+	 * Permite acesso as imagens do jogo com spring security,
 	 * liberando essa rota para que não seje filtrada pelo spring security
 	 */
 	@Override
@@ -114,18 +96,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		"/swagger-resources", "/configuration/security",
         		"/swagger-ui.html", "/webjars/**");
     }
+	
 	/**
-	 * configuracao do Cross-Origin Resource Sharing (CORS) da aplicacao.
-	 * @return
+	 * Configuracao do Cross-Origin Resource Sharing (CORS) da aplicacao.
 	 */
 	@Bean
     public CorsFilter corsFilter() {
         return new CorsFilter();
     }
+	
 	/**
-	 * filtro de pre-autenticacao que verifica a preseca
+	 * Filtro de pre-autenticacao que verifica a preseca
 	 * do token no cabecalho.
-	 * @return
 	 */
 	@Bean
 	public Filter preAuthenticationFilter() {
@@ -133,10 +115,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setAuthenticationManager(jwtAuthenticationManager);
 		return filter;
 	}
+	
 	/**
-	 * filtro que realiza o login do usuario na aplicacao
-	 * passando pela rota padrao de login do spring security
-	 * @return
+	 * Filtro que realiza o login do usuario na aplicacao
+	 * passando pela rota padrao de login do spring security.
 	 */
 	@Bean
 	public Filter loginFilter() {
@@ -151,9 +133,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager providerManager(@Qualifier("defaultAuthenticationProvider") final AuthenticationProvider provider) {
 		return new ProviderManager(Arrays.asList(provider));
 	}
+	
 	/**
-	 * define um encriptador de senha para aplicacao
-	 * @return
+	 * Define um encriptador de senha para aplicacao.
 	 */
 	@Bean
     public PasswordEncoder encoder() {

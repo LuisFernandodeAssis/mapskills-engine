@@ -142,7 +142,7 @@ public abstract class AbstractIntegrationTest {
 	}
 	
 	protected String getJsonAsString(final String path) throws UnsupportedEncodingException, FileNotFoundException {
-        final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/json/%s", path));
+        final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/expectations/%s", path));
         if (inputStream == null) {
             throw new FileNotFoundException("File " + path + " not found. A file named " + path + " must be present "
                     + "in the src/test/resources folder of the project whose class matches being tested.");

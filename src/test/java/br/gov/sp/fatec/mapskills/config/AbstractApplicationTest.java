@@ -44,7 +44,6 @@ import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapperTest;
 
 /**
  * 
@@ -54,9 +53,9 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapperTest;
  * @author Marcelo
  * @version 1.0 13/01/2017
  */
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringContextTestConfiguration.class, WebTestConfig.class})
+//@WebAppConfiguration
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = {SpringContextTestConfiguration.class, WebConfig.class})
 public abstract class AbstractApplicationTest {
 	
 	protected static final String AUTHORIZATION = "Authorization";
@@ -135,10 +134,6 @@ public abstract class AbstractApplicationTest {
 		return  new Student("1460281423050", "Student MockE", "1289003400", "aluno@fatec.sp.gov.br", encoder.encode("mudar@123"));
 	}
 	
-	protected InstitutionWrapperTest getInstitutionClient() {
-		return new InstitutionWrapperTest(getOneInstitution());
-	}
-	
 	protected Institution getOneInstitution() {
 		final Institution institution = new Institution("146", 33177625000182L, "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, Collections.emptyList(), null);
 		institution.addMentor(new Mentor("Fabiola Vaz", "fabiola.vaz@fatec.sp.gov.br", "mudar@123"));
@@ -166,5 +161,4 @@ public abstract class AbstractApplicationTest {
 		final String json = obj.replace(" ", "\"").substring(1, obj.length()-1);
 		return json;
 	}
-
 }

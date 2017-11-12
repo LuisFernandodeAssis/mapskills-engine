@@ -9,10 +9,7 @@ package br.gov.sp.fatec.mapskills.config;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
@@ -34,8 +31,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("br.gov.sp.fatec.mapskills.restapi")
-@Import({SwaggerConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
@@ -59,11 +54,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final ContentNegotiatingViewResolver contentViewResolver = new ContentNegotiatingViewResolver();
         contentViewResolver.setContentNegotiationManager(contentNegotiationManager.getObject());
         return contentViewResolver;
-    }	
-	
-	@Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
     }
 	
     /**
