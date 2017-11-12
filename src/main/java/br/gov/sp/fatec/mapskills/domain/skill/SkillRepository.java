@@ -17,7 +17,5 @@ import org.springframework.data.repository.CrudRepository;
  * @version 1.0 01/11/2016
  */
 public interface SkillRepository extends CrudRepository<Skill, Long> {
-	
-	Skill findById(final Long id);
 	List<Skill> findAllByOrderByNameAsc();
 }

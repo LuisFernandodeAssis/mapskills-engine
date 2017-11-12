@@ -7,6 +7,11 @@
 
 package br.gov.sp.fatec.mapskills.config;
 
+import static org.dbunit.Assertion.assertEqualsByQuery;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -27,6 +32,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.MultiValueMap;
 import org.xml.sax.InputSource;
 
 import net.minidev.json.JSONValue;
@@ -142,12 +152,33 @@ public abstract class AbstractIntegrationTest {
 	}
 	
 	protected String getJsonAsString(final String path) throws UnsupportedEncodingException, FileNotFoundException {
-        final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/expectations/%s", path));
+        final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/%s", path));
         if (inputStream == null) {
             throw new FileNotFoundException("File " + path + " not found. A file named " + path + " must be present "
                     + "in the src/test/resources folder of the project whose class matches being tested.");
         }
         return JSONValue.parse(new InputStreamReader(inputStream, "UTF-8")).toString();
+    }
+	
+	protected void verifyDatasetForTable(final String fileName, final String tableName, final String sqlStatement, final String[] ignoredColumns)
+			throws Exception {
+		assertEqualsByQuery(getDataSet("/br/gov/sp/fatec/mapskills/database/datasets/" + fileName), getConnection(), sqlStatement, tableName, ignoredColumns);
+	}
+	
+	protected ResultActions performGet(final MockMvc mvc, final String url) throws Exception {
+		return mvc.perform(get(url));
+	}
+
+	protected ResultActions performPost(final MockMvc mvc, final String url, final String json) throws Exception {
+		return mvc.perform(post(url).content(json).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+	
+	protected ResultActions performPut(final MockMvc mvc, final String url, final MultiValueMap<String, String> params, final String json) throws Exception {
+		return mvc.perform(put(url).params(params).content(json).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+	
+	protected String getJsonResult(final MvcResult mvcResult) throws Exception {
+        return mvcResult.getResponse().getContentAsString();
     }
 
 	private static Properties loadProperties() throws Exception {

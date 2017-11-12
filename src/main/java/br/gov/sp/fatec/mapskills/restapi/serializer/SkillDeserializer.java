@@ -24,7 +24,7 @@ public class SkillDeserializer extends AbstractJsonDeserializer<SkillWrapper> {
 
 	@Override
 	protected SkillWrapper deserialize(final JsonNode node) {
-		return new SkillWrapper(new Skill(getFieldTextValue(node, SerializationKey.TYPE),
+		return new SkillWrapper(new Skill(getFieldTextValue(node, SerializationKey.NAME),
 				getFieldTextValue(node, SerializationKey.DESCRIPTION)));
 	}
 }

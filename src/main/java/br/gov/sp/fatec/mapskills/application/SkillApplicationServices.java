@@ -30,12 +30,20 @@ public class SkillApplicationServices {
 
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public Skill save(final Skill skill) {
-		return repository.save(skill);
+	public void save(final Skill skill) {
+		repository.save(skill);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Skill> findAll() {
 		return repository.findAllByOrderByNameAsc();
+	}
+
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public void updateSkill(final Long id, final Skill updateSkill) {
+		final Skill skill = repository.findOne(id);
+		skill.update(updateSkill);
+		repository.save(skill);
 	}
 }

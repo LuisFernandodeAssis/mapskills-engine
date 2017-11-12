@@ -30,5 +30,4 @@ public class SkillWrapper {
 	public Skill getSkill() {
 		return skill;
 	}
-
 }

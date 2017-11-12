@@ -9,7 +9,9 @@ package br.gov.sp.fatec.mapskills.restapi;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
@@ -48,5 +50,17 @@ public class SkillController {
 	@GetMapping("/skills")
 	public SkillListWrapper getAllSkills() {
 		return new SkillListWrapper(applicationServices.findAll()); 
+	}
+	
+	/**
+	 * End-point reponsavel por atualizar as informcoes de uma competencia.
+	 * 
+	 * @param id Identificador da competencia.
+	 * @param skillWrapper Habilidade a ser atualizada.
+	 */
+	@PutMapping("/skill")
+	public void updateSkill(@RequestParam("id") final Long id,
+			@RequestBody final SkillWrapper skillWrapper) {
+		applicationServices.updateSkill(id, skillWrapper.getSkill());
 	}
 }
