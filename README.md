@@ -37,5 +37,9 @@ Documentação da API : [Swagger](https://swagger.io/ "Swagger")
 
 ----
 
+Configuração Eclipse : [Eclipse](http://www.eclipse.org/ "Eclipse")
+> Run > Run Configurations... > Java Applications > "Selecione sua Main" > Aba Arguments > Campo "VM arguments" coloque o parâmetro : 
+-Dspring.datasource.url=jdbc:mysql://127.0.0.1:3306/mapskills
+
 Executar Projeto
 - `mvn spring-boot:run`
