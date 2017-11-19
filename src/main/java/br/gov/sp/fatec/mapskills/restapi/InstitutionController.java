@@ -21,12 +21,12 @@ import br.gov.sp.fatec.mapskills.application.InstitutionApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileBase64Wrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentPageWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.PageWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
@@ -51,9 +51,9 @@ public class InstitutionController {
 	 * @return lista de instituicoes cadastradas.
 	 */
 	@PostMapping("/institution/upload")
-	public InstitutionListWrapper importInstitutions(@RequestBody final FileBase64Wrapper inputStreamWrapper) {		
+	public ListWrapper<Institution> importInstitutions(@RequestBody final FileBase64Wrapper inputStreamWrapper) {		
 		final List<Institution> institutionsSaved = applicationServices.saveInstituionFromExcel(inputStreamWrapper.getInputStream());		
-		return new InstitutionListWrapper(institutionsSaved);
+		return new ListWrapper<Institution>(institutionsSaved);
 	}
 	
 	/**
@@ -63,9 +63,9 @@ public class InstitutionController {
 	 * @return a instituicao cadastrada.
 	 */
 	@PostMapping("/institution")
-	public InstitutionWrapper saveInstitution(@RequestBody final InstitutionWrapper institutionWrapper) {
+	public SingleWrapper<Institution> saveInstitution(@RequestBody final InstitutionWrapper institutionWrapper) {
 		final Institution institution = applicationServices.saveInstitution(institutionWrapper.getInstitution());
-		return new InstitutionWrapper(institution);
+		return new SingleWrapper<Institution>(institution);
 	}
 	
 	/**
@@ -76,10 +76,10 @@ public class InstitutionController {
 	 * @return a instituicao atualizada.
 	 */
 	@PutMapping("/institution/{id}")
-	public InstitutionWrapper updateInstitution(@PathVariable("id") final Long institutionId,
+	public SingleWrapper<Institution> updateInstitution(@PathVariable("id") final Long institutionId,
 			@RequestBody final InstitutionWrapper institutionWrapper) {
 		final Institution institutionUpdated = applicationServices.updateInstitution(institutionId, institutionWrapper.getInstitution());
-		return new InstitutionWrapper(institutionUpdated);
+		return new SingleWrapper<Institution>(institutionUpdated);
 	}
 	
 	/**
@@ -88,8 +88,8 @@ public class InstitutionController {
 	 * @return Lista de todas intuticoes.
 	 */
 	@GetMapping("/institutions")
-	public InstitutionListWrapper getAllInstitution() {
-		return new InstitutionListWrapper(applicationServices.getAllInstitutions());
+	public ListWrapper<Institution> getAllInstitution() {
+		return new ListWrapper<Institution>(applicationServices.getAllInstitutions());
 	}
 	
 	/**
@@ -99,18 +99,18 @@ public class InstitutionController {
 	 * @return instituticao encontrada.
 	 */
 	@GetMapping("/institution/{id}")
-	public InstitutionWrapper getInstitution(@PathVariable("id") final Long institutionId) {
+	public SingleWrapper<Institution> getInstitution(@PathVariable("id") final Long institutionId) {
 		final Institution institution = applicationServices.getInstitutionById(institutionId);
-		return new InstitutionWrapper(institution);
+		return new SingleWrapper<Institution>(institution);
 	}	
 	
 	/**
 	 * Endpoint que realiza o cadastro de um curso para uma instituticao.
 	 */
 	@PostMapping("/institution/course")
-	public CourseListWrapper saveCourse(@RequestBody final CourseWrapper courseWrapper) {
+	public ListWrapper<Course> saveCourse(@RequestBody final CourseWrapper courseWrapper) {
 		final List<Course> courses = applicationServices.saveCourse(courseWrapper.getCourse());
-		return new CourseListWrapper(courses);
+		return new ListWrapper<Course>(courses);
 	}
 	
 	/**
@@ -118,20 +118,20 @@ public class InstitutionController {
 	 * Realizado pelo perfil <b>MENTOR</b>.
 	 */
 	@GetMapping("/institution/{code}/students")
-	public StudentPageWrapper getAllStudentsByInstitution(@PathVariable("code") final String institutionCode,
+	public PageWrapper<Student> getAllStudentsByInstitution(@PathVariable("code") final String institutionCode,
 			final Pageable pageable) {
 		final Page<Student> students = applicationServices.getStudentsByInstitutionCode(institutionCode, pageable);
-		return new StudentPageWrapper(students);
+		return new PageWrapper<Student>(students);
 	}
 	
 	/**
 	 * End-point que retorna todos os cursos de uma instituicao.
 	 */
 	@GetMapping("/institution/{code}/courses")
-	public CourseListWrapper getCoursesByInstitutionCode(
+	public ListWrapper<Course> getCoursesByInstitutionCode(
 			@PathVariable("code") final String institutionCode) {		
 		final List<Course> courses = applicationServices.getCoursesByInstitutionCode(institutionCode);
-		return new CourseListWrapper(courses);
+		return new ListWrapper<Course>(courses);
 	}	
 	
 	/**

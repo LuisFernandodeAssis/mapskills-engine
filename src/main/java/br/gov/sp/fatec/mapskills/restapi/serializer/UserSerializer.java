@@ -10,12 +10,11 @@ import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonGenerator;
+import org.springframework.stereotype.Component;
 
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
-import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link UserSerializer} e responsavel por serializar um perfil de usuario.
@@ -25,24 +24,20 @@ import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
  * @author Marcelo
  * @version 1.0 10/11/2016
  */
-public class UserSerializer extends AbstractJsonSerializer<UserWrapper> {
-	
-	private final Map<ProfileType, AbstractJsonSerializer<User>> mapSerializer = new EnumMap<>(ProfileType.class);
+@Component
+@AllArgsConstructor
+public class UserSerializer extends AbstractSerializer<User> {
 	
 	/**
-	 * No construtor da classe e recuperado o mapa de serializadores que se encontra
-	 * no cluster de objetos do spring, instanciado no pacote de configuracoes
-	 * na classe <code>SerializersConfig</code>.
+	 * Mapa de definicao de serializadores para os perfis.
+	 * @see <code>SerializersConfig</code>.
 	 */
-	@SuppressWarnings("unchecked")
-	public UserSerializer() {
-		super();
-		mapSerializer.putAll(ApplicationContextHolder.getBean("mapSerializerStrategy", Map.class));
-	}
+	private final Map<ProfileType, AbstractSerializer<User>> userSerializerMap = new EnumMap<>(ProfileType.class);
+	
 
 	@Override
-	public void serialize(final UserWrapper userWrapper, final JsonGenerator generator)	throws IOException {
-		final AbstractJsonSerializer<User> serializer = mapSerializer.get(userWrapper.getProfile());
-		serializer.serialize(userWrapper.getUser(), generator);
+	public void serialize(final User user, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		final AbstractSerializer<User> serializer = userSerializerMap.get(user.getProfile());
+		serializer.serialize(user, writer);		
 	}
 }

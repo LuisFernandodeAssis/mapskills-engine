@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.GameThemeApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
@@ -45,9 +47,9 @@ public class GameThemeController {
 	 * Expoe endpoint para que seja realizado o cadastro de um novo tema na aplicacao.
 	 */
 	@PostMapping("/game/theme")
-	public GameThemeWrapper createTheme(@RequestBody final GameThemeWrapper themeWrapper) {
+	public SingleWrapper<GameTheme> createTheme(@RequestBody final GameThemeWrapper themeWrapper) {
 		final GameTheme themeCreated = applicationServices.createGameTheme(themeWrapper.getGameTheme());
-		return new GameThemeWrapper(themeCreated);
+		return new SingleWrapper<GameTheme>(themeCreated);
 	}
 	
 	/***
@@ -55,10 +57,10 @@ public class GameThemeController {
 	 * Expoe endpoint para que retorne todos temas cadastrados na aplicacao.
 	 */
 	@GetMapping("/game/themes")
-	public GameThemeListWrapper getThemes(
+	public ListWrapper<GameTheme> getThemes(
 			@RequestParam(value = "onlyActives", required = false) final Boolean onlyActives) {
 		final List<GameTheme> themes = applicationServices.getAllGameThemes(onlyActives);
-		return new GameThemeListWrapper(themes); 
+		return new ListWrapper<GameTheme>(themes); 
 	}
 	
 	/**
@@ -75,8 +77,8 @@ public class GameThemeController {
 	 * Expoe endpoint para que retorne todas as cenas de um tema de jogo contido na aplicacao.
 	 */
 	@GetMapping("/game/theme/{themeId}")
-	public SceneListWrapper getAllScenesByThemeId(@PathVariable("themeId") final Long themeId) {
-		return new SceneListWrapper(applicationServices.getAllScenesByThemeId(themeId));
+	public ListWrapper<Scene> getAllScenesByThemeId(@PathVariable("themeId") final Long themeId) {
+		return new ListWrapper<Scene>(applicationServices.getAllScenesByThemeId(themeId));
 	}
 	
 	/**

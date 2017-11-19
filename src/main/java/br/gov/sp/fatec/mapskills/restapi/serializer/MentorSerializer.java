@@ -10,10 +10,8 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
-import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
+import lombok.AllArgsConstructor;
 /**
  * 
  * A classe {@link MentorSerializer} e responsavel
@@ -23,24 +21,16 @@ import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
  * @version 1.0 31/12/2016
  */
 @Component
+@AllArgsConstructor
 public class MentorSerializer extends DefaultUserSerializer<Mentor> {
 	
-	@Override
-	public void serialize(final Mentor mentor, final JsonGenerator generator) throws IOException {
-		setGenerator(generator);
-		writeStartObject();
-		serializeDefaultValues(mentor);
-		serializeInstitution(mentor);
-		writeEndObject();
-	}
+	private final InstitutionSerializer institutionSerializer;
 	
-	public void serializeInstitution(final Mentor mentor) throws IOException {
-		final Institution institution = mentor.getInstitution();
-		writeObjectFieldStart(SerializationKey.INSTITUTION);
-		writeNumberField(SerializationKey.ID, institution.getId());
-		writeStringField(SerializationKey.CODE, institution.getCode());
-		writeStringField(SerializationKey.LEVEL, institution.getLevel());
-		writeNumberField(SerializationKey.GAME_THEME_ID, institution.getGameThemeId());
-		writeEndObject();
+	@Override
+	public void serialize(final Mentor mentor, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		super.serialize(mentor, null, writer);
+		writer.writeObjectFieldStart(SerializationKey.INSTITUTION);
+		institutionSerializer.serialize(mentor.getInstitution(), writer);
+		writer.writeEndObject();
 	}
 }

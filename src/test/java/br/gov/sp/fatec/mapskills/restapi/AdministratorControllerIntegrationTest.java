@@ -7,7 +7,6 @@
 package br.gov.sp.fatec.mapskills.restapi;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,9 +41,9 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeService;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
 /**
  * 
  * A classe {@link AdministratorControllerIntegrationTest} contem os testes de integracao
@@ -187,7 +186,7 @@ public class AdministratorControllerIntegrationTest extends AbstractApplicationT
 		themes.addAll(themeService.findAllThemes());
 		
 		themes.get(0).enable();
-		final String bodyInput = objectMapper.writeValueAsString(new GameThemeListWrapper(themes));
+		final String bodyInput = objectMapper.writeValueAsString(new ListWrapper<GameTheme>(themes));
 		
 		super.mockMvcPerformWithAuthorizationPut(BASE_PATH.concat("/game/themes"), bodyInput)
 			.andExpect(status().isOk());

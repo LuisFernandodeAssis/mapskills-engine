@@ -13,7 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventListener;
 import br.gov.sp.fatec.mapskills.domain.event.EventListener;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 
 /**
  * A classe {@link UpdateReportServiceListener} e responsavel
@@ -38,6 +39,6 @@ public class UpdateReportServiceListener implements DomainEventListener {
 	@Override
 	public void notify(final DomainEvent sourceEvent) {
 		final StudentFinishedGameEvent event = (StudentFinishedGameEvent) sourceEvent;
-		rest.postForEntity(reportServerUrl, new StudentResultWrapper(event.getSource()), String.class);
+		rest.postForEntity(reportServerUrl, new SingleWrapper<StudentResult>(event.getSource()), String.class);
 	}
 }

@@ -8,9 +8,6 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 import java.io.IOException;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
-import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResultIndicator;
 /**
@@ -21,35 +18,32 @@ import br.gov.sp.fatec.mapskills.studentresult.StudentResultIndicator;
  * @author Marcelo
  * @version 1.0 04/01/2017
  */
-public class StudentResultSerializer extends AbstractJsonSerializer<StudentResultWrapper> {
-
+public class StudentResultSerializer extends AbstractSerializer<StudentResult> {
+	
 	@Override
-	public void serialize(final StudentResultWrapper wrapper,
-			final JsonGenerator gen) throws IOException {
-		final StudentResult studentResult = wrapper.getStudentResult();
-		writeStartObject();
-		writeNumberField(SerializationKey.ID, studentResult.getStudentId());
-		writeStringField(SerializationKey.RA, studentResult.getStudentRA());
-		writeStringField(SerializationKey.NAME, studentResult.getStudentName());
-		gen.writeStringField("courseCode", studentResult.getCourseCode());
-		gen.writeStringField("courseName", studentResult.getCourseName());
-		writeStringField(SerializationKey.INSTITUTION_CODE, studentResult.getInstitutionCode());
-		gen.writeStringField("institutionCompany", studentResult.getInstitutionCompany());
-		writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel());
-		gen.writeNumberField("startYear", studentResult.getStartYear());
-		gen.writeNumberField("startSemester", studentResult.getStartSemester());
-		serializeIndicators(studentResult.getStudentIndicators(), gen);
-		writeEndObject();
+	public void serialize(final StudentResult studentResult, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		writer.writeNumberField(SerializationKey.ID, studentResult.getStudentId());
+		writer.writeStringField(SerializationKey.RA, studentResult.getStudentRA());
+		writer.writeStringField(SerializationKey.NAME, studentResult.getStudentName());
+		writer.writeStringField(SerializationKey.COURSE_CODE, studentResult.getCourseCode());
+		writer.writeStringField(SerializationKey.COURSE_NAME, studentResult.getCourseName());
+		writer.writeStringField(SerializationKey.INSTITUTION_CODE, studentResult.getInstitutionCode());
+		writer.writeStringField(SerializationKey.INSTITUTION_COMPANY, studentResult.getInstitutionCompany());
+		writer.writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel());
+		writer.writeNumberField(SerializationKey.START_YEAR, studentResult.getStartYear());
+		writer.writeNumberField(SerializationKey.START_SEMESTER, studentResult.getStartSemester());
+		serializeIndicators(studentResult.getStudentIndicators(), writer);		
 	}
 
-	private void serializeIndicators(final List<StudentResultIndicator> studentsIndicator,
-			final JsonGenerator gen) throws IOException {
-		gen.writeArrayFieldStart("studentIndicators");
+	private void serializeIndicators(final List<StudentResultIndicator> studentsIndicator, final JsonWriter writer) throws IOException {
+		writer.writeArrayFieldStart(SerializationKey.STUDENT_INDICATORS);
 		for(final StudentResultIndicator indicator : studentsIndicator) {
-			gen.writeStringField("skillName", indicator.getSkillName());
-			gen.writeStringField("skillDescription", indicator.getSkillDescription());
-			gen.writeNumberField("total", indicator.getTotal());
+			writer.writeStartObject();
+			writer.writeStringField(SerializationKey.SKILL_NAME, indicator.getSkillName());
+			writer.writeStringField(SerializationKey.SKILL_DESCRIPTION, indicator.getSkillDescription());
+			writer.writeNumberField(SerializationKey.TOTAL, indicator.getTotal());
+			writer.writeEndObject();
 		}
-		gen.writeEndArray();		
+		writer.writeEndArray();		
 	}
 }

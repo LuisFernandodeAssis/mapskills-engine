@@ -10,8 +10,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
+import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.AllArgsConstructor;
@@ -28,33 +27,30 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class StudentSerializer extends DefaultUserSerializer<Student> {
 	
-	private final DefaultInstitutionSerializer institutionSerializer;
+	private final InstitutionSerializer institutionSerializer;
 	private final CourseSerializer courseSerializer;
 	
 	@Override
-	public void serialize(final Student student, final JsonGenerator generator) throws IOException {
-		setGenerator(generator);
-		writeStartObject();
-		serializeDefaultValues(student);
-		serializeCore(student, generator);
-		serializeInstitution(student.getInstitution(), generator);
-		writeEndObject();		
+	public void serialize(final Student student, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		super.serialize(student, null, writer);
+		writer.writeStringField(SerializationKey.RA, student.getFullRa());
+		writer.writeStringField(SerializationKey.INSTITUTION_CODE, student.getInstitutionCode());
+		writer.writeStringField(SerializationKey.COURSE_CODE, student.getCourseCode());
+		writer.writeStringField(SerializationKey.PHONE, student.getPhone());
+		writer.writeBooleanField(SerializationKey.COMPLETED, student.isCompleted());
+		courseSerialize(student.getCourse(), writer);
+		institutionSerialize(student.getInstitution(), writer);
 	}
 	
-	public void serializeCore(final Student student, final JsonGenerator generator) throws IOException {
-		writeStringField(SerializationKey.RA, student.getFullRa());
-		writeStringField(SerializationKey.INSTITUTION_CODE, student.getInstitutionCode());
-		writeStringField(SerializationKey.COURSE_CODE, student.getCourseCode());
-		writeStringField(SerializationKey.PHONE, student.getPhone());
-		writeBooleanField(SerializationKey.COMPLETED, student.isCompleted());
-		writeObjectFieldStart(SerializationKey.COURSE);
-		courseSerializer.serialize(student.getCourse(), generator);
-		writeEndObject();
+	private void courseSerialize(final Course course, final JsonWriter writer) throws IOException {
+		writer.writeObjectFieldStart(SerializationKey.COURSE);
+		courseSerializer.serialize(course, writer);
+		writer.writeEndObject();		
 	}
-	
-	private void serializeInstitution(final Institution institution, final JsonGenerator generator) throws IOException {
-		writeObjectFieldStart(SerializationKey.INSTITUTION);
-		institutionSerializer.serialize(institution, generator);
-		writeEndObject();
+
+	private void institutionSerialize(final Institution institution, final JsonWriter writer) throws IOException {
+		writer.writeObjectFieldStart(SerializationKey.INSTITUTION);
+		institutionSerializer.serialize(institution, writer);
+		writer.writeEndObject();
 	}
 }

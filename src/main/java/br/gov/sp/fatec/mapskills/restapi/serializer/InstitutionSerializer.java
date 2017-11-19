@@ -1,5 +1,5 @@
 /*
- * @(#)InstitutionDetailsSerializer.java 1.0 07/01/2017
+ * @(#)InstitutionSerializer.java 1.0 07/01/2017
  *
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
@@ -11,12 +11,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
 import lombok.AllArgsConstructor;
 /**
  * 
@@ -29,48 +26,46 @@ import lombok.AllArgsConstructor;
  */
 @Component
 @AllArgsConstructor
-public class InstitutionSerializer extends AbstractJsonSerializer<InstitutionWrapper> {
+public class InstitutionSerializer extends AbstractSerializer<Institution> {
 	
-	private final DefaultInstitutionSerializer defaultSerializer;
 	private final CourseSerializer courseSerializer;
-	private final MentorSerializer mentorSerializer;
-		
+	@SuppressWarnings("rawtypes")
+	private final DefaultUserSerializer defaultUserSerializer;
+	
 	@Override
-	public void serialize(final InstitutionWrapper wrapper, final JsonGenerator generator) throws IOException {
-		final Institution institution = wrapper.getInstitution();
-		writeStartObject();
-		defaultSerializer.serialize(institution, generator);
-		courseListSerialize(institution, generator);
-		mentorsSerialize(institution.getMentors(), generator);
-		writeEndObject();
+	public void serialize(final Institution institution, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		this.serialize(institution, writer);
+		coursesSerialize(institution.getCourses(), writer);
+		mentorsSerialize(institution.getMentors(), writer);
+	}
+	
+	public void serialize(final Institution institution, final JsonWriter writer) throws IOException {
+		writer.writeNumberField(SerializationKey.ID, institution.getId());
+		writer.writeStringField(SerializationKey.CODE, institution.getCode());
+		writer.writeNumberField(SerializationKey.CNPJ, institution.getCnpj());
+		writer.writeStringField(SerializationKey.COMPANY, institution.getCompany());
+		writer.writeStringField(SerializationKey.LEVEL, institution.getLevel());
+		writer.writeStringField(SerializationKey.CITY, institution.getCity());
+	}
+	
+	private void coursesSerialize(final List<Course> courses, final JsonWriter writer) throws IOException {
+		writer.writeArrayFieldStart(SerializationKey.COURSES);
+		for(final Course course : courses) {
+			writer.writeStartObject();
+			courseSerializer.serialize(course, writer);
+			writer.writeEndObject();
+		}
+		writer.writeEndArray();
+	}
 		
-	}
-	
-	private void courseListSerialize(final Institution institution, final JsonGenerator generator) throws IOException {
-		writeArrayFieldStart(SerializationKey.COURSES);
-		for(final Course course : institution.getCourses()) {
-			courseSerialize(course, generator);
-		}
-		writeEndArray();
-	}
-	
-	private void courseSerialize(final Course course, final JsonGenerator generator) throws IOException {
-		writeStartObject();
-		courseSerializer.serialize(course, generator);
-		writeEndObject();
-	}
-	
-	private void mentorsSerialize(final List<Mentor> mentors, final JsonGenerator generator) throws IOException {
-		writeArrayFieldStart(SerializationKey.MENTORS);
+	@SuppressWarnings("unchecked")
+	private void mentorsSerialize(final List<Mentor> mentors, final JsonWriter writer) throws IOException {
+		writer.writeArrayFieldStart(SerializationKey.MENTORS);
 		for(final Mentor mentor : mentors) {
-			mentorSerialize(mentor, generator);
+			writer.writeStartObject();
+			defaultUserSerializer.serialize(mentor, writer);
+			writer.writeEndObject();
 		}
-		writeEndArray();
-	}
-	
-	private void mentorSerialize(final Mentor mentor, final JsonGenerator generator) throws IOException {
-		writeStartObject();
-		mentorSerializer.serializeInstitution(mentor);
-		writeEndObject();
+		writer.writeEndArray();
 	}
 }

@@ -70,7 +70,7 @@ public class StudentResult {
 	private final Integer startYear;
 	
 	@Column(name = "START_SEMESTER")
-	private final Short startSemester;
+	private final Integer startSemester;
 	
 	@OneToMany
 	@JoinColumn(name = "ID_STUDENT")

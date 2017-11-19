@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.UserApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.user.User;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
@@ -33,9 +33,9 @@ public class UserController {
 	 * Endpoint que retorna um usuario a partir de seu email.
 	 */
 	@GetMapping("/user")
-	public UserWrapper getUser(@RequestParam("username") final String username) {
+	public SingleWrapper<User> getUser(@RequestParam("username") final String username) {
 		final User user = userService.findUserByUsername(username);
-		return new UserWrapper(user);
+		return new SingleWrapper<User>(user);
 	}
 	
 	/**

@@ -7,18 +7,24 @@
 package br.gov.sp.fatec.mapskills.config;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import br.gov.sp.fatec.mapskills.domain.institution.Course;
+import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
+import br.gov.sp.fatec.mapskills.domain.skill.Skill;
+import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
+import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
-import br.gov.sp.fatec.mapskills.restapi.serializer.AbstractJsonSerializer;
+import br.gov.sp.fatec.mapskills.restapi.serializer.AbstractSerializer;
 /**
  * 
  * A classe {@link SerializersConfig} possui uma configuracao de estrategia de
@@ -29,19 +35,44 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.AbstractJsonSerializer;
  */
 @Configuration
 public class SerializersConfig {
+	
 	/**
-	 * Instancia no cluster de objetos do spring um mapa de perfil/serializador.
+	 * Define um serializador para cada perfil de usuario da aplicacao.
 	 */
-	@Bean
-	public Map<ProfileType, AbstractJsonSerializer<? extends User>> mapSerializerStrategy(
-			@Qualifier("defaultUserSerializer") final AbstractJsonSerializer<Administrator> defaultSerializer,
-			@Qualifier("studentSerializer") final AbstractJsonSerializer<Student> studentSerializer,
-			@Qualifier("mentorSerializer") final AbstractJsonSerializer<Mentor> mentorSerializer) {
+	@Bean("userSerializerMap")
+	public Map<ProfileType, AbstractSerializer<? extends User>> userSerializerMap(
+			@Qualifier("defaultUserSerializer") final AbstractSerializer<Administrator> defaultSerializer,
+			@Qualifier("studentSerializer") final AbstractSerializer<Student> studentSerializer,
+			@Qualifier("mentorSerializer") final AbstractSerializer<Mentor> mentorSerializer) {
 		
-		final Map<ProfileType, AbstractJsonSerializer<? extends User>> map = new EnumMap<>(ProfileType.class);
+		final Map<ProfileType, AbstractSerializer<? extends User>> map = new EnumMap<>(ProfileType.class);
 		map.put(ProfileType.ADMINISTRATOR, defaultSerializer);
 		map.put(ProfileType.MENTOR, mentorSerializer);
 		map.put(ProfileType.STUDENT, studentSerializer);
 		return map;
+	}
+	
+	@Bean
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Map<Class, AbstractSerializer> domainSerializerMap(
+			@Qualifier("courseSerializer") final AbstractSerializer courseSerializer,
+			@Qualifier("gameThemeSerializer") final AbstractSerializer gameThemeSerializer,
+			@Qualifier("institutionSerializer") final AbstractSerializer institutionSerializer,
+			@Qualifier("mentorSerializer") final AbstractSerializer mentorSerializer,
+			@Qualifier("sceneSerializer") final AbstractSerializer sceneSerializer,
+			@Qualifier("skillSerializer") final AbstractSerializer skillSerializer,
+			@Qualifier("studentSerializer") final AbstractSerializer studentSerializer,
+			@Qualifier("userSerializer") final AbstractSerializer userSerializer) {
+		
+		final Map map = new HashMap<>(8);
+		map.put(Course.class, courseSerializer);
+		map.put(GameTheme.class, gameThemeSerializer);		
+		map.put(Institution.class, institutionSerializer);
+		map.put(Mentor.class, mentorSerializer);
+		map.put(Scene.class, sceneSerializer);
+		map.put(Skill.class, skillSerializer);
+		map.put(Student.class, studentSerializer);
+		map.put(User.class, userSerializer);		
+		return map;		
 	}
 }

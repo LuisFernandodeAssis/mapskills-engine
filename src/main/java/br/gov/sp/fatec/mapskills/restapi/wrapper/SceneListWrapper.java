@@ -11,11 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListDeserializer;
-import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListSerializer;
 /**
  * 
  * A classe {@link SceneListWrapper} encapsula uma colecao
@@ -25,7 +23,6 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.SceneListSerializer;
  * @author Marcelo
  * @version 1.0 28/12/2016
  */
-@JsonSerialize(using = SceneListSerializer.class)
 @JsonDeserialize(using = SceneListDeserializer.class)
 public class SceneListWrapper {
 	

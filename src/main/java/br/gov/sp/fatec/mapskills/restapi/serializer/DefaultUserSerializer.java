@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
 import br.gov.sp.fatec.mapskills.domain.user.User;
 /**
  * 
@@ -23,21 +21,14 @@ import br.gov.sp.fatec.mapskills.domain.user.User;
  * @version 1.0 10/11/2016
  */
 @Component
-public class DefaultUserSerializer<T extends User> extends AbstractJsonSerializer<T> {
+public class DefaultUserSerializer<T extends User> extends AbstractSerializer<T> {
 	
-	protected void serializeDefaultValues(final T user) throws IOException {
-		writeNumberField(SerializationKey.ID, user.getId());
-		writeStringField(SerializationKey.NAME, user.getName());
-		writeStringField(SerializationKey.PROFILE, user.getProfile());
-		writeStringField(SerializationKey.USERNAME, user.getUsername());
-		writeStringField(SerializationKey.PASS, SerializationKey.EMPTY_PASS);
-	}
-
 	@Override
-	public void serialize(final T user, final JsonGenerator generator) throws IOException {
-		setGenerator(generator);
-		writeStartObject();
-		serializeDefaultValues(user);
-		writeEndObject();
-	}
+	public void serialize(final T user, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		writer.writeNumberField(SerializationKey.ID, user.getId());
+		writer.writeStringField(SerializationKey.NAME, user.getName());
+		writer.writeStringField(SerializationKey.PROFILE, user.getProfile());
+		writer.writeStringField(SerializationKey.USERNAME, user.getUsername());
+		writer.writeStringField(SerializationKey.PASS, SerializationKey.EMPTY_PASS);		
+	}	
 }

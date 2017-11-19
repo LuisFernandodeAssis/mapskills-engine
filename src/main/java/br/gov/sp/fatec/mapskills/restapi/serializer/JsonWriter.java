@@ -1,44 +1,51 @@
 /*
- * @(#)DefaultJsonSerializer<T>.java 1.0 07/05/2017
+ * @(#)JsonWriter.java 1.0 1 18/11/2017
  *
- * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
- * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
+ * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
+ * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-
-import lombok.Setter;
 
 /**
- * 
- * A classe {@link AbstractJsonSerializer} define metodos
- * em comum entre todos serializers da aplicacao.
+ * A classe {@link JsonWriter}
  *
  * @author Marcelo
- * @version 1.0 07/05/2017
+ * @version 1.0 18/11/2017
  */
-public abstract class AbstractJsonSerializer<T> extends JsonSerializer<T> {
+public class JsonWriter {
 	
-	@Setter
-	private JsonGenerator generator;
-	
-	protected abstract void serialize(final T object, final JsonGenerator generator) throws IOException;
+	private static final Logger logger = LoggerFactory.getLogger(JsonWriter.class);
+	private static final String WHITESPACE = "";
+	private final JsonGenerator generator;
+	private boolean writeNullable;
 
-	@Override
-	public void serialize(final T wrapper, final JsonGenerator generator,
-			final SerializerProvider arg2) throws IOException {
+	public JsonWriter(final JsonGenerator generator) {
 		this.generator = generator;
-		this.serialize(wrapper, generator);
+	}
+
+	public JsonWriter(final JsonGenerator generator, final boolean writeNullable) {
+		this.generator = generator;
+		this.writeNullable = writeNullable;
 	}
 	
 	protected void writeNumberField(final Enum<?> key, final Long value) throws IOException {
+		if(ObjectUtils.isEmpty(value)) {
+			generator.writeNullField(key.toString());
+			return;
+		}
+		generator.writeNumberField(key.toString(), value);
+	}
+	
+	protected void writeNumberField(final Enum<?> key, final Integer value) throws IOException {
 		if(ObjectUtils.isEmpty(value)) {
 			generator.writeNullField(key.toString());
 			return;
@@ -84,5 +91,9 @@ public abstract class AbstractJsonSerializer<T> extends JsonSerializer<T> {
 	
 	protected void writeArrayFieldStart(final Enum<?> key) throws IOException {
 		generator.writeArrayFieldStart(key.toString());
+	}
+
+	public void writeNullField(final Enum<?> key) throws IOException {
+		generator.writeNullField(key.toString());
 	}
 }

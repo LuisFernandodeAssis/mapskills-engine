@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillListWrapper;
+import br.gov.sp.fatec.mapskills.domain.skill.Skill;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SkillWrapper;
 import lombok.AllArgsConstructor;
 
@@ -48,8 +49,8 @@ public class SkillController {
 	 * @return Todas as competencias.
 	 */
 	@GetMapping("/skills")
-	public SkillListWrapper getAllSkills() {
-		return new SkillListWrapper(applicationServices.findAll()); 
+	public ListWrapper<Skill> getAllSkills() {
+		return new ListWrapper<Skill>(applicationServices.findAll()); 
 	}
 	
 	/**

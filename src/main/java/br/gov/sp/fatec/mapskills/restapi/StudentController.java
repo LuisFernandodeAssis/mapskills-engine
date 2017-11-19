@@ -20,11 +20,11 @@ import br.gov.sp.fatec.mapskills.application.StudentApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileBase64Wrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentPageWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.PageWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentQuestionContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.UserWrapper;
 import lombok.AllArgsConstructor;
 /**
  * A classe <code>MapSkillsController</code> eh responsavel por conter as rotas
@@ -44,9 +44,9 @@ public class StudentController {
 	 * excel (.xlsx) feito pelo perfil <code>MENTOR</code>
 	 */
 	@PostMapping("/students")
-	public StudentPageWrapper importStudents(@RequestBody final FileBase64Wrapper inputStreamWrapper) {
+	public PageWrapper<Student> importStudents(@RequestBody final FileBase64Wrapper inputStreamWrapper) {
 		final List<Student> studentsSaved = applicationServices.saveStudentsFromExcel(inputStreamWrapper.getInputStream());
-		return new StudentPageWrapper(new PageImpl<Student>(studentsSaved));
+		return new PageWrapper<Student>(new PageImpl<Student>(studentsSaved));
 	}
 	
 	/**
@@ -55,16 +55,16 @@ public class StudentController {
 	 * @return
 	 */
 	@PostMapping("/student")
-	public UserWrapper saveStudent(@RequestBody final StudentWrapper studentWrapper) {
+	public SingleWrapper<Student> saveStudent(@RequestBody final StudentWrapper studentWrapper) {
 		final Student student = applicationServices.saveStudent(studentWrapper.getStudent());
-		return new UserWrapper(student);
+		return new SingleWrapper<Student>(student);
 	}
 	
 	@PutMapping("/student")
-	public UserWrapper updateStudent(@PathVariable("studentId")final Long id,
+	public SingleWrapper<Student> updateStudent(@PathVariable("studentId")final Long id,
 			@RequestBody final StudentWrapper wrapper) {
 		final Student student = applicationServices.updateStudent(id, wrapper.getStudent());
-		return new UserWrapper(student);
+		return new SingleWrapper<Student>(student);
 	}
 	
 	/**
@@ -82,8 +82,8 @@ public class StudentController {
 	 * Endpoint que recupera todas as cenas ainda nao respondidas pelo aluno.
 	 */
 	@GetMapping("/student/{id}/scene")
-	public SceneListWrapper getScene(@PathVariable("id") final Long studentId) {
+	public ListWrapper<Scene> getScene(@PathVariable("id") final Long studentId) {
 		final List<Scene> scenes = applicationServices.getScenesNotAnswered(studentId);
-		return new SceneListWrapper(scenes);
+		return new ListWrapper<Scene>(scenes);
 	}
 }

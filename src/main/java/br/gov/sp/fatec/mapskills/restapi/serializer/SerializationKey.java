@@ -71,12 +71,32 @@ public enum SerializationKey {
 	/*SKILL*/
 	TYPE("type"),
 	
+	/*GAME_THEME*/
+	ACTIVE("active"),
+	
 	/*FILE*/
 	BASE_64("base64"),
 	FILENAME("filename"),
 	
 	/*REPORT*/
-	VALUES("values");
+	VALUES("values"),
+	
+	/*PAGE*/
+	REMAINING_PAGES("remainingPages"),
+	TOTAL_PAGES("totalPages"),
+	TOTAL_ELEMENTS("totalElements"),
+	IS_LAST("isLast"),
+	CONTENT("content"),
+	
+	/*STUDENT_RESULT*/
+	COURSE_NAME("courseName"),
+	INSTITUTION_COMPANY("institutionCompany"),
+	START_YEAR("startYear"),
+	START_SEMESTER("startSemester"),
+	STUDENT_INDICATORS("studentIndicators"),
+	SKILL_NAME("skillName"),
+	SKILL_DESCRIPTION("skillDescription"),
+	TOTAL("total");
 	
 	private final String key;
 	
