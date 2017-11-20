@@ -7,7 +7,6 @@
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
-import java.util.EnumMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -32,12 +31,13 @@ public class UserSerializer extends AbstractSerializer<User> {
 	 * Mapa de definicao de serializadores para os perfis.
 	 * @see <code>SerializersConfig</code>.
 	 */
-	private final Map<ProfileType, AbstractSerializer<User>> userSerializerMap = new EnumMap<>(ProfileType.class);
-	
+	@SuppressWarnings("rawtypes")
+	private final Map<ProfileType, AbstractSerializer> userSerializerMap;
 
 	@Override
 	public void serialize(final User user, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		@SuppressWarnings("unchecked")
 		final AbstractSerializer<User> serializer = userSerializerMap.get(user.getProfile());
-		serializer.serialize(user, writer);		
+		serializer.serialize(user, writer);
 	}
 }

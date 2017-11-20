@@ -22,7 +22,6 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
-import br.gov.sp.fatec.mapskills.domain.user.User;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.serializer.AbstractSerializer;
 /**
@@ -40,12 +39,13 @@ public class SerializersConfig {
 	 * Define um serializador para cada perfil de usuario da aplicacao.
 	 */
 	@Bean("userSerializerMap")
-	public Map<ProfileType, AbstractSerializer<? extends User>> userSerializerMap(
+	@SuppressWarnings("rawtypes")
+	public Map<ProfileType, AbstractSerializer> userSerializerMap(
 			@Qualifier("defaultUserSerializer") final AbstractSerializer<Administrator> defaultSerializer,
 			@Qualifier("studentSerializer") final AbstractSerializer<Student> studentSerializer,
 			@Qualifier("mentorSerializer") final AbstractSerializer<Mentor> mentorSerializer) {
 		
-		final Map<ProfileType, AbstractSerializer<? extends User>> map = new EnumMap<>(ProfileType.class);
+		final Map<ProfileType, AbstractSerializer> map = new EnumMap<>(ProfileType.class);
 		map.put(ProfileType.ADMINISTRATOR, defaultSerializer);
 		map.put(ProfileType.MENTOR, mentorSerializer);
 		map.put(ProfileType.STUDENT, studentSerializer);
@@ -58,21 +58,19 @@ public class SerializersConfig {
 			@Qualifier("courseSerializer") final AbstractSerializer courseSerializer,
 			@Qualifier("gameThemeSerializer") final AbstractSerializer gameThemeSerializer,
 			@Qualifier("institutionSerializer") final AbstractSerializer institutionSerializer,
-			@Qualifier("mentorSerializer") final AbstractSerializer mentorSerializer,
 			@Qualifier("sceneSerializer") final AbstractSerializer sceneSerializer,
 			@Qualifier("skillSerializer") final AbstractSerializer skillSerializer,
-			@Qualifier("studentSerializer") final AbstractSerializer studentSerializer,
 			@Qualifier("userSerializer") final AbstractSerializer userSerializer) {
 		
 		final Map map = new HashMap<>(8);
+		map.put(Administrator.class, userSerializer);
 		map.put(Course.class, courseSerializer);
 		map.put(GameTheme.class, gameThemeSerializer);		
 		map.put(Institution.class, institutionSerializer);
-		map.put(Mentor.class, mentorSerializer);
+		map.put(Mentor.class, userSerializer);
 		map.put(Scene.class, sceneSerializer);
 		map.put(Skill.class, skillSerializer);
-		map.put(Student.class, studentSerializer);
-		map.put(User.class, userSerializer);		
+		map.put(Student.class, userSerializer);		
 		return map;		
 	}
 }

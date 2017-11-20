@@ -42,7 +42,7 @@ public class GameThemeDomainServices {
 		return newScene;
 	}
 	
-	public List<GameTheme> getAllGameThemes(final Boolean onlyActives) {
+	public List<GameTheme> getAllGameThemes(final boolean onlyActives) {
 		if(onlyActives) {
 			return repository.findAllByActive(onlyActives);
 		}

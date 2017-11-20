@@ -58,7 +58,7 @@ public class GameThemeController {
 	 */
 	@GetMapping("/game/themes")
 	public ListWrapper<GameTheme> getThemes(
-			@RequestParam(value = "onlyActives", required = false) final Boolean onlyActives) {
+			@RequestParam(value = "onlyActives", required = false) final boolean onlyActives) {
 		final List<GameTheme> themes = applicationServices.getAllGameThemes(onlyActives);
 		return new ListWrapper<GameTheme>(themes); 
 	}

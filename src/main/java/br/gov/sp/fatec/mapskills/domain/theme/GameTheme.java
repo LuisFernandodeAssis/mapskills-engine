@@ -51,8 +51,8 @@ public class GameTheme {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(name = "MAPSKILLS.SCENE",
-		joinColumns = @JoinColumn(name = "ID"),
-		inverseJoinColumns = @JoinColumn(name = "ID_GAME_THEME"))
+		joinColumns = @JoinColumn(name = "ID_GAME_THEME"),
+		inverseJoinColumns = @JoinColumn(name = "ID"))
 	@OrderBy("index")
 	private final List<Scene> scenes = new LinkedList<>();
 	
