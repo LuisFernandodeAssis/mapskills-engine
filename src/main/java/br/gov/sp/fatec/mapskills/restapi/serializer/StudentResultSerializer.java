@@ -8,6 +8,7 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 import java.io.IOException;
 import java.util.List;
 
+import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResultIndicator;
 /**
@@ -18,10 +19,12 @@ import br.gov.sp.fatec.mapskills.studentresult.StudentResultIndicator;
  * @author Marcelo
  * @version 1.0 04/01/2017
  */
-public class StudentResultSerializer extends AbstractSerializer<StudentResult> {
+public class StudentResultSerializer extends AbstractSerializer<StudentResultWrapper> {
 	
 	@Override
-	public void serialize(final StudentResult studentResult, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+	public void serialize(final StudentResultWrapper wrapper, final Enum<?> arg1, final JsonWriter writer) throws IOException {
+		final StudentResult studentResult = wrapper.getObject();
+		writer.writeStartObject();
 		writer.writeNumberField(SerializationKey.ID, studentResult.getStudentId());
 		writer.writeStringField(SerializationKey.RA, studentResult.getStudentRA());
 		writer.writeStringField(SerializationKey.NAME, studentResult.getStudentName());
@@ -32,7 +35,8 @@ public class StudentResultSerializer extends AbstractSerializer<StudentResult> {
 		writer.writeStringField(SerializationKey.INSTITUTION_LEVEL, studentResult.getInstitutionLevel());
 		writer.writeNumberField(SerializationKey.START_YEAR, studentResult.getStartYear());
 		writer.writeNumberField(SerializationKey.START_SEMESTER, studentResult.getStartSemester());
-		serializeIndicators(studentResult.getStudentIndicators(), writer);		
+		serializeIndicators(studentResult.getStudentIndicators(), writer);
+		writer.writeEndObject();
 	}
 
 	private void serializeIndicators(final List<StudentResultIndicator> studentsIndicator, final JsonWriter writer) throws IOException {

@@ -9,8 +9,6 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -22,19 +20,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * @version 1.0 18/11/2017
  */
 public class JsonWriter {
-	
-	private static final Logger logger = LoggerFactory.getLogger(JsonWriter.class);
-	private static final String WHITESPACE = "";
+
 	private final JsonGenerator generator;
-	private boolean writeNullable;
 
 	public JsonWriter(final JsonGenerator generator) {
 		this.generator = generator;
-	}
-
-	public JsonWriter(final JsonGenerator generator, final boolean writeNullable) {
-		this.generator = generator;
-		this.writeNullable = writeNullable;
 	}
 	
 	protected void writeNumberField(final Enum<?> key, final Long value) throws IOException {

@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventListener;
 import br.gov.sp.fatec.mapskills.domain.event.EventListener;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
-import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
+import br.gov.sp.fatec.mapskills.infra.ThreadPool;
+import br.gov.sp.fatec.mapskills.studentresult.StudentResultRepository;
 
 /**
  * A classe {@link UpdateReportServiceListener} e responsavel
@@ -28,17 +28,23 @@ import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 public class UpdateReportServiceListener implements DomainEventListener {
 	
 	private final String reportServerUrl;
+	private final StudentResultRepository studentResultRepository;
 	private final RestTemplate rest;
+	private final ThreadPool threadPool;
 	
-	public UpdateReportServiceListener(@Value("${ws.report.server.url}") final String urlServer,
-			final RestTemplate rest) {
+	public UpdateReportServiceListener(@Value("${rest.report.url}") final String urlServer,
+			final RestTemplate rest, final StudentResultRepository studentResultRepository,
+			final ThreadPool threadPool) {
 		this.reportServerUrl = urlServer;
+		this.studentResultRepository = studentResultRepository;
 		this.rest = rest;
+		this.threadPool = threadPool;
 	}
 
 	@Override
 	public void notify(final DomainEvent sourceEvent) {
 		final StudentFinishedGameEvent event = (StudentFinishedGameEvent) sourceEvent;
-		rest.postForEntity(reportServerUrl, new SingleWrapper<StudentResult>(event.getSource()), String.class);
+		threadPool.execute(new StudentReportDataRunnable(threadPool, reportServerUrl,
+				rest, studentResultRepository, event.getSource()));
 	}
 }

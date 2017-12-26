@@ -70,7 +70,7 @@ public class SerializersConfig {
 		map.put(Mentor.class, userSerializer);
 		map.put(Scene.class, sceneSerializer);
 		map.put(Skill.class, skillSerializer);
-		map.put(Student.class, userSerializer);		
+		map.put(Student.class, userSerializer);
 		return map;		
 	}
 }

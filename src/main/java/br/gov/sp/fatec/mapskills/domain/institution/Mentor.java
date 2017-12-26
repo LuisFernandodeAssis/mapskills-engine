@@ -45,7 +45,6 @@ public class Mentor extends User {
 	
 	public void update(final Mentor mentorUpdate) {
 		super.update(mentorUpdate);
-		this.institution = mentorUpdate.getInstitution();
 	}	
 	
 	public Long getInstitutionId() {

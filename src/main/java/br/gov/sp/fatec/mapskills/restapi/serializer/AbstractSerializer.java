@@ -23,12 +23,13 @@ public abstract class AbstractSerializer<T> extends JsonSerializer<T> {
 
 	public void serialize(final T value, final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException {
-		this.serialize(value, new JsonWriter(jsonGenerator, true));
+		this.serialize(value, new JsonWriter(jsonGenerator));
 	}
 
 	public abstract void serialize(final T arg0, final Enum<?> arg1,
 			final JsonWriter arg2) throws IOException;
 
+	@SuppressWarnings("rawtypes")
 	public void serialize(final T value, final JsonWriter writer) throws IOException {
 		this.serialize(value, (Enum) null, (JsonWriter) writer);
 	}

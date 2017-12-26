@@ -7,6 +7,9 @@
 
 package br.gov.sp.fatec.mapskills.config;
 
+import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.SCENE_WAS_CREATED_EVENT;
+import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.SCENE_WAS_DELETED_EVENT;
+import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.SCENE_WAS_UPDATED_EVENT;
 import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.STUDENT_FINISHED_GAME_EVENT;
 
 import java.util.Arrays;
@@ -33,10 +36,16 @@ public class DomainEventsConfig {
 	
 	@Bean
 	public Map<DomainEventType, List<DomainEventListener>> listeners(
-			@Qualifier("updateReportServiceListener") final DomainEventListener updateReportServiceListener) {
+			@Qualifier("updateReportServiceListener") final DomainEventListener updateReportServiceListener,
+			@Qualifier("createSceneImageFileListener") final DomainEventListener createSceneImageFileListener,
+			@Qualifier("updateSceneImageFileListener") final DomainEventListener updateSceneImageFileListener,
+			@Qualifier("deleteSceneImageFileListener") final DomainEventListener deleteSceneImageFileListener) {
 		
 		final Map<DomainEventType, List<DomainEventListener>> map = new EnumMap<>(DomainEventType.class);
 		map.put(STUDENT_FINISHED_GAME_EVENT, Arrays.asList(updateReportServiceListener));
+		map.put(SCENE_WAS_CREATED_EVENT, Arrays.asList(createSceneImageFileListener));
+		map.put(SCENE_WAS_UPDATED_EVENT, Arrays.asList(updateSceneImageFileListener));
+		map.put(SCENE_WAS_DELETED_EVENT, Arrays.asList(deleteSceneImageFileListener));
 		return map;
 	}
 }

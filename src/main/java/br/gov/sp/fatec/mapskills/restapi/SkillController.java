@@ -8,10 +8,10 @@
 package br.gov.sp.fatec.mapskills.restapi;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.SkillApplicationServices;
@@ -59,8 +59,8 @@ public class SkillController {
 	 * @param id Identificador da competencia.
 	 * @param skillWrapper Habilidade a ser atualizada.
 	 */
-	@PutMapping("/skill")
-	public void updateSkill(@RequestParam("id") final Long id,
+	@PutMapping("/skill/{id}")
+	public void updateSkill(@PathVariable("id") final Long id,
 			@RequestBody final SkillWrapper skillWrapper) {
 		applicationServices.updateSkill(id, skillWrapper.getSkill());
 	}

@@ -8,6 +8,7 @@ package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -26,23 +27,22 @@ import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 @Component
 public class SceneSerializer extends AbstractSerializer<Scene> {
 	
+	@Value("${rest.filemanager.get.url}")
+	private String filemanager;
+	
 	@Override
 	public void serialize(final Scene scene, final Enum<?> arg1, final JsonWriter writer) throws IOException {
 		writer.writeNumberField(SerializationKey.ID, scene.getId());
 		writer.writeNumberField(SerializationKey.INDEX, scene.getIndex());
 		writer.writeStringField(SerializationKey.TEXT, scene.getText());
 		writer.writeObjectFieldStart(SerializationKey.BACKGROUND);
-		writer.writeStringField(SerializationKey.FILENAME, scene.getUrlBackground());
+		writer.writeStringField(SerializationKey.FILENAME, filemanager.replace("{filename}", scene.getImageName()));
 		writer.writeEndObject();
 		this.questionGenerator(scene.getQuestion(), writer);
 	}
 	
 	/**
 	 * Metodo responsavel por serializar a questão da cena.
-	 * 
-	 * @param generator
-	 * @param question
-	 * @throws IOException
 	 */
 	private void questionGenerator(final Question question, final JsonWriter writer) throws IOException {
 		if (ObjectUtils.isEmpty(question)) {
@@ -64,10 +64,6 @@ public class SceneSerializer extends AbstractSerializer<Scene> {
 	
 	/**
 	 * Metodo responsavel por serializar as alternativas da questao.
-	 * 
-	 * @param generator
-	 * @param alternatives
-	 * @throws IOException
 	 */
 	private void alternativeGenerator(final Alternative alternative, final JsonWriter writer) throws IOException {
 		writer.writeNumberField(SerializationKey.ID, alternative.getId());

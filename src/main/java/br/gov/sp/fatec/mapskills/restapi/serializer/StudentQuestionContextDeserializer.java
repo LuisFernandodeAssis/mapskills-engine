@@ -28,6 +28,6 @@ public class StudentQuestionContextDeserializer extends AbstractJsonDeserializer
 				getFieldLongValue(node, SerializationKey.STUDENT_ID),
 				getFieldLongValue(node, SerializationKey.SKILL_ID),
 				getFieldIntegerValue(node, SerializationKey.SKILL_VALUE)),
-				getFieldIntegerValue(node, SerializationKey.REMAINING_SCENES));
+				getFieldIntegerValue(node, SerializationKey.REMAINING_QUESTIONS));
 	}
 }

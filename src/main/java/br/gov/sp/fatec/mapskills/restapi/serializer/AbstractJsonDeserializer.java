@@ -38,10 +38,8 @@ public abstract class AbstractJsonDeserializer<T> extends JsonDeserializer<T> {
 	
 	@Override
 	public T deserialize(final JsonParser jsonParser, final DeserializationContext arg1) throws IOException {
-		
 		final ObjectCodec oc = jsonParser.getCodec();
-        final JsonNode node = oc.readTree(jsonParser);
-        
+        final JsonNode node = oc.readTree(jsonParser);        
 		return deserialize(node);
 	}
 	
@@ -66,6 +64,10 @@ public abstract class AbstractJsonDeserializer<T> extends JsonDeserializer<T> {
 
 	public Boolean has(final JsonNode node, final Enum<?> fieldName) {
 		return ObjectUtils.isEmpty(node) ? false : node.has(fieldName.toString());
+	}
+	
+	public Boolean isNull(final JsonNode node) {
+		return node == null || node.isNull();
 	}
 
 	public JsonNode get(final JsonNode node, final Enum<?> fieldName) {

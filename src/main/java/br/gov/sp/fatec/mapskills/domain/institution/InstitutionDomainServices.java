@@ -22,6 +22,7 @@ import br.gov.sp.fatec.mapskills.domain.theme.GameThemeRepository;
 import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentRepository;
+import br.gov.sp.fatec.mapskills.domain.user.student.StudentSpecification;
 import br.gov.sp.fatec.mapskills.infra.InstitutionExcelDocumentReader;
 import lombok.AllArgsConstructor;
 
@@ -58,10 +59,11 @@ public class InstitutionDomainServices {
 		return institutionRepository.save(newInstitution);
 	}
 	
-	public Institution updateInstitution(final Long id, final Institution institution) {
-		final Institution institutionFound = institutionRepository.findOne(id);
-		institutionFound.update(institution);
-		return institutionFound;
+	public Institution updateInstitution(final Long id, final Institution institutionUpdate) {
+		final Institution institution = institutionRepository.findOne(id);
+		institution.update(institutionUpdate);
+		institutionRepository.save(institution);
+		return institution;
 	}
 	
 	public List<Institution> getAllInstitutions() {
@@ -84,8 +86,8 @@ public class InstitutionDomainServices {
 		return institution.getCourses();
 	}
 
-	public Page<Student> getStudentsByInstitutionCode(final String institutionCode, final Pageable pageable) {
-		return studentRepository.findAllByRaInstitutionCode(institutionCode, pageable);
+	public Page<Student> getStudents(final StudentSpecification specification, final Pageable pageable) {
+		return studentRepository.findAll(specification, pageable);
 	}
 
 	public List<Course> getCoursesByInstitutionCode(final String institutionCode) {

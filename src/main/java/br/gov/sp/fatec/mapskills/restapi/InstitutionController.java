@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.mapskills.application.InstitutionApplicationServices;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
+import br.gov.sp.fatec.mapskills.domain.user.student.StudentSpecification;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.CourseWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileBase64Wrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
@@ -117,10 +119,9 @@ public class InstitutionController {
 	 * End-point que retorna todos alunos de um determinada instituicao, atraves do seu codigo.
 	 * Realizado pelo perfil <b>MENTOR</b>.
 	 */
-	@GetMapping("/institution/{code}/students")
-	public PageWrapper<Student> getAllStudentsByInstitution(@PathVariable("code") final String institutionCode,
-			final Pageable pageable) {
-		final Page<Student> students = applicationServices.getStudentsByInstitutionCode(institutionCode, pageable);
+	@GetMapping("/institution/students")
+	public PageWrapper<Student> getStudents(final StudentSpecification specification, final Pageable pageable) {
+		final Page<Student> students = applicationServices.getStudents(specification, pageable);
 		return new PageWrapper<Student>(students);
 	}
 	
@@ -137,9 +138,9 @@ public class InstitutionController {
 	/**
 	 * Endpoint que realiza a atualizacao do tema do jogo para instituicao.
 	 */
-	@PutMapping("/institution/{code}/theme/{themeId}")
+	@PutMapping("/institution/{code}/theme")
 	public void updateThemeCurrent(@PathVariable("code") final String institutionCode,
-			@PathVariable("themeId") final Long themeId) {
+			@RequestParam("themeId") final Long themeId) {
 		applicationServices.updateGameThemeInstitution(institutionCode, themeId);
 	}
 }

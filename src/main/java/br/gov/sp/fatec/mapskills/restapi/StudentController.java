@@ -8,7 +8,6 @@ package br.gov.sp.fatec.mapskills.restapi;
 
 import java.util.List;
 
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,6 @@ import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileBase64Wrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.PageWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentQuestionContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentWrapper;
@@ -44,9 +42,8 @@ public class StudentController {
 	 * excel (.xlsx) feito pelo perfil <code>MENTOR</code>
 	 */
 	@PostMapping("/students")
-	public PageWrapper<Student> importStudents(@RequestBody final FileBase64Wrapper inputStreamWrapper) {
-		final List<Student> studentsSaved = applicationServices.saveStudentsFromExcel(inputStreamWrapper.getInputStream());
-		return new PageWrapper<Student>(new PageImpl<Student>(studentsSaved));
+	public void importStudents(@RequestBody final FileBase64Wrapper inputStreamWrapper) {
+		applicationServices.saveStudentsFromExcel(inputStreamWrapper.getInputStream());
 	}
 	
 	/**
@@ -60,7 +57,7 @@ public class StudentController {
 		return new SingleWrapper<Student>(student);
 	}
 	
-	@PutMapping("/student")
+	@PutMapping("/student/{studentId}")
 	public SingleWrapper<Student> updateStudent(@PathVariable("studentId")final Long id,
 			@RequestBody final StudentWrapper wrapper) {
 		final Student student = applicationServices.updateStudent(id, wrapper.getStudent());

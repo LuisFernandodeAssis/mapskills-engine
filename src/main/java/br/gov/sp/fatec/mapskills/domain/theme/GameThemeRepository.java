@@ -7,6 +7,7 @@
 package br.gov.sp.fatec.mapskills.domain.theme;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -28,6 +29,6 @@ public interface GameThemeRepository extends CrudRepository<GameTheme, Long> {
 	@Query("SELECT theme FROM GameTheme theme "
 			+ "INNER JOIN Institution i ON i.gameTheme.id = theme.id "
 			+ "INNER JOIN Student s ON s.ra.institutionCode = i.code "
-			+ "WHERE s.id = ?1")
-	GameTheme findByStudentId(final Long studentId);
+			+ "WHERE s.id = ?1 AND theme.active = true")
+	Optional<GameTheme> findByStudentId(final Long studentId);
 }

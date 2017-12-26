@@ -10,12 +10,14 @@ package br.gov.sp.fatec.mapskills.domain.user.student;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
+import br.gov.sp.fatec.mapskills.domain.event.DomainEventsNotifier;
+import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
+import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContextRepository;
 import br.gov.sp.fatec.mapskills.infra.StudentExcelDocumentReader;
 import lombok.AllArgsConstructor;
 
@@ -31,8 +33,10 @@ public class StudentDomainServices {
 	
 	private final StudentRepository repository;
 	private final StudentExcelDocumentReader documentReader;
+	private final DomainEventsNotifier notifier;
+	private final StudentQuestionContextRepository answerRepository;
 	
-	public List<Student> saveStudentsFromExcel(final InputStream inputStream) {
+	public void saveStudentsFromExcel(final InputStream inputStream) {
 		final List<Student> students = documentReader.readDocument(inputStream);
 		final List<Student> studentsToSave = new LinkedList<>();
 		students.stream().forEach(student -> {
@@ -44,10 +48,7 @@ public class StudentDomainServices {
 			studentFound.update(student);
 			studentsToSave.add(studentFound);
 		});		
-		final Iterable<Student> studentsSaved = repository.save(studentsToSave);
-		final List<Student> studentsAsList = StreamSupport.stream(studentsSaved.spliterator(), false)
-			      .collect(Collectors.toList());
-		return studentsAsList;
+		repository.save(studentsToSave);
 	}
 	
 	public Student saveStudent(final Student student) {
@@ -58,5 +59,19 @@ public class StudentDomainServices {
 		final Student studentFound = repository.findOne(id);
 		studentFound.update(studentFound);
 		return repository.save(studentFound);
+	}
+
+	public void registryAnswerContext(final StudentQuestionContext context, final int remainingQuestions) {
+		answerRepository.save(context);
+		if(remainingQuestions == 0) {
+			studentCompleted(context.getStudentId());
+		}
+	}
+	
+	private void studentCompleted(final Long studentId) {
+		final Student student = repository.findOne(studentId);
+		final DomainEvent event = student.completed();
+		repository.save(student);
+		notifier.notifyListeners(event);
 	}
 }

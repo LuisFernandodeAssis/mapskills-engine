@@ -70,4 +70,15 @@ public class GameThemeApplicationServices {
 		domainServices.updateSceneIndexes(themeId, updateScenes);
 	}
 
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public void updateGameThemeStatus(final Long themeId, final boolean status) {
+		domainServices.updateGameThemeStatus(themeId, status);
+	}
+
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public void updateScene(final Long themeId, final Long sceneId, final SceneWrapper sceneWrapper) {
+		domainServices.updateScene(themeId, sceneId, sceneWrapper);
+	}
 }

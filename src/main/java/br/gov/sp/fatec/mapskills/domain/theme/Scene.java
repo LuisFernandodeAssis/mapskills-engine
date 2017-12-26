@@ -20,6 +20,15 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.Getter;
 
+/**
+ * 
+ * A classe {@link Scene} representa uma cena de tema
+ * de jogo da aplicacao.
+ * 
+ * @see GameTheme
+ * @author Marcelo
+ * @version 1.0 04/01/2017
+ */
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.SCENE")
@@ -30,29 +39,40 @@ public class Scene {
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "INDEX", nullable = false)
+	/** 
+	 * Posição da qual a cena deve ser exibida,
+	 * 'underline' utilizado devido a palavra 
+	 * reservada do banco de dados.
+	 */
+	@Column(name = "_INDEX", nullable = false)
 	private Integer index;
 	
 	@Column(name = "TEXT", nullable = false)
 	private String text;
 	
-	@Column(name = "URL_BACKGROUND", nullable = false)                                                                     
-	private String urlBackground;
+	@Column(name = "IMAGE_NAME", nullable = false)                                                                     
+	private String imageName;
 	
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name="ID_QUESTION")
+	@JoinColumn(name = "ID_QUESTION")
 	private Question question;
 	
 	@SuppressWarnings("unused")
 	private Scene() {
-		this(null, null, null, null);
+		this(null, null, null, null, null);
+	}
+	
+	public Scene(final Long id, final Integer index, final String text,
+			final String imageName, final Question question) {
+		this(index, text, imageName, question);
+		this.id = id;
 	}
 	
 	public Scene(final Integer index, final String text,
-			final String urlBackground, final Question question) {
+			final String imageName, final Question question) {
 		this.index = index;
 		this.text = text;
-		this.urlBackground = urlBackground;
+		this.imageName = imageName;
 		this.question = question;
 	}
 	
@@ -60,10 +80,12 @@ public class Scene {
 		this.question = null;
 	}
 	
-	public void update(final Scene updateScene) {
+	public String update(final Scene updateScene) {
 		this.text = updateScene.getText();
-		this.urlBackground = updateScene.getUrlBackground();
+		final String oldImageName = this.imageName;
+		this.imageName = updateScene.getImageName();
 		updateQuestion(updateScene.getQuestion());
+		return oldImageName;
 	}
 	
 	public void setIndex(final Integer newIndex) {

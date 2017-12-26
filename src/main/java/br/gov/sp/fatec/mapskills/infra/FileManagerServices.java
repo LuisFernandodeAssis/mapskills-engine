@@ -1,5 +1,5 @@
 /*
- * @(#)FileManagerApplicationServices.java 1.0 1 03/09/2017
+ * @(#)FileManagerServices.java 1.0 1 03/09/2017
  *
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 
 /**
- * A classe {@link FileManagerApplicationServices} e responsavel
+ * A classe {@link FileManagerServices} e responsavel
  * por realizar <i>POST</i> do contexto de uma cena com imagem
  * a ser salva no servico de gerenciamento de arquivos.
  *
@@ -22,11 +22,11 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
  * @version 1.0 03/09/2017
  */
 @Component
-public class FileManagerApplicationServices {
+public class FileManagerServices {
 	
 	private final String fileManagerServer;
 	
-	public FileManagerApplicationServices(@Value("${ws.filemanager.url}") final String urlServer,
+	public FileManagerServices(@Value("${rest.filemanager.post.url}") final String urlServer,
 			final RestTemplate restTemplate) {
 		this.fileManagerServer = urlServer;
 		this.restTemplate = restTemplate;

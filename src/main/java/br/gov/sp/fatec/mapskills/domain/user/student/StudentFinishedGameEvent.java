@@ -11,7 +11,6 @@ import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.STUDENT_FIN
 
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventType;
-import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 
 /**
  * A classe {@link StudentFinishedGameEvent} sinaliza
@@ -25,7 +24,7 @@ public class StudentFinishedGameEvent extends DomainEvent {
 
 	private static final long serialVersionUID = 1L;
 
-	public StudentFinishedGameEvent(final StudentResult source) {
+	public StudentFinishedGameEvent(final Long source) {
 		super(source);
 	}
 
@@ -35,7 +34,7 @@ public class StudentFinishedGameEvent extends DomainEvent {
 	}
 	
 	@Override
-	public StudentResult getSource() {
-		return (StudentResult) super.getSource();
+	public Long getSource() {
+		return (Long) super.getSource();
 	}
 }

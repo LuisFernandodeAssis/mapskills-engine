@@ -138,6 +138,10 @@ public class Institution {
 		this.company = updateInstitution.getCompany();
 		this.level = updateInstitution.getLevel();
 		this.city = updateInstitution.getCity();
+		mentors.stream().forEach(mentor -> {
+			final Mentor mentorUpdate = updateInstitution.getMentorByUsername(mentor.getUsername());
+			mentor.update(mentorUpdate);
+		});
 	}
 	
 	private void addAllMentors(final List<Mentor> mentors) {

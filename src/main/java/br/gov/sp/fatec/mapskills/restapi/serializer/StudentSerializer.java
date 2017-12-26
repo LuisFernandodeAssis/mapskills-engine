@@ -34,7 +34,6 @@ public class StudentSerializer extends DefaultUserSerializer<Student> {
 	public void serialize(final Student student, final Enum<?> arg1, final JsonWriter writer) throws IOException {
 		super.serialize(student, null, writer);
 		writer.writeStringField(SerializationKey.RA, student.getFullRa());
-		writer.writeStringField(SerializationKey.INSTITUTION_CODE, student.getInstitutionCode());
 		writer.writeStringField(SerializationKey.COURSE_CODE, student.getCourseCode());
 		writer.writeStringField(SerializationKey.PHONE, student.getPhone());
 		writer.writeBooleanField(SerializationKey.COMPLETED, student.isCompleted());

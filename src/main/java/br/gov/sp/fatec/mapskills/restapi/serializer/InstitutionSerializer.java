@@ -46,6 +46,7 @@ public class InstitutionSerializer extends AbstractSerializer<Institution> {
 		writer.writeStringField(SerializationKey.COMPANY, institution.getCompany());
 		writer.writeStringField(SerializationKey.LEVEL, institution.getLevel());
 		writer.writeStringField(SerializationKey.CITY, institution.getCity());
+		writer.writeNumberField(SerializationKey.GAME_THEME_ID, institution.getGameThemeId());
 	}
 	
 	private void coursesSerialize(final List<Course> courses, final JsonWriter writer) throws IOException {

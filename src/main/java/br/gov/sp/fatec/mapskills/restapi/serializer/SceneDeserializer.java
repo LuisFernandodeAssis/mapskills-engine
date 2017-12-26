@@ -32,8 +32,7 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
-	
-	//private static final String IP_SERVER = "http://localhost:8585/mapskills/images/";
+
 	private final SkillRepository skillRepository;
 	
 	@Override
@@ -49,13 +48,33 @@ public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
 		return new SceneWrapper(scene, fileImageBase64, filename);
 	}
 	
-	private Question buildQuestion(final JsonNode node) {
-		if(node == null || node.isNull()) {
+	public Question buildQuestion(final JsonNode node) {
+		if(isNull(node)) {
 			return null;
 		}
 		final List<Alternative> alternatives = buildAlternatives(get(node, SerializationKey.ALTERNATIVES));
 		final Question question = new Question(alternatives, getSkillFromNode(node));
 		return question;
+	}
+	
+	/**
+	 * Metodo que recupera o nome do arquivo que representa
+	 * a imagem relacionada a cena, ignorando o endereço da url
+	 * presente no objeto.
+	 * 
+	 * @param node
+	 * 		Objeto Json.
+	 * @return
+	 * 		O nome do arquivo.
+	 */
+	public String getFilename(final JsonNode node) {
+		final JsonNode backgroundNode = get(node, SerializationKey.BACKGROUND);
+		if(has(backgroundNode, SerializationKey.FILENAME)) {
+			final String sourceFile = getFieldTextValue(backgroundNode, SerializationKey.FILENAME);
+			final int sliceIndex = sourceFile.lastIndexOf('/');
+			return sourceFile.substring(sliceIndex + 1);
+		}		
+		return null;
 	}
 	
 	private List<Alternative> buildAlternatives(final JsonNode node) {
@@ -78,16 +97,6 @@ public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
 		}		
 		return null;
 	}
-	
-	private String getFilename(final JsonNode node) {
-		final JsonNode backgroundNode = get(node, SerializationKey.BACKGROUND);
-		if(has(backgroundNode, SerializationKey.FILENAME)) {
-			final String sourceFile = getFieldTextValue(backgroundNode, SerializationKey.FILENAME);
-			final int lastIndex = sourceFile.lastIndexOf('/');
-			return sourceFile.substring(lastIndex + 1);
-		}		
-		return null;
-	}	
 	
 	private Skill getSkillFromNode(final JsonNode node) {
 		final Long id = getFieldLongValue(node, SerializationKey.SKILL_ID);

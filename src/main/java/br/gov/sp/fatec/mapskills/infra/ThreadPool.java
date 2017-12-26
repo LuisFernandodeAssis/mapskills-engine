@@ -9,6 +9,7 @@ package br.gov.sp.fatec.mapskills.infra;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A classe <code>ThreadPool</code> representa o pool de threads da aplicacao.
@@ -23,4 +24,8 @@ public class ThreadPool {
 	public void execute(final Runnable runnable) {
 		executor.execute(runnable);
 	}
+	
+	public void awaitTermination(final int timeout) throws InterruptedException {
+        executor.awaitTermination(timeout, TimeUnit.SECONDS);
+    }
 }

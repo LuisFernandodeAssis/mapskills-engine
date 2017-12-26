@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -62,7 +61,7 @@ public class StudentResult {
 	@Column(name = "INSTITUTION_COMPANY")
 	private final String institutionCompany;
 	
-	@Enumerated(EnumType.STRING)
+	@Enumerated
 	@Column(name = "INSTITUTION_LEVEL")
 	private final InstitutionLevel institutionLevel;
 	

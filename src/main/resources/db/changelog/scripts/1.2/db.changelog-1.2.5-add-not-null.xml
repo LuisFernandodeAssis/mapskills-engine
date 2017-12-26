@@ -22,7 +22,7 @@
 	<changeSet author="marcelo-inacio" id="add-not-null-constraint-scene">
 	    <addNotNullConstraint catalogName="MAPSKILLS"
 	            columnDataType="NUMERIC"
-	            columnName="INDEX"
+	            columnName="_INDEX"
 	            tableName="SCENE"/>
 	</changeSet>
 	

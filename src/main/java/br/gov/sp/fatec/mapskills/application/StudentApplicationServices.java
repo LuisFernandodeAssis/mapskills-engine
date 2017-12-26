@@ -14,15 +14,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
-import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContextRepository;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeDomainServices;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentDomainServices;
-import br.gov.sp.fatec.mapskills.domain.user.student.StudentFinishedGameEvent;
-import br.gov.sp.fatec.mapskills.domain.user.student.UpdateReportServiceListener;
-import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
-import br.gov.sp.fatec.mapskills.studentresult.StudentResultRepository;
 import lombok.AllArgsConstructor;
 
 /**
@@ -37,15 +32,12 @@ import lombok.AllArgsConstructor;
 public class StudentApplicationServices {
 	
 	private final StudentDomainServices domainServices;
-	private final StudentQuestionContextRepository answerRepository;
 	private final GameThemeDomainServices gameDomainServices;
-	private final UpdateReportServiceListener updateReportListener;
-	private final StudentResultRepository studentResultRepository;
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Student> saveStudentsFromExcel(final InputStream inputStream) {
-		return domainServices.saveStudentsFromExcel(inputStream);
+	public void saveStudentsFromExcel(final InputStream inputStream) {
+		domainServices.saveStudentsFromExcel(inputStream);
 	}
 	
 	@Transactional
@@ -63,16 +55,11 @@ public class StudentApplicationServices {
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
 	public void registryAnswerContext(final StudentQuestionContext context, final int remainingQuestions) {
-		answerRepository.save(context);
-		if(remainingQuestions == 0) {
-			final StudentResult result = studentResultRepository.findOne(context.getStudentId());
-			updateReportListener.notify(new StudentFinishedGameEvent(result));
-		}
+		domainServices.registryAnswerContext(context, remainingQuestions);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Scene> getScenesNotAnswered(final Long studentId) {
-		final List<StudentQuestionContext> context = answerRepository.findByStudentId(studentId);
-		return gameDomainServices.getScenesNotAnswered(studentId, context);
+		return gameDomainServices.getScenesNotAnswered(studentId);
 	}
 }

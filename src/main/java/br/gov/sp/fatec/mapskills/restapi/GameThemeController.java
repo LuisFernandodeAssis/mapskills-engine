@@ -38,8 +38,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class GameThemeController {
 	
-	//public static final String BASE_PATH = "/admin";
-	
 	private final GameThemeApplicationServices applicationServices;
 	
 	/**
@@ -68,7 +66,8 @@ public class GameThemeController {
 	 * Expoe endpoint para que seja criada uma nova cena para um tema do jogo na aplicacao.
 	 */
 	@PostMapping("/game/{id}/scene")
-	public void createScene(@PathVariable("id") final Long gameThemeId, @RequestBody final SceneWrapper sceneWrapper) {
+	public void createScene(@PathVariable("id") final Long gameThemeId,
+			@RequestBody final SceneWrapper sceneWrapper) {
 		applicationServices.createScene(gameThemeId, sceneWrapper);
 	}
 	
@@ -85,7 +84,7 @@ public class GameThemeController {
 	 * 
 	 * Expoe endpoint para excluir uma questao de cena.
 	 */
-	@DeleteMapping("/game/{themeId}/scene/{sceneId}/question")//alterar end point no front
+	@DeleteMapping("/game/{themeId}/scene/{sceneId}/question")
 	public void deleteQuestion(@PathVariable("themeId") final Long themeId,
 			@PathVariable("sceneId") final Long sceneId) {
 		applicationServices.deleteQuestion(themeId, sceneId);
@@ -93,9 +92,9 @@ public class GameThemeController {
 	
 	/**
 	 * 
-	 * Expoe endpoint para remocao de um tema.
+	 * Expoe endpoint para remocao de uma cena.
 	 */
-	@DeleteMapping("/game/{themeId}/scene/{sceneId}")//alterar end point no front
+	@DeleteMapping("/game/{themeId}/scene/{sceneId}")
 	public void deleteScene(@PathVariable("themeId") final Long themeId,
 			@PathVariable("sceneId") final Long sceneId) {
 		applicationServices.deleteScene(themeId, sceneId);
@@ -103,11 +102,32 @@ public class GameThemeController {
 	
 	/**
 	 * 
+	 * Expoe endpoint para atualizacao de um cena de um tema de jogo na aplicacao.
+	 */
+	@PutMapping("/game/{themeId}/scene/{sceneId}")
+	public void updateScene(@PathVariable("themeId") final Long themeId,
+			@PathVariable("sceneId") final Long sceneId,
+			@RequestBody final SceneWrapper sceneWrapper) {
+		applicationServices.updateScene(themeId, sceneId, sceneWrapper);
+	}
+	
+	/**
+	 * 
 	 * Expoe endpoint para realiza atualizacao das ordens das cenas de um tema.
 	 */
-	@PutMapping("/game/{themeId}/scenes")//alterar end point no front
+	@PutMapping("/game/{themeId}/scenes")
 	public void updateIndexScenes(@PathVariable("themeId") final Long themeId,
 			@RequestBody final SceneListWrapper sceneListWrapper) {
 		applicationServices.updateSceneIndexes(themeId, sceneListWrapper.getScenes());
+	}
+	
+	/**
+	 * 
+	 * Expoe endpoint para atualizar o <i>status</i> de um tema de jogo.
+	 */
+	@PutMapping("/game/{themeId}")
+	public void updateGameThemeStatus(@PathVariable("themeId") final Long themeId,
+			@RequestParam(name = "status", required = true) final boolean status) {
+		applicationServices.updateGameThemeStatus(themeId, status);
 	}
 }

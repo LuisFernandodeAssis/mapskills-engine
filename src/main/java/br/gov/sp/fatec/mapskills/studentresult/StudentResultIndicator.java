@@ -30,8 +30,11 @@ import lombok.Getter;
 public class StudentResultIndicator {
 	
 	@Id
+	@Column(name = "ID")
+	private final Long id;
+	
 	@Column(name = "ID_STUDENT")
-	private Long studentId;
+	private final Long studentId;
 	
 	@Column(name = "SKILL_NAME")
 	private final String skillName;
@@ -43,6 +46,8 @@ public class StudentResultIndicator {
 	private final Long total;
 	
 	private StudentResultIndicator() {
+		this.id = null;
+		this.studentId = null;
 		this.skillName = null;
 		this.skillDescription = null;
 		this.total = null;

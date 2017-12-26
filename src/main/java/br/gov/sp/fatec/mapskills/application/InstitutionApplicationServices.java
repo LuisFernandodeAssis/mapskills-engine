@@ -19,6 +19,7 @@ import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionDomainServices;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
+import br.gov.sp.fatec.mapskills.domain.user.student.StudentSpecification;
 import lombok.AllArgsConstructor;
 
 /**
@@ -75,12 +76,12 @@ public class InstitutionApplicationServices {
 	}
 
 	@PreAuthorize("isFullyAuthenticated()")
-	public Page<Student> getStudentsByInstitutionCode(final String institutionCode, final Pageable pageable) {
-		return domainServices.getStudentsByInstitutionCode(institutionCode, pageable);
+	public Page<Student> getStudents(final StudentSpecification specification, final Pageable pageable) {
+		return domainServices.getStudents(specification, pageable);
 	}
 
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Course> getCoursesByInstitutionCode(final String institutionCode) {
 		return domainServices.getCoursesByInstitutionCode(institutionCode);
-	}	
+	}
 }

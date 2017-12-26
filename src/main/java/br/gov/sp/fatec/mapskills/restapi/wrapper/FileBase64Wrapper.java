@@ -34,5 +34,4 @@ public class FileBase64Wrapper {
 	public InputStream getInputStream() {
 		return inputStream;
 	}
-
 }

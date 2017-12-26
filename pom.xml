@@ -43,7 +43,7 @@
 		<datasource.driver>com.mysql.jdbc.Driver</datasource.driver>
 		<datasource.username>mapskills</datasource.username>
 		<datasource.password>mapskills</datasource.password>
-		<datasource.dropAll>false</datasource.dropAll>
+		<datasource.dropAll>true</datasource.dropAll>
 		<datasource.skip>false</datasource.skip>
 		<datasource.promptOnNonLocalDatabase>false</datasource.promptOnNonLocalDatabase>
 
@@ -60,9 +60,6 @@
 
 		<!-- NEXUS -->
 		<maven-deploy-plugin.version>3.5.0</maven-deploy-plugin.version>
-
-		<ws.filemanager.url>http://localhost:8082/file</ws.filemanager.url>
-		<ws.report.server.url>http://localhost:8083/report</ws.report.server.url>
 	</properties>
 
 	<dependencies>
@@ -278,21 +275,42 @@
 			</properties>
 		</profile>
 		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<id>local</id>
 			<properties>
+				<spring.profiles.active>local</spring.profiles.active>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/mapskills</datasource.url>
+				<rest.filemanager.get.url>http://localhost:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.post.url>http://localhost:8082/file</rest.filemanager.post.url>
+				<rest.filemanager.update.url>http://localhost:8082/file/{filename}</rest.filemanager.update.url>
+				<rest.report.url>http://localhost:8083/report</rest.report.url>
 			</properties>
 		</profile>
 		<profile>
 			<id>azure-prd</id>
 			<properties>
+				<spring.profiles.active>azure-prd</spring.profiles.active>
 				<datasource.url>jdbc:mysql://191.232.161.50:3306/mapskills</datasource.url>
+				<nexus.url>http://191.232.161.50:8081</nexus.url>
+				<rest.filemanager.get.url>http://191.232.161.50:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.post.url>http://191.232.161.50:8082/file</rest.filemanager.post.url>
+				<rest.filemanager.update.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.update.url>
+				<rest.report.url>http://191.232.161.50:8083/report</rest.report.url>
 			</properties>
 		</profile>
 		<profile>
 			<id>azure-qas</id>
 			<properties>
+				<spring.profiles.active>azure-qas</spring.profiles.active>
 				<datasource.url>jdbc:mysql://104.41.26.21:3306/mapskills</datasource.url>
+				<nexus.url>http://104.41.26.21:8081</nexus.url>
+				<rest.filemanager.get.url>http://104.41.26.21:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.post.url>http://104.41.26.21:8082/file</rest.filemanager.post.url>
+				<rest.filemanager.update.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.update.url>
+				<rest.filemanager.image.url>http://104.41.26.21:8082/drive/</rest.filemanager.image.url>
+				<rest.report.url>http://104.41.26.21:8083/report</rest.report.url>
 			</properties>
 		</profile>
 	</profiles>
@@ -300,7 +318,7 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>http://191.232.161.50:8081/nexus/content/repositories/snapshots</url>
+			<url>${nexus.url}/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -311,6 +329,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<profiles>
+						<profile>local</profile>
+						<profile>azure-prd</profile>
+						<profile>azure-qas</profile>
+					</profiles>
+		        </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -402,7 +427,7 @@
 				</executions>
 				<configuration>
 					<serverId>nexus</serverId>
-					<nexusUrl>http://191.232.161.50:8081/nexus/</nexusUrl>
+					<nexusUrl>${nexus.url}/nexus/</nexusUrl>
 					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>

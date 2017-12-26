@@ -17,13 +17,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import br.gov.sp.fatec.mapskills.domain.ObjectNotFoundException;
+import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
 /**
  * 
@@ -50,9 +51,7 @@ public class GameTheme {
 	private Boolean active = false;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinTable(name = "MAPSKILLS.SCENE",
-		joinColumns = @JoinColumn(name = "ID_GAME_THEME"),
-		inverseJoinColumns = @JoinColumn(name = "ID"))
+	@JoinColumn(name = "ID_GAME_THEME")
 	@OrderBy("index")
 	private final List<Scene> scenes = new LinkedList<>();
 	
@@ -70,11 +69,15 @@ public class GameTheme {
 	}
 	
 	public void disable() {
-		active = false;
+		this.active = false;
 	}
 	
 	public void enable() {
-		active = true;
+		this.active = true;
+	}	
+
+	public void updateStatus(final boolean status) {
+		this.active = status;
 	}
 	
 	public boolean isActive() {
@@ -83,7 +86,7 @@ public class GameTheme {
 	
 	public void addScene(final Scene newScene) {
 		newScene.setIndex(getNextIndex());
-		scenes.add(newScene);
+		this.scenes.add(newScene);
 	}
 	
 	public void deleteQuestion(final Long sceneId) {
@@ -95,13 +98,14 @@ public class GameTheme {
 		scene.deleteQuestion();
 	}
 	
-	public void deleteScene(final Long sceneId) {
-		final Optional<Scene> optionalScene = getSceneById(sceneId);
-		if(!optionalScene.isPresent()) {
+	public DomainEvent deleteScene(final Long sceneId) {
+		final Optional<Scene> aScene = getSceneById(sceneId);
+		if(!aScene.isPresent()) {
 			throw new ObjectNotFoundException("cena de ID = " + sceneId + "não encontrada");
 		}
-		final Scene scene = optionalScene.get();
-		scenes.remove(scene);		
+		final Scene scene = aScene.get();
+		this.scenes.remove(scene);
+		return new SceneWasDeletedEvent(scene.getImageName());
 	}
 	
 	public void updateSceneIndexes(final List<Scene> updateScenes) {
@@ -111,22 +115,30 @@ public class GameTheme {
 		});
 	}
 	
-	public List<Scene> getScenesNotAnswered(final List<StudentQuestionContext> context) {
-		final List<Scene> scenesNotAnswered = new LinkedList<>();
-		for (final Scene scene : this.scenes) {
-			if(context.stream().noneMatch(c -> c.getSceneId().equals(scene.getId()))) {
-				scenesNotAnswered.add(scene);
-			}
+	public List<Scene> getScenesNotAnswered(final Optional<StudentQuestionContext> lastContext) {
+		if (!lastContext.isPresent()) {
+			return this.scenes;
 		}
-		return scenesNotAnswered;
+		final Optional<Scene> lastSceneAnswered = getSceneById(lastContext.get().getSceneId());
+		final int index = this.scenes.indexOf(lastSceneAnswered.get());
+		return this.scenes.subList(index + 1, this.scenes.size());
+	}
+	
+	public DomainEvent updateScene(final Long sceneId, final SceneWrapper sceneWrapper) {
+		final Optional<Scene> aScene = getSceneById(sceneId);
+		if (aScene.isPresent()) {
+			final String oldImageName = aScene.get().update(sceneWrapper.getScene());
+			return new SceneWasUpdatedEvent(new SceneUpdateContext(sceneWrapper, oldImageName));
+		}
+		return null;
 	}
 	
 	private Integer getNextIndex() {
-		final Long nextIndex = scenes.stream().count() + 1L;
+		final Long nextIndex = this.scenes.stream().count() + 1L;
 		return new Integer(nextIndex.intValue());
 	}
 	
 	private Optional<Scene> getSceneById(final Long sceneId) {
-		return scenes.stream().filter(scene -> scene.getId().equals(sceneId)).findFirst();
+		return this.scenes.stream().filter(scene -> scene.getId().equals(sceneId)).findFirst();
 	}
 }

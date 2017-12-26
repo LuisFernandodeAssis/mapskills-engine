@@ -83,11 +83,6 @@
 	            constraintName="FK_STUDENT_QUESTION_CONTEXT_STUDENT"
 	            referencedColumnNames="ID"
 	            referencedTableName="STUDENT"/>
-	    <addForeignKeyConstraint baseColumnNames="ID_SCENE"
-	            baseTableName="STUDENT_QUESTION_CONTEXT"
-	            constraintName="FK_STUDENT_QUESTION_CONTEXT_SCENE"
-	            referencedColumnNames="ID"
-	            referencedTableName="SCENE"/>
 	    <addForeignKeyConstraint baseColumnNames="ID_SKILL"
 	            baseTableName="STUDENT_QUESTION_CONTEXT"
 	            constraintName="FK_STUDENT_QUESTION_CONTEXT_SKILL"

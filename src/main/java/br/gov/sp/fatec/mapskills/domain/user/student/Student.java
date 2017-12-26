@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.Login;
@@ -77,8 +78,9 @@ public class Student extends User {
 		return completed;
 	}
 	
-	public void completed() {
+	public DomainEvent completed() {
 		completed = true;
+		return new StudentFinishedGameEvent(getId());
 	}
 	
 	public void update(final Student updateStudent) {

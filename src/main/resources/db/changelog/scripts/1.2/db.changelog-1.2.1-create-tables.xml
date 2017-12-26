@@ -101,9 +101,9 @@
 	<changeSet author="marcelo-inacio" id="create-table-scene">
 		<createTable schemaName="MAPSKILLS" tableName="SCENE">
 			<column name="ID" type="java.sql.Types.BIGINT" />
-			<column name="INDEX" type="java.sql.Types.NUMERIC" />
+			<column name="_INDEX" type="java.sql.Types.NUMERIC" />
 			<column name="TEXT" type="java.sql.Types.VARCHAR(250)" />
-			<column name="URL_BACKGROUND" type="java.sql.Types.VARCHAR(250)" />
+			<column name="IMAGE_NAME" type="java.sql.Types.VARCHAR(250)" />
 			<column name="ID_GAME_THEME" type="java.sql.Types.BIGINT" />
 			<column name="ID_QUESTION" type="java.sql.Types.BIGINT" />
 		</createTable>

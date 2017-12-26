@@ -16,6 +16,8 @@ package br.gov.sp.fatec.mapskills.domain.event;
  */
 public enum DomainEventType {
 	
-	STUDENT_FINISHED_GAME_EVENT;
-
+	STUDENT_FINISHED_GAME_EVENT,
+	SCENE_WAS_CREATED_EVENT,
+	SCENE_WAS_UPDATED_EVENT,
+	SCENE_WAS_DELETED_EVENT;
 }

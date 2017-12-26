@@ -6,7 +6,7 @@
  */
 package br.gov.sp.fatec.mapskills.domain.studentquestioncontext;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 /**
@@ -17,7 +17,6 @@ import org.springframework.data.repository.CrudRepository;
  * @version 1.0 19/03/2017
  */
 public interface StudentQuestionContextRepository extends CrudRepository<StudentQuestionContext, Long> {
-	
-	List<StudentQuestionContext> findByStudentId(final Long id);
-	
+
+	Optional<StudentQuestionContext> findFirstByStudentIdOrderBySceneIndexDesc(final Long id);	
 }

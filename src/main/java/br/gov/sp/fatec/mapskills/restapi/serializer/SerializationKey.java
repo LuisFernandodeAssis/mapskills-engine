@@ -57,7 +57,7 @@ public enum SerializationKey {
 	STUDENT_ID("studentId"),
 	SKILL_ID("skillId"),
 	SKILL_VALUE("skillValue"),
-	REMAINING_SCENES("remainingScenes"),
+	REMAINING_QUESTIONS("remainingQuestions"),
 	
 	/*ALTERNATIVE*/
 	ALTERNATIVES("alternatives"),

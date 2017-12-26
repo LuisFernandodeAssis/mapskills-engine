@@ -21,6 +21,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import br.gov.sp.fatec.mapskills.restapi.resolver.StudentSpecificationArgumentResolver;
 /**
  * 
  * A classe {@link WebConfig} contem as configuracoes
@@ -44,6 +46,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setFallbackPageable(new PageRequest(0, 20));
         return resolver;
     }
+	
+	@Bean
+	public StudentSpecificationArgumentResolver studentSpecificationResolver() {
+		return new StudentSpecificationArgumentResolver();
+	}
 	
 	@Bean
     public ContentNegotiatingViewResolver contentViewResolver() {
@@ -78,6 +85,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> argumentResolvers) {
     	argumentResolvers.add(pageableResolver());
+    	argumentResolvers.add(studentSpecificationResolver());
     	super.addArgumentResolvers(argumentResolvers);
     }
 }

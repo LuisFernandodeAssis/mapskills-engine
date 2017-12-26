@@ -43,4 +43,8 @@ public class SceneWrapper {
 	public String getBase64() {
 		return base64;
 	}
+	
+	public Boolean containsBase64() {
+		return base64 != null;
+	}
 }
