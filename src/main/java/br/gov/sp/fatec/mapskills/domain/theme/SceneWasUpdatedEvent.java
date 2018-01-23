@@ -11,7 +11,7 @@ import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.SCENE_WAS_U
 
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventType;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 
 /**
  * A classe {@link SceneWasUpdatedEvent}
@@ -45,7 +45,7 @@ public class SceneWasUpdatedEvent extends DomainEvent {
 		return getSource().getOldFilename();
 	}
 
-	public SceneWrapper getSceneWrapper() {
-		return getSource().getSceneWrapper();
+	public FileContextWrapper getFileWrapper() {
+		return getSource().getFileWrapper();
 	}
 }

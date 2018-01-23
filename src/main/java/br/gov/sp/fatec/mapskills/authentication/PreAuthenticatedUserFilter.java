@@ -32,7 +32,7 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessingFilter {
 	
 	private static final String AUTHORIZATION = "Authorization";
-	private final static Logger LOGGER = LoggerFactory.getLogger(PreAuthenticatedUserFilter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PreAuthenticatedUserFilter.class);
 
 	/** {@inheritDoc} */
 	@Override

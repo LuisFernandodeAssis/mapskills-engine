@@ -69,7 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("providerManager")
     private AuthenticationManager providerManager;
-	/**
+	
+    /**
 	 * configuracao de seguranca em nivel de URI
 	 */
 	@Override

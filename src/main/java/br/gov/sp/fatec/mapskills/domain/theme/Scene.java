@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.springframework.util.ObjectUtils;
 
+import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
 
 /**
@@ -80,18 +81,61 @@ public class Scene {
 		this.question = null;
 	}
 	
-	public String update(final Scene updateScene) {
-		this.text = updateScene.getText();
+	public String update(final Long themeId, final SceneWrapper sceneWrapper) {
+		final Scene scene = sceneWrapper.getScene();
+		this.text = scene.getText();
 		final String oldImageName = this.imageName;
-		this.imageName = updateScene.getImageName();
-		updateQuestion(updateScene.getQuestion());
+		if (sceneWrapper.containsBase64()) {
+			this.imageName = scene.getImageName();			
+			formatImageName(themeId);
+		}
+		updateQuestion(scene.getQuestion());
 		return oldImageName;
 	}
 	
 	public void setIndex(final Integer newIndex) {
 		this.index = newIndex;
 	}
+
+	/**
+	 * Atribui um index a cena de acordo com próximo disponível no tema
+	 * e formata o nome da imagem.
+	 * 
+	 * @param index
+	 * 		posicao a ser exibida no jogo.
+	 * @param themeId
+	 * 		id do tema.
+	 */
+	public void prepareContext(final Integer index, final Long themeId) {
+		setIndex(index);
+		formatImageName(themeId);
+	}
 	
+	/**
+	 * <p>Formata o nome da imagem adicionando um prefixo com o id do {@link GameTheme}
+	 * e index da {@link Scene} afim de que seja unica no contexto.</p>
+	 * Ex.:
+	 * <ul>
+	 * <li> id do tema = 10
+	 * <li> index da cena = 70
+	 * <li> imageName = scene0005.jpg
+	 * </ul>
+	 * <p>
+	 * O nome da imagem será 10_70_scene0005.jpg
+	 * <p>
+	 * @param themeId
+	 * 		id do tema.
+	 */
+	private void formatImageName(final Long themeId) {
+		this.imageName = String.format("%d_%d_%s", themeId, index, imageName).toLowerCase();		
+	}
+	
+	/**
+	 * Atualiza a questão atribuída a cena.
+	 * 
+	 * @param updateQuestion
+	 * 		questao atualizada.
+	 */
 	private void updateQuestion(final Question updateQuestion) {
 		if(ObjectUtils.isEmpty(updateQuestion)) {
 			deleteQuestion();

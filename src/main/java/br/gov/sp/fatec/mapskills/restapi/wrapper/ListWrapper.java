@@ -24,7 +24,7 @@ import br.gov.sp.fatec.mapskills.restapi.serializer.ListSerializer;
 @JsonSerialize(using = ListSerializer.class)
 public class ListWrapper<T> {
 	
-private final List<T> list = new LinkedList<>();
+	private final List<T> list = new LinkedList<>();
 	
 	public ListWrapper(final List<T> list) {
 		this.list.addAll(list);

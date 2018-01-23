@@ -11,7 +11,7 @@ import static br.gov.sp.fatec.mapskills.domain.event.DomainEventType.SCENE_WAS_C
 
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventType;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 
 /**
  * A classe {@link SceneWasCreatedEvent}
@@ -23,7 +23,7 @@ public class SceneWasCreatedEvent extends DomainEvent {
 
 	private static final long serialVersionUID = 1L;
 
-	public SceneWasCreatedEvent(final SceneWrapper source) {
+	public SceneWasCreatedEvent(final FileContextWrapper source) {
 		super(source);
 	}
 
@@ -33,8 +33,8 @@ public class SceneWasCreatedEvent extends DomainEvent {
 	}
 	
 	@Override
-	public SceneWrapper getSource() {
-		return (SceneWrapper) super.getSource();
+	public FileContextWrapper getSource() {
+		return (FileContextWrapper) super.getSource();
 	}
 	
 	public String getBase64() {
@@ -42,6 +42,6 @@ public class SceneWasCreatedEvent extends DomainEvent {
 	}
 	
 	public String getFilename() {
-		return getSource().getFileName();
+		return getSource().getFilename();
 	}
 }

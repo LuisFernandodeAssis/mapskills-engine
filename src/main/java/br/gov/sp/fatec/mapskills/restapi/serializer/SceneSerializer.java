@@ -28,7 +28,7 @@ import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 public class SceneSerializer extends AbstractSerializer<Scene> {
 	
 	@Value("${rest.filemanager.get.url}")
-	private String filemanager;
+	private String url;
 	
 	@Override
 	public void serialize(final Scene scene, final Enum<?> arg1, final JsonWriter writer) throws IOException {
@@ -36,7 +36,7 @@ public class SceneSerializer extends AbstractSerializer<Scene> {
 		writer.writeNumberField(SerializationKey.INDEX, scene.getIndex());
 		writer.writeStringField(SerializationKey.TEXT, scene.getText());
 		writer.writeObjectFieldStart(SerializationKey.BACKGROUND);
-		writer.writeStringField(SerializationKey.FILENAME, filemanager.replace("{filename}", scene.getImageName()));
+		writer.writeStringField(SerializationKey.FILENAME, url.replace("{filename}", scene.getImageName()));
 		writer.writeEndObject();
 		this.questionGenerator(scene.getQuestion(), writer);
 	}

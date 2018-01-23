@@ -33,7 +33,7 @@ public class CreateSceneImageFileListener implements DomainEventListener {
 	private final String serverUrl;
 	
 	public CreateSceneImageFileListener(final ThreadPool threadPool, final RestTemplate rest,
-			@Value("rest.filemanager.post.url") final String serverUrl) {
+			@Value("${rest.filemanager.post.url}") final String serverUrl) {
 		this.threadPool = threadPool;
 		this.rest = rest;
 		this.serverUrl = serverUrl;

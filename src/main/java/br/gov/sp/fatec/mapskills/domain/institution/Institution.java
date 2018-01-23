@@ -31,7 +31,7 @@ import lombok.Getter;
 
 /**
  * 
- * A classe {@link Institution}
+ * A classe {@link Institution} representa uma unidade de ensino.
  *
  * @author Marcelo
  * @version 1.0 01/11/2016
@@ -46,7 +46,7 @@ public class Institution {
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "CODE", nullable = false, unique = true, length = 5)
+	@Column(name = "CODE", nullable = false, unique = true, length = 3)
 	private String code;
 	
 	@Column(name = "CNPJ", nullable = false, unique = true)

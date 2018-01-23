@@ -79,10 +79,9 @@ public class Question {
 	}
 	
 	public void updateAlternatives(final List<Alternative> updateAlternatives) {
-		this.alternatives.stream().forEach(alternative -> {
-			int index = 0;
-			alternative.update(updateAlternatives.get(index++));
-		});
+		for (int index = 0; index < 4; index++) {
+			alternatives.get(index).update(updateAlternatives.get(index));
+		}
 	}
 	
 	private void addAllAlternatives(final List<Alternative> alternatives) {

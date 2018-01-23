@@ -26,4 +26,8 @@ public class FileContextWrapper {
 	
 	private final String base64;
 	private final String filename;
+	
+	public boolean containsBase64() {
+		return base64 != null;
+	}
 }

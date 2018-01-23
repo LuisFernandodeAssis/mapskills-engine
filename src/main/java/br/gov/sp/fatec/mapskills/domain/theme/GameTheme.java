@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import br.gov.sp.fatec.mapskills.domain.ObjectNotFoundException;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
 /**
@@ -85,7 +86,7 @@ public class GameTheme {
 	}
 	
 	public void addScene(final Scene newScene) {
-		newScene.setIndex(getNextIndex());
+		newScene.prepareContext(getNextIndex(), id);
 		this.scenes.add(newScene);
 	}
 	
@@ -127,8 +128,10 @@ public class GameTheme {
 	public DomainEvent updateScene(final Long sceneId, final SceneWrapper sceneWrapper) {
 		final Optional<Scene> aScene = getSceneById(sceneId);
 		if (aScene.isPresent()) {
-			final String oldImageName = aScene.get().update(sceneWrapper.getScene());
-			return new SceneWasUpdatedEvent(new SceneUpdateContext(sceneWrapper, oldImageName));
+			final Scene scene = aScene.get();
+			final String oldImageName = scene.update(this.id, sceneWrapper);
+			return new SceneWasUpdatedEvent(new SceneUpdateContext(
+					new FileContextWrapper(sceneWrapper.getBase64(), scene.getImageName()), oldImageName));
 		}
 		return null;
 	}

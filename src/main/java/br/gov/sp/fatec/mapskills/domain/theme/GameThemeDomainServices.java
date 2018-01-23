@@ -17,6 +17,7 @@ import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventsNotifier;
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext;
 import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContextRepository;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.AllArgsConstructor;
 
@@ -33,7 +34,6 @@ public class GameThemeDomainServices {
 		
 	private final GameThemeRepository repository;
 	private final StudentQuestionContextRepository answerRepository;
-	//private final FileManagerServices fileManagerServices;
 	private final DomainEventsNotifier notifier;
 	
 	public GameTheme createGameTheme(final GameTheme newGameTheme) {
@@ -41,12 +41,11 @@ public class GameThemeDomainServices {
 	}
 	
 	public Scene createScene(final Long gameThemeId, final SceneWrapper sceneWrapper) {
-		//fileManagerServices.saveImage(sceneWrapper);
 		final GameTheme theme = repository.findOne(gameThemeId);
 		final Scene newScene = sceneWrapper.getScene();
 		theme.addScene(newScene);
 		repository.save(theme);
-		notifier.notifyListeners(new SceneWasCreatedEvent(sceneWrapper));
+		notifier.notifyListeners(new SceneWasCreatedEvent(new FileContextWrapper(sceneWrapper.getBase64(), newScene.getImageName())));
 		return newScene;
 	}
 	

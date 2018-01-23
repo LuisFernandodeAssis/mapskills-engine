@@ -7,7 +7,7 @@
 
 package br.gov.sp.fatec.mapskills.domain.theme;
 
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
+import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,10 +21,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SceneUpdateContext {
 	
-	private final SceneWrapper sceneWrapper;
+	private final FileContextWrapper fileWrapper;
 	private final String oldFilename;
 	
 	public boolean containsBase64() {
-		return sceneWrapper.containsBase64();
+		return fileWrapper.containsBase64();
 	}
 }

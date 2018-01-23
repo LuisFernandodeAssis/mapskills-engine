@@ -282,7 +282,7 @@
 			<properties>
 				<spring.profiles.active>local</spring.profiles.active>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/mapskills</datasource.url>
-				<rest.filemanager.get.url>http://localhost:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.get.url>http://localhost:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://localhost:8082/file</rest.filemanager.post.url>
 				<rest.filemanager.update.url>http://localhost:8082/file/{filename}</rest.filemanager.update.url>
 				<rest.report.url>http://localhost:8083/report</rest.report.url>
@@ -294,7 +294,7 @@
 				<spring.profiles.active>azure-prd</spring.profiles.active>
 				<datasource.url>jdbc:mysql://191.232.161.50:3306/mapskills</datasource.url>
 				<nexus.url>http://191.232.161.50:8081</nexus.url>
-				<rest.filemanager.get.url>http://191.232.161.50:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.get.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://191.232.161.50:8082/file</rest.filemanager.post.url>
 				<rest.filemanager.update.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.update.url>
 				<rest.report.url>http://191.232.161.50:8083/report</rest.report.url>
@@ -306,7 +306,7 @@
 				<spring.profiles.active>azure-qas</spring.profiles.active>
 				<datasource.url>jdbc:mysql://104.41.26.21:3306/mapskills</datasource.url>
 				<nexus.url>http://104.41.26.21:8081</nexus.url>
-				<rest.filemanager.get.url>http://104.41.26.21:8082/drive?filename={filename}</rest.filemanager.get.url>
+				<rest.filemanager.get.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://104.41.26.21:8082/file</rest.filemanager.post.url>
 				<rest.filemanager.update.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.update.url>
 				<rest.filemanager.image.url>http://104.41.26.21:8082/drive/</rest.filemanager.image.url>

@@ -31,7 +31,7 @@ public class UpdateSceneImageFileListener implements DomainEventListener {
 	private final String serverUrl;
 	
 	public UpdateSceneImageFileListener(final ThreadPool threadPool,
-			final RestTemplate rest, @Value("rest.filemanager.update.url") final String serverUrl) {
+			final RestTemplate rest, @Value("${rest.filemanager.update.url}") final String serverUrl) {
 		this.threadPool = threadPool;
 		this.rest = rest;
 		this.serverUrl = serverUrl;
@@ -43,7 +43,7 @@ public class UpdateSceneImageFileListener implements DomainEventListener {
 		if (evt.containsBase64()) {
 			threadPool.execute(() -> {
 				final String url = serverUrl.replace("{filename}", evt.getOldFilename());
-				rest.put(url, evt.getSceneWrapper());
+				rest.put(url, evt.getFileWrapper());
 			});
 		}
 	}
