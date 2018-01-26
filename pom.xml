@@ -292,7 +292,7 @@
 			<id>azure-prd</id>
 			<properties>
 				<spring.profiles.active>azure-prd</spring.profiles.active>
-				<datasource.url>jdbc:mysql://191.232.161.50:3306/mapskills</datasource.url>
+				<datasource.url>jdbc:mysql://191.232.161.50:3306/MAPSKILLS</datasource.url>
 				<nexus.url>http://191.232.161.50:8081</nexus.url>
 				<rest.filemanager.get.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://191.232.161.50:8082/file</rest.filemanager.post.url>
@@ -304,7 +304,7 @@
 			<id>azure-qas</id>
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
-				<datasource.url>jdbc:mysql://104.41.26.21:3306/mapskills</datasource.url>
+				<datasource.url>jdbc:mysql://104.41.26.21:3306/MAPSKILLS</datasource.url>
 				<nexus.url>http://104.41.26.21:8081</nexus.url>
 				<rest.filemanager.get.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://104.41.26.21:8082/file</rest.filemanager.post.url>
