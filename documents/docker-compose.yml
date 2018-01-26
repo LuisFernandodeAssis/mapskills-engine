@@ -10,3 +10,5 @@ services:
       MYSQL_ROOT_PASSWORD: mapskills
       MYSQL_USER: mapskills
       MYSQL_PASS: mapskills
+    ports:
+      - 3306:3306
