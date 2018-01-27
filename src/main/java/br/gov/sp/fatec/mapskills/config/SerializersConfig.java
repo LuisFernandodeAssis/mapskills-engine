@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import java.util.EnumMap;
@@ -24,8 +25,8 @@ import br.gov.sp.fatec.mapskills.domain.user.Administrator;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.restapi.serializer.AbstractSerializer;
+
 /**
- * 
  * A classe {@link SerializersConfig} possui uma configuracao de estrategia de
  * serializacao de perfil, onde cada perfil possui seu serializador.
  *

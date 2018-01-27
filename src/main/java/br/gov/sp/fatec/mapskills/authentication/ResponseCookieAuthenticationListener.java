@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.authentication;
 
 import java.io.IOException;
@@ -30,24 +31,22 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 /**
- * 
- * A classe {@link ResponseHeaderAuthenticationListener} e
- * reponsavel por gerar o token JWT, e gravar no header da
- * resposta o token que dara ao cliente autorizacao aos
- * servicos fornecidos pela aplicacao.
+ * A classe {@link ResponseCookieAuthenticationListener} e reponsavel por
+ * gerar o token JWT, e gravar no header da resposta o token que dara ao
+ * cliente autorizacao aos servicos fornecidos pela aplicacao.
  *
  * @author Marcelo
  * @version 1.0 27/01/2017
  */
 @Component
-public class ResponseHeaderAuthenticationListener implements AuthenticationListener {
+public class ResponseCookieAuthenticationListener implements AuthenticationListener {
 	
-	private static Logger logger = Logger.getLogger(ResponseHeaderAuthenticationListener.class.getName());
+	private static Logger logger = Logger.getLogger(ResponseCookieAuthenticationListener.class.getName());
 	private static final long FIVE_HOURS_IN_MILLISECONDS = 60000L * 300L;
     private final JWSSigner signer;
     
     @Autowired
-    public ResponseHeaderAuthenticationListener(@Value("${jwt.secret}") final String secret) throws JOSEException {
+    public ResponseCookieAuthenticationListener(@Value("${jwt.secret}") final String secret) throws JOSEException {
         super();
         this.signer = new MACSigner(secret);
     }
@@ -74,11 +73,10 @@ public class ResponseHeaderAuthenticationListener implements AuthenticationListe
             throw new AuthenticationServiceException("The given JWT could not be signed.");
         }
 
-        final HttpServletResponse resp = event.getResponse();
+        final HttpServletResponse response = event.getResponse();
         final String bearer = String.format("Bearer %s", signedJWT.serialize());
-        resp.setHeader("Authorization", bearer);
         final Cookie cookie = new Cookie("Authorization", URLEncoder.encode(bearer, "UTF-8"));
         cookie.setHttpOnly(true);
-        resp.addCookie(cookie);
+        response.addCookie(cookie);
 	}
 }

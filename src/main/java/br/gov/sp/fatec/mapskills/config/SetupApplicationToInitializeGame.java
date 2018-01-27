@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import java.io.BufferedReader;
@@ -38,8 +39,8 @@ import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
+
 /**
- * 
  * A classe {@link SetupApplicationToInitializeGame} utilizada para
  * automatizar a primeira carga de informacoes na base de dados da
  * aplicacao, estando as informacoes em arquivos de texto.

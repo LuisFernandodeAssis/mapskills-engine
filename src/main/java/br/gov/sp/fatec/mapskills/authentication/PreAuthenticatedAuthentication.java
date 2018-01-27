@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.authentication;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import br.gov.sp.fatec.mapskills.domain.user.User;
 
 /**
- * 
  * A classe {@link PreAuthenticatedAuthentication}
  *
  * @author Marcelo

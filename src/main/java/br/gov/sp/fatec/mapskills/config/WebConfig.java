@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import java.util.List;
@@ -23,8 +24,8 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import br.gov.sp.fatec.mapskills.restapi.resolver.StudentSpecificationArgumentResolver;
+
 /**
- * 
  * A classe {@link WebConfig} contem as configuracoes
  * que diz respeito a toda parte de servico web.
  *

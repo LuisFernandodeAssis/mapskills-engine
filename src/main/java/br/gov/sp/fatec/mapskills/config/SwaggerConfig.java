@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import org.springframework.context.annotation.Bean;
@@ -14,8 +15,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
- * 
  * A classe {@link SwaggerConfig} representa as
  * configuracoes basicas do <i>Swagger</i> para
  * a documentacao das api's utilizadas pela aplicacao.

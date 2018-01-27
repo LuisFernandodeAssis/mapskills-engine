@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
  * proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.authentication;
 
 import java.security.Principal;
@@ -15,6 +16,16 @@ import org.springframework.security.core.Authentication;
 
 import br.gov.sp.fatec.mapskills.domain.user.User;
 
+/**
+ * A classe <code>AuthenticationEvent</code> representa o evento de
+ * autenticação realizada com sucesso na aplicação. Pelo fato de que os
+ * <i>listeners</i> desse evento podem lidar com a requisição HTTP, instâncias
+ * dessa classe também tem os objetos que representam a requisição e a resposta
+ * HTTP.
+ *
+ * @author Roberto Perillo
+ * @version 1.0 05/02/2016
+ */
 public class AuthenticationEvent extends AuthenticationSuccessEvent {
 
 	private static final long serialVersionUID = 1L;

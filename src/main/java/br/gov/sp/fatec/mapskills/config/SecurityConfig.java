@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ import br.gov.sp.fatec.mapskills.authentication.jwt.JwtSignatureVerifier;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtVerifier;
 
 /**
- * 
  * A classe {@link SecurityConfig} representa as configuracoes
  * de seguranca da aplicacao em nivel de URI.
  *
@@ -145,9 +145,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
     public List<AuthenticationListener> authenticationListeners(
-            @Qualifier("responseHeaderAuthenticationListener") final AuthenticationListener responseHeaderListener) {
+            @Qualifier("responseCookieAuthenticationListener") final AuthenticationListener responseCookieListener) {
         final List<AuthenticationListener> list = new ArrayList<>(1);
-        list.add(responseHeaderListener);
+        list.add(responseCookieListener);
         return list;
     }
 	

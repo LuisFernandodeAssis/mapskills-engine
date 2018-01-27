@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.config;
 
 import org.springframework.context.annotation.Bean;
@@ -15,8 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.gov.sp.fatec.mapskills.infra.ThreadPool;
+
 /**
- * 
  * A classe {@link SpringContextConfig} representa as
  * configuracoes necessarias para o uso da aplicacao em producao.
  *
