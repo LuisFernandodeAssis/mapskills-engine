@@ -1,6 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+	<name>Map Skills</name>
+	<groupId>br.gov.sp.fatec</groupId>
+	<artifactId>mapskills-engine</artifactId>
+	<version>2.0.0</version>
+	<packaging>jar</packaging>
+	<description>Aplicacao para avaliacao de competencias. Projeto Map Skills. Parte do desenvolvimento do TG</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,17 +15,11 @@
 		<version>1.5.8.RELEASE</version>
 	</parent>
 
-	<name>Map Skills</name>
-	<groupId>br.gov.sp.fatec</groupId>
-	<artifactId>mapskills</artifactId>
-	<version>2.0.0</version>
-	<description>Aplicacao para avaliacao de competencias. Projeto Map Skills. Parte do desenvolvimento do TG</description>
-
 	<developers>
 		<developer>
 			<name>Marcelo Inacio</name>
 			<organization>Faculdade de Tecnologia - FATEC - Jessen Vidal</organization>
-			<organizationUrl>http://http://fatecsjc.azurewebsites.net</organizationUrl>
+			<organizationUrl>http://fatecsjc.azurewebsites.net</organizationUrl>
 			<email>marcelo.silva135@fatec.sp.gov.br</email>
 			<roles>
 				<role>Java Developer</role>
@@ -433,6 +434,15 @@
 					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.3.6</version>
+				<configuration>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -481,15 +491,6 @@
 							<exclude>**/test/*.class</exclude>
 						</excludes>
 					</instrumentation>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.3.6</version>
-				<configuration>
-					<repository>${docker.image.prefix}/${project.artifactId}</repository>
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
 				</configuration>
 			</plugin>
 		</plugins>
