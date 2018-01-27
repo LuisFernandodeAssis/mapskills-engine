@@ -19,8 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Immutable;
-
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import lombok.Getter;
 
@@ -35,7 +33,6 @@ import lombok.Getter;
  */
 @Getter
 @Entity
-@Immutable
 @Table(name = "MAPSKILLS.CSV_REPORT_VIEW")
 public class StudentResult {
 

@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Immutable;
-
 import lombok.Getter;
 
 /**
@@ -25,7 +23,6 @@ import lombok.Getter;
  */
 @Getter
 @Entity
-@Immutable
 @Table(name = "MAPSKILLS.STUDENT_RADAR_RESULT_VIEW")
 public class StudentResultIndicator {
 	
