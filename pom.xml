@@ -43,7 +43,6 @@
 		<datasource.driver>com.mysql.jdbc.Driver</datasource.driver>
 		<datasource.username>mapskills</datasource.username>
 		<datasource.password>mapskills</datasource.password>
-		<datasource.dropAll>true</datasource.dropAll>
 		<datasource.skip>false</datasource.skip>
 		<datasource.promptOnNonLocalDatabase>false</datasource.promptOnNonLocalDatabase>
 
@@ -60,7 +59,7 @@
 
 		<!-- NEXUS -->
 		<maven-deploy-plugin.version>3.5.0</maven-deploy-plugin.version>
-		
+
 		<docker.image.prefix>mapskills</docker.image.prefix>
 	</properties>
 
@@ -284,6 +283,7 @@
 			<properties>
 				<spring.profiles.active>local</spring.profiles.active>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/mapskills</datasource.url>
+				<datasource.dropAll>false</datasource.dropAll>
 				<rest.filemanager.get.url>http://localhost:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://localhost:8082/file</rest.filemanager.post.url>
 				<rest.filemanager.update.url>http://localhost:8082/file/{filename}</rest.filemanager.update.url>
@@ -295,6 +295,7 @@
 			<properties>
 				<spring.profiles.active>azure-prd</spring.profiles.active>
 				<datasource.url>jdbc:mysql://191.232.161.50:3306/MAPSKILLS</datasource.url>
+				<datasource.dropAll>false</datasource.dropAll>
 				<nexus.url>http://191.232.161.50:8081</nexus.url>
 				<rest.filemanager.get.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://191.232.161.50:8082/file</rest.filemanager.post.url>
@@ -307,6 +308,7 @@
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
 				<datasource.url>jdbc:mysql://104.41.26.21:3306/MAPSKILLS</datasource.url>
+				<datasource.dropAll>false</datasource.dropAll>
 				<nexus.url>http://104.41.26.21:8081</nexus.url>
 				<rest.filemanager.get.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.get.url>
 				<rest.filemanager.post.url>http://104.41.26.21:8082/file</rest.filemanager.post.url>
@@ -325,8 +327,6 @@
 	</distributionManagement>
 
 	<build>
-		<finalName>mapskills</finalName>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -337,7 +337,7 @@
 						<profile>azure-prd</profile>
 						<profile>azure-qas</profile>
 					</profiles>
-		        </configuration>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
