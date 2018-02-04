@@ -25,7 +25,8 @@ import br.gov.sp.fatec.mapskills.infra.ThreadPool;
  * @version 1.0 01/11/2016
  */
 @Configuration
-@PropertySource({"classpath:application.properties", "classpath:authentication.properties"})
+@PropertySource({"classpath:application.properties",
+	"classpath:/br/gov/sp/fatec/mapskills/security/security.properties"})
 public class SpringContextConfig {
 	
 	@Bean

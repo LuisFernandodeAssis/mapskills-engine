@@ -33,7 +33,7 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessingFilter {
 	
 	private static final String AUTHORIZATION = "Authorization";
-	private static final Logger LOGGER = LoggerFactory.getLogger(PreAuthenticatedUserFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(PreAuthenticatedUserFilter.class);
 
 	/** {@inheritDoc} */
 	@Override
@@ -42,7 +42,7 @@ public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessi
 		if (authorizationCookie != null) {
             return authorizationCookie.contains(";") ? authorizationCookie.substring(7, authorizationCookie.indexOf(';')) : authorizationCookie.substring(7);
         }
-		return request.getHeader(AUTHORIZATION) != null ? request.getHeader(AUTHORIZATION) : request.getParameter(AUTHORIZATION);
+		return null;
 	}
 	
 	/** {@inheritDoc} */
@@ -73,7 +73,7 @@ public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessi
                     try {
                         return URLDecoder.decode(cookie.getValue(), "UTF-8");
                     } catch (final UnsupportedEncodingException e) {
-                    	LOGGER.info("Exception: ", e);
+                    	logger.info("Exception: ", e);
                         throw new UnauthorizedAuthenticationException("Error decoding JWT token");
                     }
                 }

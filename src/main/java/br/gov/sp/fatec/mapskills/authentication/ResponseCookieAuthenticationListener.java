@@ -10,13 +10,13 @@ package br.gov.sp.fatec.mapskills.authentication;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -41,13 +41,12 @@ import com.nimbusds.jwt.SignedJWT;
 @Component
 public class ResponseCookieAuthenticationListener implements AuthenticationListener {
 	
-	private static Logger logger = Logger.getLogger(ResponseCookieAuthenticationListener.class.getName());
+	private Logger logger = LoggerFactory.getLogger(ResponseCookieAuthenticationListener.class);
 	private static final long FIVE_HOURS_IN_MILLISECONDS = 60000L * 300L;
     private final JWSSigner signer;
     
     @Autowired
     public ResponseCookieAuthenticationListener(@Value("${jwt.secret}") final String secret) throws JOSEException {
-        super();
         this.signer = new MACSigner(secret);
     }
 
@@ -68,8 +67,8 @@ public class ResponseCookieAuthenticationListener implements AuthenticationListe
 
         try {
             signedJWT.sign(signer);
-        } catch (final JOSEException e) {
-        	logger.log(Level.SEVERE, e.getMessage(), e);
+        } catch (final JOSEException exception) {
+        	logger.error("O JWT não pode ser assinado.", exception);
             throw new AuthenticationServiceException("The given JWT could not be signed.");
         }
 

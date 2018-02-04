@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.authentication.jwt;
 
 import java.text.ParseException;
@@ -14,6 +15,14 @@ import org.springframework.stereotype.Component;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 
+/**
+ * A classe <code>NotBeforeTimeClaimsVerifier</code> verifica se o JWT sendo
+ * verificado esta dentro do limite minimo de tempo, ou, em outras palavras,
+ * expirado.
+ *
+ * @author Roberto Perillo
+ * @version 1.0 09/10/2016
+ */
 @Component
 public class ReferenceDateClaimsVerifier implements JwtVerifier {
 
@@ -24,12 +33,10 @@ public class ReferenceDateClaimsVerifier implements JwtVerifier {
         try {
             claims = jwt.getJWTClaimsSet();
         } catch (final ParseException exception) {
-            throw new JwtTokenException("Invalid JWT.");
+            throw new JwtTokenException("Invalid JWT.", exception);
         }
-        final Date referenceTime = new Date();
         final Date expirationTime = claims.getExpirationTime();
-
-        if (expirationTime == null || expirationTime.before(referenceTime)) {
+        if (expirationTime == null || expirationTime.before(new Date())) {
             throw new JwtTokenException("The token is expired");
         }
     }

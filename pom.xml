@@ -32,6 +32,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<build.final.name>mapskills-engine</build.final.name>
+		
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.surefire.version>2.19.1</maven.surefire.version>
@@ -440,7 +442,7 @@
 				<version>1.3.6</version>
 				<configuration>
 					<repository>${docker.image.prefix}/${project.artifactId}</repository>
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<imageName>${docker.image.prefix}-engine</imageName>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -54,7 +56,11 @@ import br.gov.sp.fatec.mapskills.authentication.jwt.JwtVerifier;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@PropertySource("classpath:/br/gov/sp/fatec/mapskills/security/security.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+    private Environment env;
 	
 	@Autowired
     @Qualifier("jwtAuthenticationManager")
@@ -84,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()
 			.antMatchers(HttpMethod.GET, "/images/**").permitAll();
+		http.authorizeRequests().anyRequest().fullyAuthenticated();
 	}
 	
 	/**
@@ -103,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
     public CorsFilter corsFilter() {
-        return new CorsFilter();
+        return new CorsFilter(env.getProperty("allowed.origins"));
     }
 	
 	/**

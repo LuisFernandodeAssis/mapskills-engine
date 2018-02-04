@@ -4,11 +4,11 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.authentication.jwt;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.nimbusds.jose.JOSEException;
@@ -17,17 +17,29 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.SignedJWT;
 
+/**
+ * A classe <code>JwtSignatureVerifier</code> verifica se a assinatura presente
+ * em um JWT e valida, de forma a verificar a integridade do JWT.
+ *
+ * @author Roberto Perillo
+ * @version 1.0 10/10/2016
+ */
 @Component
 public class JwtSignatureVerifier implements JwtVerifier {
 	
-	private static final Logger LOGGER = Logger.getLogger(JwtSignatureVerifier.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(JwtSignatureVerifier.class);
 	private final JWSVerifier verifier;
 	
-	public JwtSignatureVerifier(final String secret) throws JOSEException {
+	public JwtSignatureVerifier(final String secret) {
         super();
-        this.verifier = new MACVerifier(secret);
+        try {
+            this.verifier = new MACVerifier(secret);
+        } catch (final JOSEException exception) {
+            throw new IllegalArgumentException("The given secret is invalid.", exception);
+        }
     }
 
+	/** {@inheritDoc} */
 	@Override
 	public void verify(final JWT jwt) {
 		final SignedJWT signedJwt = (SignedJWT) jwt;
@@ -36,8 +48,8 @@ public class JwtSignatureVerifier implements JwtVerifier {
                 throw new JwtTokenException("Invalid signature.");
             }
         } catch (final JOSEException exception) {
-        	LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
-            throw new JwtTokenException("The JWT signature could not be verified.");
+        	logger.error("A assinatura JWT não pôde ser verificada.", exception);
+            throw new JwtTokenException("The JWT signature could not be verified.", exception);
         }        
 	}
 }
