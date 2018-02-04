@@ -43,3 +43,9 @@ Configuração Eclipse : [Eclipse](http://www.eclipse.org/ "Eclipse")
 
 Executar Projeto
 - `mvn spring-boot:run`
+
+Construir imagem docker : [Docker](https://www.docker.com/ "Docker")
+- A partir do Dockerfile  
+`docker build -t mapskills-engine .`
+- A partir do maven  
+mvn clean package -Plocal `dockerfile:build`
