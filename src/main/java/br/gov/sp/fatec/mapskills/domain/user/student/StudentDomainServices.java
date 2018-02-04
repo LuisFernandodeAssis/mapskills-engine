@@ -57,7 +57,7 @@ public class StudentDomainServices {
 	
 	public Student updateStudent(final Long id, final Student student) {
 		final Student studentFound = repository.findOne(id);
-		studentFound.update(studentFound);
+		studentFound.update(student);
 		return repository.save(studentFound);
 	}
 

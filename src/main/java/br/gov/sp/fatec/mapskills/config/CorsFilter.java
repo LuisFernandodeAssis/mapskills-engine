@@ -65,12 +65,6 @@ public class CorsFilter extends OncePerRequestFilter {
 		
 		final String[] origins = allowedOrigins.split(",");
 		final String clientOrigin = request.getHeader("Origin");
-        /*for (final String origin : origins) {
-            if (clientOrigin != null && clientOrigin.equals(origin)) {
-                response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-                break;
-            }
-        }*/
         
         Arrays.asList(origins).stream().filter(origin -> clientOrigin != null && clientOrigin.equals(origin))
         .findFirst().ifPresent(origin -> response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin));
