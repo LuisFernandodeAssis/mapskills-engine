@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.institution;
 
 import java.util.LinkedList;
@@ -23,8 +24,8 @@ import javax.persistence.Table;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.Getter;
 import lombok.Setter;
+
 /**
- * 
  * A classe {@link Course} representa um curso ao qual
  * uma intituicao pertence.
  *

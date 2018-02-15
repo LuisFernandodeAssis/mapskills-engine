@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi;
 
 import java.util.List;
@@ -32,7 +33,6 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
- * 
  * A classe {@link InstitutionController} e responsavel por conter todos
  * end points (uri's) de acesso do perfil mentor da aplicacao.
  *
@@ -110,9 +110,20 @@ public class InstitutionController {
 	 * Endpoint que realiza o cadastro de um curso para uma instituticao.
 	 */
 	@PostMapping("/institution/course")
-	public ListWrapper<Course> saveCourse(@RequestBody final CourseWrapper courseWrapper) {
-		final List<Course> courses = applicationServices.saveCourse(courseWrapper.getCourse());
-		return new ListWrapper<Course>(courses);
+	public void saveCourse(@RequestBody final CourseWrapper courseWrapper) {
+		applicationServices.saveCourse(courseWrapper.getCourse());
+	}
+	
+	/**
+	 * End-point capaz de atualizar um curso previamente cadastrado.
+	 * 
+	 * @param courseId Id do curso.
+	 * @param courseWrapper Curso atualizado.
+	 */
+	@PutMapping("/institution/course/{id}")
+	public void updateCourse(@PathVariable("id") final Long courseId,
+			@RequestBody final CourseWrapper courseWrapper) {
+		applicationServices.updateCourse(courseId, courseWrapper.getCourse());
 	}
 	
 	/**

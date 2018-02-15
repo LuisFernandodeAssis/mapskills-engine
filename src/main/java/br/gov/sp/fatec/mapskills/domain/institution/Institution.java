@@ -144,11 +144,21 @@ public class Institution {
 		});
 	}
 	
+	public void updateCourse(final Long courseId, final Course courseUpdated) {
+		final Course course = getCourseById(courseId);
+		course.update(courseUpdated);
+	}
+	
 	private void addAllMentors(final List<Mentor> mentors) {
 		if(!CollectionUtils.isEmpty(mentors)) {
 			mentors.stream().forEach(mentor -> {
 				addMentor(mentor);
 			});			
 		}
+	}
+	
+	private Course getCourseById(final Long courseId) {
+		final Optional<Course> aCourse = courses.stream().filter(course -> course.getId().equals(courseId)).findFirst();
+		return aCourse.isPresent() ? aCourse.get() : null;
 	}
 }

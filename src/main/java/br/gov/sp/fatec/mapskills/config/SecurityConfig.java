@@ -183,5 +183,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         methodInvokingFactoryBean.setTargetMethod("setStrategyName");
         methodInvokingFactoryBean.setArguments(new Object[] {SecurityContextHolder.MODE_INHERITABLETHREADLOCAL});
         return methodInvokingFactoryBean;
-    }	
+    }
 }

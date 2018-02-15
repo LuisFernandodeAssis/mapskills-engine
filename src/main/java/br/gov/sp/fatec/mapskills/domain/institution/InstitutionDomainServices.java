@@ -78,12 +78,18 @@ public class InstitutionDomainServices {
 		return institution;
 	}
 	
-	public List<Course> saveCourse(final Course newCourse) {
+	public void saveCourse(final Course newCourse) {
 		final Mentor mentor = (Mentor) userRepository.getLoggedUser();
 		final Institution institution = getInstitutionById(mentor.getInstitutionId());
 		institution.addCourse(newCourse);
 		institutionRepository.save(institution);
-		return institution.getCourses();
+	}
+	
+	public void updateCourse(final Long courseId, final Course course) {
+		final Mentor mentor = (Mentor) userRepository.getLoggedUser();
+		final Institution institution = getInstitutionById(mentor.getInstitutionId());
+		institution.updateCourse(courseId, course);
+		institutionRepository.save(institution);
 	}
 
 	public Page<Student> getStudents(final StudentSpecification specification, final Pageable pageable) {

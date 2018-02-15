@@ -71,8 +71,14 @@ public class InstitutionApplicationServices {
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Course> saveCourse(final Course newCourse) {
-		return domainServices.saveCourse(newCourse);
+	public void saveCourse(final Course newCourse) {
+		domainServices.saveCourse(newCourse);
+	}
+	
+	@Transactional
+	@PreAuthorize("isFullyAuthenticated()")
+	public void updateCourse(final Long courseId, final Course course) {
+		domainServices.updateCourse(courseId, course);
 	}
 
 	@PreAuthorize("isFullyAuthenticated()")
