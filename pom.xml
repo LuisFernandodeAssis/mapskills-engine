@@ -283,9 +283,6 @@
 			</properties>
 		</profile>
 		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<id>local</id>
 			<properties>
 				<spring.profiles.active>local</spring.profiles.active>
@@ -312,6 +309,9 @@
 		</profile>
 		<profile>
 			<id>azure-qas</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
 				<datasource.url>jdbc:mysql://104.41.26.21:3306/MAPSKILLS</datasource.url>
