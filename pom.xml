@@ -385,22 +385,6 @@
 					<databaseChangeLogTableName>DATABASECHANGELOG</databaseChangeLogTableName>
 					<databaseChangeLogLockTableName>DATABASECHANGELOGLOCK</databaseChangeLogLockTableName>
 				</configuration>
-				<executions>
-					<execution>
-						<id>liquibase-install</id>
-						<phase>install</phase>
-						<goals>
-							<goal>update</goal>
-						</goals>
-						<configuration>
-							<url>${datasource.url}</url>
-							<username>${datasource.username}</username>
-							<password>${datasource.password}</password>
-							<contexts>${datasource.contexts}</contexts>
-							<skip>${datasource.skip}</skip>
-						</configuration>
-					</execution>
-				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>mysql</groupId>
