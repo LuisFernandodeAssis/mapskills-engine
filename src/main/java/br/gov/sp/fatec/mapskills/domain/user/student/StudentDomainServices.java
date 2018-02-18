@@ -10,9 +10,9 @@ package br.gov.sp.fatec.mapskills.domain.user.student;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventsNotifier;
@@ -40,18 +40,24 @@ public class StudentDomainServices {
 		final List<Student> students = documentReader.readDocument(inputStream);
 		final List<Student> studentsToSave = new LinkedList<>();
 		students.stream().forEach(student -> {
-			final Student studentFound = repository.findByRaOrUsername(student.getFullRa(), student.getUsername());
-			if (ObjectUtils.isEmpty(studentFound)) {
+			final Optional<Student> studentFound = repository.findByRaOrUsername(student.getFullRa(), student.getUsername());
+			if (!studentFound.isPresent()) {
 				studentsToSave.add(student);
-				return;
+			} else {
+				final Student aStudent = studentFound.get();
+				aStudent.update(student);
+				studentsToSave.add(aStudent);				
 			}
-			studentFound.update(student);
-			studentsToSave.add(studentFound);
 		});		
 		repository.save(studentsToSave);
 	}
 	
 	public Student saveStudent(final Student student) {
+		final Optional<Student> aStudent = repository.findByRaOrUsername(student.getFullRa(), student.getUsername());
+		if (aStudent.isPresent()) {
+			final String message = "Aluno de RA: %s ou E-MAIL: %s já existe na aplicação";
+			throw new StudentAlreadyExistsException(String.format(message, student.getFullRa(), student.getUsername()));
+		}
 		return repository.save(student);
 	}
 	

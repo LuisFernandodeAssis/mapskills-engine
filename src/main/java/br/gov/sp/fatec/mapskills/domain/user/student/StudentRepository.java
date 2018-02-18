@@ -6,6 +6,7 @@
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +25,7 @@ public interface StudentRepository extends PagingAndSortingRepository<Student, L
 	List<Student> findAllByCourseAndInstitution(final String courseCode, final String institutionCode);
 	
 	@Query("SELECT student FROM Student student WHERE student.ra.fullRa = ?1 OR student.login.username = ?2")
-	Student findByRaOrUsername(final String ra, final String username);
+	Optional<Student> findByRaOrUsername(final String ra, final String username);
 	
 	Student findByRaFullRa(final String ra);
 }

@@ -33,7 +33,7 @@ import lombok.Getter;
 public abstract class User implements Principal {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Long id;
 	
