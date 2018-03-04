@@ -1,0 +1,12 @@
+[
+  {
+    "id": 4,
+    "name": "Gerência de escola",
+    "active": true
+  },
+  {
+    "id": 5,
+    "name": "Gerência de empresa de música",
+    "active": true
+  }
+]

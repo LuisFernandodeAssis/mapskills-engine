@@ -42,11 +42,7 @@ public class Mentor extends User {
 	public Mentor(final String name, final String username, final String password) {
 		super(name, new Login(username, password));
 	}
-	
-	public void update(final Mentor mentorUpdate) {
-		super.update(mentorUpdate);
-	}	
-	
+		
 	public Long getInstitutionId() {
 		return institution.getId();
 	}

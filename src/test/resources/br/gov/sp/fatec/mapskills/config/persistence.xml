@@ -37,8 +37,9 @@
 		<properties>
 			<property name="eclipselink.cache-usage" value="CheckCacheThenDatabase" />
 			<property name="eclipselink.orm.throw.exceptions" value="true" />
-			<property name="eclipselink.query-results-cache" value="true" />
+			<property name="eclipselink.query-results-cache" value="false" />
 			<property name="eclipselink.weaving" value="false"/>
+			<property name="eclipselink.cache.shared.default" value="false"/>
 		</properties>
 	</persistence-unit>
 </persistence>

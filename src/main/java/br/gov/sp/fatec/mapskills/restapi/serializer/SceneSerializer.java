@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -17,9 +18,8 @@ import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 
 /**
- * 
  * A classe {@link SceneSerializer} eh responsavel por 
- * serializar todo um contexto de cenas que o jogo possui.
+ * serializar um contexto de cenas que o jogo possui.
  *
  * @author Marcelo
  * @version 1.0 01/11/2016

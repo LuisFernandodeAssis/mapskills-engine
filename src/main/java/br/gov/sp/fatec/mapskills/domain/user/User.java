@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user;
 
 import java.security.Principal;
@@ -20,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
+
 /**
  * A classe abstrata <code>User</code> é uma entidade que 
  * representa usuario generico que pode acessar a aplicacao.

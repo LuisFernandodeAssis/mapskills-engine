@@ -4,9 +4,10 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain;
+
 /**
- * 
  * A classe {@link MapSkillsException} representa a excecao raiz
  * de todas as excecoes que podem acontecer dentro da aplicacao.
  *

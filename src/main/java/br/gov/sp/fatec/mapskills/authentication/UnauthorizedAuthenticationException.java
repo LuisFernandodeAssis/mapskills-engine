@@ -20,7 +20,7 @@ public class UnauthorizedAuthenticationException extends AuthenticationException
 
 	private static final long serialVersionUID = 1L;
 
-	public UnauthorizedAuthenticationException(final String msg) {
-		super(msg);
+	public UnauthorizedAuthenticationException(final String msg, final Throwable cause) {
+		super(msg, cause);
 	}
 }

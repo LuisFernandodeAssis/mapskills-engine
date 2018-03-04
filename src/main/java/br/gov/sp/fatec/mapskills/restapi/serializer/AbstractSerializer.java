@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public abstract class AbstractSerializer<T> extends JsonSerializer<T> {
 
+	@Override
 	public void serialize(final T value, final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException {
 		this.serialize(value, new JsonWriter(jsonGenerator));

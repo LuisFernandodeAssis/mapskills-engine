@@ -56,14 +56,14 @@ public class StudentController {
 	@PostMapping("/student")
 	public SingleWrapper<Student> saveStudent(@RequestBody final StudentWrapper studentWrapper) {
 		final Student student = applicationServices.saveStudent(studentWrapper.getStudent());
-		return new SingleWrapper<Student>(student);
+		return new SingleWrapper<>(student);
 	}
 	
 	@PutMapping("/student/{studentId}")
 	public SingleWrapper<Student> updateStudent(@PathVariable("studentId")final Long id,
 			@RequestBody final StudentWrapper wrapper) {
 		final Student student = applicationServices.updateStudent(id, wrapper.getStudent());
-		return new SingleWrapper<Student>(student);
+		return new SingleWrapper<>(student);
 	}
 	
 	/**
@@ -83,6 +83,6 @@ public class StudentController {
 	@GetMapping("/student/{id}/scene")
 	public ListWrapper<Scene> getScene(@PathVariable("id") final Long studentId) {
 		final List<Scene> scenes = applicationServices.getScenesNotAnswered(studentId);
-		return new ListWrapper<Scene>(scenes);
+		return new ListWrapper<>(scenes);
 	}
 }

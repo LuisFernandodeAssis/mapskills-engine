@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.infra;
 
 import java.io.IOException;
@@ -22,7 +23,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.StringUtils;
 
 /**
- * 
  * A classe {@link ExcelDocumentReader} tem objetivo de converter arquivo xlsx
  * em objetos para serem persistidos no banco de dados. Utiliza
  * padrao de projetos template method.

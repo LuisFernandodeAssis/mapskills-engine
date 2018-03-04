@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "code": "146",
+    "cnpj": 65090609000144,
+    "company": "Jessen Vidal",
+    "level": "SUPERIOR",
+    "city": "São José dos Campos - SP",
+    "gameThemeId": null
+  },
+  {
+    "id": 2,
+    "code": "282",
+    "cnpj": 65058955000145,
+    "company": "Etec - Guara",
+    "level": "TECHNICAL",
+    "city": "Guaratinguetá - SP",
+    "gameThemeId": null
+  }
+]

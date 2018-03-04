@@ -7,7 +7,7 @@
 
 package br.gov.sp.fatec.mapskills.domain.event;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +33,7 @@ public class DomainEventsNotifier {
     
     public DomainEventsNotifier(final Map<DomainEventType, List<DomainEventListener>> listeners) {
         super();
-        this.listeners = new HashMap<>(listeners.size());
+        this.listeners = new EnumMap<>(DomainEventType.class);
         this.listeners.putAll(listeners);
     }
     

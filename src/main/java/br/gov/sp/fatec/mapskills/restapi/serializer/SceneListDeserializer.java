@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.util.LinkedList;
@@ -16,8 +17,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 import lombok.AllArgsConstructor;
-/**
- * 
+
+/** 
  * A classe {@link SceneListDeserializer} e responsavel
  * por deserializar uma lista de cenas de um tema para
  * que seja cadastrados ou atualizados.
@@ -34,9 +35,7 @@ public class SceneListDeserializer extends AbstractJsonDeserializer<SceneListWra
 	@Override
 	protected SceneListWrapper deserialize(final JsonNode node) {
         final List<Scene> scenes = new LinkedList<>();
-        node.forEach(currentNode -> {
-        	scenes.add(buildScene(currentNode));
-        });
+        node.forEach(currentNode -> scenes.add(buildScene(currentNode)));
 		return new SceneListWrapper(scenes);
 	}	
 	

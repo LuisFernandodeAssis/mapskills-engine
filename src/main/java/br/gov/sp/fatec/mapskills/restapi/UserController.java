@@ -6,6 +6,9 @@
  */
 package br.gov.sp.fatec.mapskills.restapi;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +38,7 @@ public class UserController {
 	@GetMapping("/user")
 	public SingleWrapper<User> getUser(@RequestParam("username") final String username) {
 		final User user = userService.findUserByUsername(username);
-		return new SingleWrapper<User>(user);
+		return new SingleWrapper<>(user);
 	}
 	
 	/**
@@ -44,6 +47,14 @@ public class UserController {
 	@PutMapping("/user")
 	public void changePassword(@RequestParam(name = "username", required = true) final String username,
 			@RequestParam(name = "newPassword", required = true) final String newPassword) {		
-		userService.updatePassword(username, newPassword);
+		userService.updatePassword(username, urlDecode(newPassword));
+	}
+	
+	private String urlDecode(final String parameter) {
+		try {
+			return URLDecoder.decode(parameter, "UTF-8");
+		} catch (final UnsupportedEncodingException exception) {
+			throw new IllegalArgumentException(exception);
+		}
 	}
 }

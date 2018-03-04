@@ -37,7 +37,7 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
 			userService.authenticate(user, authentication.getCredentials().toString());	
 			return new PreAuthenticatedAuthentication(user);		
 		} catch (final UserNotFoundException exception) {
-			throw new BadCredentialsException("username/password invalid");
+			throw new BadCredentialsException("username/password invalid", exception);
 		}		
 	}
 

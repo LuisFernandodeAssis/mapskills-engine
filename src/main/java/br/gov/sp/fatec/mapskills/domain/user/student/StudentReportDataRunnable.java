@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import br.gov.sp.fatec.mapskills.infra.ThreadPool;
 import br.gov.sp.fatec.mapskills.restapi.RestException;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.StudentResultWrapper;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResult;
 import br.gov.sp.fatec.mapskills.studentresult.StudentResultRepository;
+import br.gov.sp.fatec.mapskills.utils.ThreadPool;
 import lombok.AllArgsConstructor;
 
 /**

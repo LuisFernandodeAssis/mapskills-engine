@@ -43,13 +43,14 @@ public class Student extends User {
 	
 	@SuppressWarnings("unused")
 	private Student() {
-		this("0000000000000", null, null, null, null);
+		this("0000000000000", null, null, null, null, null);
 	}
 			
 	public Student(final String ra, final String name, final String phone,
-			final String username, final String password) {
+			final Course course, final String username, final String password) {
 		super(name, new Login(username, password));
 		this.ra = new AcademicRegistry(ra);
+		this.course = course;
 		this.phone = phone;
 		this.completed = false;
 	}
@@ -86,7 +87,8 @@ public class Student extends User {
 	public void update(final Student updateStudent) {
 		super.update(updateStudent);
 		this.ra = updateStudent.getAcademicRegistry();
-		this.phone = updateStudent.getPhone();		
+		this.phone = updateStudent.getPhone();	
+		this.course = updateStudent.getCourse();
 	}
 
 	@Override

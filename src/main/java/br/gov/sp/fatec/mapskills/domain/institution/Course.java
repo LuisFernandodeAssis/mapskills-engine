@@ -48,8 +48,8 @@ public class Course {
 	@Column(name = "NAME")
 	private String name;
 	
-	@Column(name = "PERIOD")
 	@Enumerated
+	@Column(name = "_PERIOD")
 	private Period period;
 	
 	@Setter

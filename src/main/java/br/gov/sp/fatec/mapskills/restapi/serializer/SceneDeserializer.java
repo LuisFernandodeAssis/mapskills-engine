@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import br.gov.sp.fatec.mapskills.domain.theme.Question;
 import br.gov.sp.fatec.mapskills.domain.theme.Scene;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.AllArgsConstructor;
+
 /**
- * 
  * A classe {@link SceneDeserializer} e responsavel
  * por deserializar um <i>POST</i> de uma cena
  * para que seja cadastrada ou atualizada.
@@ -45,7 +46,7 @@ public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
         final Scene scene = new Scene(getFieldIntegerValue(node, SerializationKey.INDEX),
         		getFieldTextValue(node, SerializationKey.TEXT), filename, question);
         
-		return new SceneWrapper(scene, fileImageBase64, filename);
+		return new SceneWrapper(scene, fileImageBase64);
 	}
 	
 	public Question buildQuestion(final JsonNode node) {
@@ -53,8 +54,7 @@ public class SceneDeserializer extends AbstractJsonDeserializer<SceneWrapper> {
 			return null;
 		}
 		final List<Alternative> alternatives = buildAlternatives(get(node, SerializationKey.ALTERNATIVES));
-		final Question question = new Question(alternatives, getSkillFromNode(node));
-		return question;
+		return new Question(alternatives, getSkillFromNode(node));
 	}
 	
 	/**

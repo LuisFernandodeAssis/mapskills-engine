@@ -5,12 +5,13 @@
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 
-package br.gov.sp.fatec.mapskills.config;
+package br.gov.sp.fatec.mapskills.restapi;
 
 import static org.dbunit.Assertion.assertEqualsByQuery;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -36,7 +37,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.util.MultiValueMap;
 import org.xml.sax.InputSource;
 
 import net.minidev.json.JSONValue;
@@ -76,7 +76,7 @@ public abstract class AbstractIntegrationTest {
 
 	@Before
 	public void setDatabaseUp() throws Exception {
-		if (!(isAfterFirstRun)) {
+		if (!isAfterFirstRun) {
 			runSQLCommands(getDatabaseFile());
 		}
 		runSQLCommands(getClearDatabaseFile());
@@ -173,8 +173,16 @@ public abstract class AbstractIntegrationTest {
 		return mvc.perform(post(url).content(json).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 	
-	protected ResultActions performPut(final MockMvc mvc, final String url, final MultiValueMap<String, String> params, final String json) throws Exception {
-		return mvc.perform(put(url).params(params).content(json).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	protected ResultActions performPut(final MockMvc mvc, final String url, final String json) throws Exception {
+		return mvc.perform(put(url).content(json).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+	
+	protected ResultActions performPut(final MockMvc mvc, final String url) throws Exception {
+		return mvc.perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+	
+	protected ResultActions performDelete(final MockMvc mvc, final String url) throws Exception {
+		return mvc.perform(delete(url).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 	
 	protected String getJsonResult(final MvcResult mvcResult) throws Exception {
@@ -182,7 +190,7 @@ public abstract class AbstractIntegrationTest {
     }
 
 	private static Properties loadProperties() throws Exception {
-		final InputStream stream = ClassLoader.getSystemResourceAsStream("datasource.properties");
+		final InputStream stream = ClassLoader.getSystemResourceAsStream("br/gov/sp/fatec/mapskills/config/datasource.properties");
 		if (stream == null) {
 			throw new FileNotFoundException(
 					"File datasource.properties not found. A file named datasource.properties must be present in the src/test/resources folder of the project whose class is being tested.");

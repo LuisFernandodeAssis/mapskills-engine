@@ -25,7 +25,6 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.GameThemeWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.ListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneListWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
-import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
@@ -45,9 +44,8 @@ public class GameThemeController {
 	 * Expoe endpoint para que seja realizado o cadastro de um novo tema na aplicacao.
 	 */
 	@PostMapping("/game/theme")
-	public SingleWrapper<GameTheme> createTheme(@RequestBody final GameThemeWrapper themeWrapper) {
-		final GameTheme themeCreated = applicationServices.createGameTheme(themeWrapper.getGameTheme());
-		return new SingleWrapper<GameTheme>(themeCreated);
+	public void createTheme(@RequestBody final GameThemeWrapper themeWrapper) {
+		applicationServices.createGameTheme(themeWrapper.getGameTheme());
 	}
 	
 	/***
@@ -58,7 +56,7 @@ public class GameThemeController {
 	public ListWrapper<GameTheme> getThemes(
 			@RequestParam(value = "onlyActives", required = false) final boolean onlyActives) {
 		final List<GameTheme> themes = applicationServices.getAllGameThemes(onlyActives);
-		return new ListWrapper<GameTheme>(themes); 
+		return new ListWrapper<>(themes);
 	}
 	
 	/**
@@ -77,7 +75,7 @@ public class GameThemeController {
 	 */
 	@GetMapping("/game/theme/{themeId}")
 	public ListWrapper<Scene> getAllScenesByThemeId(@PathVariable("themeId") final Long themeId) {
-		return new ListWrapper<Scene>(applicationServices.getAllScenesByThemeId(themeId));
+		return new ListWrapper<>(applicationServices.getAllScenesByThemeId(themeId));
 	}
 	
 	/**

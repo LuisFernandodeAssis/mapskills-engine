@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<GAME_THEME ID="1" NAME="Gerência de pizzaria" ACTIVE="true" />
+	<GAME_THEME ID="2" NAME="Gerência de mecânica" ACTIVE="true" />
+	<GAME_THEME ID="3" NAME="Gerência de farmácia" ACTIVE="false" />
+	<GAME_THEME ID="4" NAME="Gerência de escola" ACTIVE="false" />
+	<GAME_THEME ID="5" NAME="Gerência de empresa de música" ACTIVE="true" />
+</dataset>

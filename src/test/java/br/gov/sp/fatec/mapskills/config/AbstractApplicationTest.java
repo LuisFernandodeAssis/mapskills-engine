@@ -12,38 +12,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.Filter;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
-import br.gov.sp.fatec.mapskills.domain.institution.Course;
-import br.gov.sp.fatec.mapskills.domain.institution.Period;
-import br.gov.sp.fatec.mapskills.domain.institution.Institution;
-import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
-import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
-import br.gov.sp.fatec.mapskills.domain.skill.Skill;
-import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 
 /**
  * 
@@ -118,39 +102,6 @@ public abstract class AbstractApplicationTest {
 				.param("username", username)
 				.param("password", password)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED));
-	}
-	
-	protected List<Student> getStudentsMock() throws MapSkillsException {
-		final List<Student> students = new ArrayList<>(4);
-		students.add(new Student("1460281423010", "Student MockA", "1289003400", "studentA@fatec.sp.gov.br", "mudar@123"));
-		students.add(new Student("1460281423020", "Student MockB", "1289003400", "studentB@fatec.sp.gov.br", "mudar@123"));
-		students.add(new Student("1460281423030", "Student MockC", "1289003400", "studentC@fatec.sp.gov.br", "mudar@123"));
-		students.add(new Student("1460281423040", "Student MockD", "1289003400", "studentD@fatec.sp.gov.br", "mudar@123"));
-		
-		return students;
-	}
-	
-	protected Student getOneStudent() throws MapSkillsException {
-		return  new Student("1460281423050", "Student MockE", "1289003400", "aluno@fatec.sp.gov.br", encoder.encode("mudar@123"));
-	}
-	
-	protected Institution getOneInstitution() {
-		final Institution institution = new Institution("146", 33177625000182L, "Fatec-Teste", InstitutionLevel.SUPERIOR, "Cidade-Teste", null, Collections.emptyList(), null);
-		institution.addMentor(new Mentor("Fabiola Vaz", "fabiola.vaz@fatec.sp.gov.br", "mudar@123"));
-		institution.addCourse(getOneCourse());
-		return institution;
-	}
-	
-	protected Course getOneCourse() {
-		return new Course("028", "Administração", Period.MORNING);
-	}
-	
-	protected List<Skill> getSkillsMock() {
-		final List<Skill> skills = new ArrayList<>(3);
-		skills.add(new Skill("Liderança", " liderança.."));
-		skills.add(new Skill("Visão de Futuro", " visão.."));
-		skills.add(new Skill("Gestão de Tempo", " gestão.."));
-		return skills;
 	}
 	
 	protected String parseFileToJson(final String fileName) throws IOException {

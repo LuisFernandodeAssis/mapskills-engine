@@ -53,7 +53,7 @@ public class AcademicRegistry {
 		validate(ra);
 		this.fullRa = ra;
 		this.institutionCode = ra.substring(0, 3);
-		this.courseCode = ra.substring(0, 3);
+		this.courseCode = ra.substring(3, 6);
 		this.startYear = Integer.parseInt("20" + ra.substring(6, 8));
 		this.startSemester = Short.parseShort(ra.substring(8, 9));
 		this.studentCode = ra.substring(9);

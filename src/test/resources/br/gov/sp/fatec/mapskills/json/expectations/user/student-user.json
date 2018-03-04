@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "name": "Alana Manuela Lima",
+  "profile": "STUDENT",
+  "username": "alana.manuela.lima@fatec.sp.gov.br",
+  "password": "EMPTY_PASS",
+  "ra": "1234561813000",
+  "courseCode": "456",
+  "phone": "(12) 3903-6556",
+  "completed": false,
+  "course": {
+    "id": 1,
+    "code": "456",
+    "name": "Banco de Dados",
+    "period": "MORNING",
+    "institutionCode": "123"
+  },
+  "institution": {
+    "id": 1,
+    "code": "123",
+    "cnpj": 4973674000123,
+    "company": "Fatec de teste",
+    "level": "SUPERIOR",
+    "city": "São José",
+    "gameThemeId": null
+  }
+}

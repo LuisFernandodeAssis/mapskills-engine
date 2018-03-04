@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.theme;
 
 import javax.persistence.CascadeType;
@@ -22,7 +23,6 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
 
 /**
- * 
  * A classe {@link Scene} representa uma cena de tema
  * de jogo da aplicacao.
  * 
@@ -86,7 +86,7 @@ public class Scene {
 		this.text = scene.getText();
 		final String oldImageName = this.imageName;
 		if (sceneWrapper.containsBase64()) {
-			this.imageName = scene.getImageName();			
+			this.imageName = scene.getImageName();
 			formatImageName(themeId);
 		}
 		updateQuestion(scene.getQuestion());

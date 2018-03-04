@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<SCENE _INDEX="0" TEXT="Olá bem vindo" IMAGE_NAME="5_0_img.jpg" ID_GAME_THEME="5" ID_QUESTION=""/>
+	<SCENE _INDEX="1" TEXT="Agora me responda" IMAGE_NAME="5_1_img.jpg" ID_GAME_THEME="5" ID_QUESTION="1"/>
+</dataset>

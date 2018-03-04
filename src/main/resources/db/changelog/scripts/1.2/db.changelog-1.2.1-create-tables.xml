@@ -38,7 +38,7 @@
 			<column name="ID" type="java.sql.Types.BIGINT" />
 			<column name="CODE" type="java.sql.Types.VARCHAR(5)" />
 			<column name="NAME" type="java.sql.Types.VARCHAR(250)" />
-			<column name="PERIOD" type="java.sql.Types.NUMERIC" />
+			<column name="_PERIOD" type="java.sql.Types.NUMERIC" />
 			<column name="ID_INSTITUTION" type="java.sql.Types.BIGINT" />
 		</createTable>
 	</changeSet>

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
 import br.gov.sp.fatec.mapskills.domain.ObjectNotFoundException;
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import br.gov.sp.fatec.mapskills.domain.theme.GameThemeRepository;
@@ -49,7 +48,7 @@ public class InstitutionDomainServices {
 		institutionRepository.save(institution);
 	}
 	
-	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) throws MapSkillsException {
+	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) {
 		final List<Institution> institutionsFromExcel = institutionExcelFileHandle.readDocument(inputStream);
 		institutionRepository.save(institutionsFromExcel);
 		return institutionsFromExcel;

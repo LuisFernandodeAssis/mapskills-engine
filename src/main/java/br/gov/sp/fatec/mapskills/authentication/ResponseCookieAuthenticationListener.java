@@ -7,11 +7,10 @@
 
 package br.gov.sp.fatec.mapskills.authentication;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +50,7 @@ public class ResponseCookieAuthenticationListener implements AuthenticationListe
     }
 
 	@Override
-	public void onAuthenticationSuccess(final AuthenticationEvent event) throws IOException, ServletException {
+	public void onAuthenticationSuccess(final AuthenticationEvent event) {
 		final long now = System.currentTimeMillis();
 		final JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
 				.subject(event.getUsername())
@@ -74,8 +73,17 @@ public class ResponseCookieAuthenticationListener implements AuthenticationListe
 
         final HttpServletResponse response = event.getResponse();
         final String bearer = String.format("Bearer %s", signedJWT.serialize());
-        final Cookie cookie = new Cookie("Authorization", URLEncoder.encode(bearer, "UTF-8"));
+        final Cookie cookie = new Cookie("Authorization", urlEncode(bearer));
         cookie.setHttpOnly(true);
+        cookie.setSecure(true);
         response.addCookie(cookie);
+	}
+	
+	private String urlEncode(final String param) {
+		try {
+			return URLEncoder.encode(param, "UTF-8");
+		} catch (final UnsupportedEncodingException exception) {
+			throw new IllegalArgumentException(exception);
+		}
 	}
 }

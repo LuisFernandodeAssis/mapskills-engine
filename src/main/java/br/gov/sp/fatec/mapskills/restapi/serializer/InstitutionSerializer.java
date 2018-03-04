@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -15,8 +16,8 @@ import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import lombok.AllArgsConstructor;
+
 /**
- * 
  * A classe {@link InstitutionSerializer} e responsavel
  * por serializar algumas informacaoes adicionais sobre uma determinada
  * instituicao.
@@ -29,6 +30,7 @@ import lombok.AllArgsConstructor;
 public class InstitutionSerializer extends AbstractSerializer<Institution> {
 	
 	private final CourseSerializer courseSerializer;
+	
 	@SuppressWarnings("rawtypes")
 	private final DefaultUserSerializer defaultUserSerializer;
 	
@@ -39,6 +41,7 @@ public class InstitutionSerializer extends AbstractSerializer<Institution> {
 		mentorsSerialize(institution.getMentors(), writer);
 	}
 	
+	@Override
 	public void serialize(final Institution institution, final JsonWriter writer) throws IOException {
 		writer.writeNumberField(SerializationKey.ID, institution.getId());
 		writer.writeStringField(SerializationKey.CODE, institution.getCode());

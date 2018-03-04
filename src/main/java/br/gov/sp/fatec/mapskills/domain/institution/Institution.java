@@ -89,11 +89,9 @@ public class Institution {
 		this.gameTheme = gameTheme;
 	}
 		
-	public void addAllCourses(final List<Course> courses) {
+	private void addAllCourses(final List<Course> courses) {
 		this.courses.clear();
-		courses.stream().forEach(course -> {
-			addCourse(course);
-		});
+		courses.stream().forEach(this::addCourse);
 	}
 		
 	public List<Mentor> getMentors() {
@@ -145,20 +143,19 @@ public class Institution {
 	}
 	
 	public void updateCourse(final Long courseId, final Course courseUpdated) {
-		final Course course = getCourseById(courseId);
-		course.update(courseUpdated);
+		final Optional<Course> course = getCourseById(courseId);
+		if (course.isPresent()) {
+			course.get().update(courseUpdated);			
+		}
 	}
 	
 	private void addAllMentors(final List<Mentor> mentors) {
 		if(!CollectionUtils.isEmpty(mentors)) {
-			mentors.stream().forEach(mentor -> {
-				addMentor(mentor);
-			});			
+			mentors.stream().forEach(this::addMentor);			
 		}
 	}
 	
-	private Course getCourseById(final Long courseId) {
-		final Optional<Course> aCourse = courses.stream().filter(course -> course.getId().equals(courseId)).findFirst();
-		return aCourse.isPresent() ? aCourse.get() : null;
+	private Optional<Course> getCourseById(final Long courseId) {
+		return courses.stream().filter(course -> course.getId().equals(courseId)).findFirst();
 	}
 }

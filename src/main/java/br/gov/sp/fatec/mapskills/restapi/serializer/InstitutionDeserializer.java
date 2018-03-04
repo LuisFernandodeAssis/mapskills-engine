@@ -58,9 +58,7 @@ public class InstitutionDeserializer extends AbstractJsonDeserializer<Institutio
 	
 	private List<Mentor> mentorListDeserialize(final JsonNode node) {
 		final List<Mentor> mentors = new LinkedList<>();
-		node.forEach(currentNode -> {
-			mentors.add(mentorDeserialize(currentNode));
-		});
+		node.forEach(currentNode -> mentors.add(mentorDeserialize(currentNode)));
 		return mentors;
 	}
 }

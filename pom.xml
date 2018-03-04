@@ -56,7 +56,34 @@
 		<hsqldb.version>2.3.4</hsqldb.version>
 
 		<!-- SONAR -->
+		<!-- COMANDOS PARA RODAR SONAR -->
+		<!-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -->
+		<!-- mvn cobertura:cobertura -->
+		<!-- mvn sonar:sonar -->
 		<sonar.language>java</sonar.language>
+		<sonar.projectName>Map Skills - Aplicacao web para avaliacao de	competencias</sonar.projectName>
+		<sonar.junit.reportsPath>/target/surefire-reports</sonar.junit.reportsPath>
+		<sonar.language>java</sonar.language>
+		<!-- Optional URL to server. Default value is http://localhost:9000 -->
+		<sonar.host.url>http://104.41.26.21:9000</sonar.host.url>
+		<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.surefire.reportsPath>${project.build.directory}/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.exclusions>
+			src/main/java/br/gov/sp/fatec/mapskills/MapSkillsApplication.java,
+			src/main/java/br/gov/sp/fatec/mapskills/config/**/*,
+			src/main/java/br/gov/sp/fatec/mapskills/authentication/*,
+			src/main/java/br/gov/sp/fatec/mapskills/authentication/jwt/*,
+			src/main/java/br/gov/sp/fatec/mapskills/utils/*,
+			src/test/*
+		</sonar.exclusions>
+		<sonar.coverage.exclusions>
+			src/main/java/br/gov/sp/fatec/mapskills/MapSkillsApplication.java,
+			src/main/java/br/gov/sp/fatec/mapskills/config/**/*,
+			src/main/java/br/gov/sp/fatec/mapskills/authentication/*,
+			src/main/java/br/gov/sp/fatec/mapskills/authentication/jwt/*,
+			src/main/java/br/gov/sp/fatec/mapskills/utils/*
+		</sonar.coverage.exclusions>
+		
 		<maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
 		<cobertura.version>2.1.1</cobertura.version>
 
@@ -245,37 +272,10 @@
 
 	<profiles>
 		<profile>
-			<!-- COMANDOS PARA RODAR SONAR -->
-			<!-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -->
-			<!-- mvn sonar:sonar -->
-			<id>sonar</id>
-			<properties>
-				<sonar.projectName>MPS - Aplicacao web para avaliacao de
-					competencias</sonar.projectName>
-				<sonar.junit.reportsPath>/target/surefire-reports</sonar.junit.reportsPath>
-				<sonar.language>java</sonar.language>
-				<!-- Optional URL to server. Default value is http://localhost:9000 -->
-				<sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
-				<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
-				<sonar.surefire.reportsPath>${project.build.directory}/surefire-reports</sonar.surefire.reportsPath>
-				<sonar.coverage.exclusions>
-					**/config/*.java,
-					**/jwt/*.java,
-					**/authentication/*.java
-				</sonar.coverage.exclusions>
-				<sonar.exclusions>
-					**/config/*.java,
-					**/jwt/*.java,
-					**/authentication/*.java
-					**/config/*.java,
-					**/test/*.java
-				</sonar.exclusions>
-			</properties>
-		</profile>
-		<profile>
 			<id>test</id>
 			<properties>
-				<datasource.url>jdbc:hsqldb:mem:mapskills</datasource.url>
+				<spring.profiles.active>test</spring.profiles.active>
+				<datasource.url>jdbc:hsqldb:mem:MAPSKILLS</datasource.url>
 				<datasource.driver>org.hsqldb.jdbcDriver</datasource.driver>
 				<datasource.username>sa</datasource.username>
 				<datasource.password></datasource.password>
@@ -284,6 +284,9 @@
 		</profile>
 		<profile>
 			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<spring.profiles.active>local</spring.profiles.active>
 				<datasource.url>jdbc:mysql://127.0.0.1:3306/mapskills</datasource.url>
@@ -309,9 +312,6 @@
 		</profile>
 		<profile>
 			<id>azure-qas</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
 				<datasource.url>jdbc:mysql://104.41.26.21:3306/MAPSKILLS</datasource.url>
@@ -341,9 +341,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<profiles>
+						<profile>test</profile>
 						<profile>local</profile>
-						<profile>azure-prd</profile>
 						<profile>azure-qas</profile>
+						<profile>azure-prd</profile>
 					</profiles>
 				</configuration>
 			</plugin>
@@ -456,6 +457,7 @@
 			<!-- Configures the projects-info-reports plugin. Why: Reduce the time 
 				consumed considerably by removing the need to acquire dependency details 
 				and locations. Used: Site lifecycle, mvn site. -->
+			<!-- Executar o plugin com mvn cobertura:cobertura -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>

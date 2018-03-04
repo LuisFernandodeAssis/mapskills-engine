@@ -20,14 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import br.gov.sp.fatec.mapskills.MapSkillsApplication;
-import br.gov.sp.fatec.mapskills.config.AbstractIntegrationTest;
 
 /**
- * A classe {@link SkillControllerTest}
+ * A classe {@link SkillControllerTest} contem testes de integracao para
+ * funcionalidades referentes o aggregate {@link Skill}
  *
  * @author Marcelo
  * @version 1.0 11/11/2017
@@ -44,8 +42,8 @@ public class SkillControllerTest extends AbstractIntegrationTest {
 	@Test
 	@WithMockUser
 	public void getAllSkills() throws Exception {
-		runSQLCommands("/br/gov/sp/fatec/mapskills/database/skillcontroller/insert-skills.sql");
-		final String jsonExpected = getJsonAsString("json/expectations/skills.json");
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/skill/insert-skills.sql");
+		final String jsonExpected = getJsonAsString("json/expectations/skill/skills.json");
 		final MvcResult result = performGet(mvc, "/skills").andExpect(status().isOk()).andReturn();
 		final String jsonResult = result.getResponse().getContentAsString();
 		JSONAssert.assertEquals(jsonExpected, jsonResult, true);
@@ -54,7 +52,7 @@ public class SkillControllerTest extends AbstractIntegrationTest {
 	@Test
 	@WithMockUser
 	public void createSkill() throws Exception {
-		final String skillJson = getJsonAsString("json/request/new-skill.json");
+		final String skillJson = getJsonAsString("json/request/skill/new-skill.json");
 		performPost(mvc, "/skill", skillJson).andExpect(status().isOk());
 		verifyDatasetForTable("skill/created-skill.xml", "SKILL", "SELECT * FROM MAPSKILLS.SKILL", new String[]{"ID"});
 	}
@@ -62,12 +60,9 @@ public class SkillControllerTest extends AbstractIntegrationTest {
 	@Test
 	@WithMockUser
 	public void updateSkill() throws Exception {
-		runSQLCommands("/br/gov/sp/fatec/mapskills/database/skillcontroller/insert-skills.sql");
-		final String skillJson = getJsonAsString("json/request/skill-update.json");
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>(1);
-		params.add("id", "1");
-		performPut(mvc, "/skill", params, skillJson).andExpect(status().isOk());
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/skill/insert-skills.sql");
+		final String skillJson = getJsonAsString("json/request/skill/skill-update.json");
+		performPut(mvc, "/skill/1", skillJson).andExpect(status().isOk());
 		verifyDatasetForTable("skill/updated-skill.xml", "SKILL", "SELECT * FROM MAPSKILLS.SKILL WHERE ID = 1", new String[]{});
 	}
-
 }

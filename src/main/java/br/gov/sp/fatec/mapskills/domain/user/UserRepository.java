@@ -4,12 +4,13 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
 /**
- * 
  * A classe {@link UserRepository} e responsavel por
  * que seja possivel realizar as buscas dos usuarios
  * da aplicacao, sem perfil especifico.

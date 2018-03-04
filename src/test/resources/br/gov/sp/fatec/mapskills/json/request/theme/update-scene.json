@@ -1,0 +1,28 @@
+{
+  "index": 2,
+  "text": "Me responsa outra coisa, qual seu objetivo aqui nesta vaga?",
+  "background": {
+    "filename": "http://mapskills.filemanager-test/file/5_2_img.jpg"
+  },
+  "question": {
+    "skillId": 2,
+    "alternatives": [
+      {
+        "description": "Fazer novos amigos",
+        "skillValue": 5
+      },
+      {
+        "description": "Crescer profissionalmente",
+        "skillValue": 6
+      },
+      {
+        "description": "Aumentar meus conhecimentos",
+        "skillValue": 1
+      },
+      {
+        "description": "Cumprir o que me for proposto",
+        "skillValue": 4
+      }
+    ]
+  }
+}

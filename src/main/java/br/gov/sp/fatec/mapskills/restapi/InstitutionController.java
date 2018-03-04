@@ -33,7 +33,7 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 import lombok.AllArgsConstructor;
 
 /**
- * A classe {@link InstitutionController} e responsavel por conter todos
+ * A classe {@link InstitutionController} e responsavel por conter
  * end points (uri's) de acesso do perfil mentor da aplicacao.
  *
  * @author Marcelo
@@ -55,7 +55,7 @@ public class InstitutionController {
 	@PostMapping("/institution/upload")
 	public ListWrapper<Institution> importInstitutions(@RequestBody final FileBase64Wrapper inputStreamWrapper) {		
 		final List<Institution> institutionsSaved = applicationServices.saveInstituionFromExcel(inputStreamWrapper.getInputStream());		
-		return new ListWrapper<Institution>(institutionsSaved);
+		return new ListWrapper<>(institutionsSaved);
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class InstitutionController {
 	@PostMapping("/institution")
 	public SingleWrapper<Institution> saveInstitution(@RequestBody final InstitutionWrapper institutionWrapper) {
 		final Institution institution = applicationServices.saveInstitution(institutionWrapper.getInstitution());
-		return new SingleWrapper<Institution>(institution);
+		return new SingleWrapper<>(institution);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class InstitutionController {
 	public SingleWrapper<Institution> updateInstitution(@PathVariable("id") final Long institutionId,
 			@RequestBody final InstitutionWrapper institutionWrapper) {
 		final Institution institutionUpdated = applicationServices.updateInstitution(institutionId, institutionWrapper.getInstitution());
-		return new SingleWrapper<Institution>(institutionUpdated);
+		return new SingleWrapper<>(institutionUpdated);
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class InstitutionController {
 	 */
 	@GetMapping("/institutions")
 	public ListWrapper<Institution> getAllInstitution() {
-		return new ListWrapper<Institution>(applicationServices.getAllInstitutions());
+		return new ListWrapper<>(applicationServices.getAllInstitutions());
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class InstitutionController {
 	@GetMapping("/institution/{id}")
 	public SingleWrapper<Institution> getInstitution(@PathVariable("id") final Long institutionId) {
 		final Institution institution = applicationServices.getInstitutionById(institutionId);
-		return new SingleWrapper<Institution>(institution);
+		return new SingleWrapper<>(institution);
 	}	
 	
 	/**
@@ -133,7 +133,7 @@ public class InstitutionController {
 	@GetMapping("/institution/students")
 	public PageWrapper<Student> getStudents(final StudentSpecification specification, final Pageable pageable) {
 		final Page<Student> students = applicationServices.getStudents(specification, pageable);
-		return new PageWrapper<Student>(students);
+		return new PageWrapper<>(students);
 	}
 	
 	/**
@@ -143,7 +143,7 @@ public class InstitutionController {
 	public ListWrapper<Course> getCoursesByInstitutionCode(
 			@PathVariable("code") final String institutionCode) {		
 		final List<Course> courses = applicationServices.getCoursesByInstitutionCode(institutionCode);
-		return new ListWrapper<Course>(courses);
+		return new ListWrapper<>(courses);
 	}	
 	
 	/**

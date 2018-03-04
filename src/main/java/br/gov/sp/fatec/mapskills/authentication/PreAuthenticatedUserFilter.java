@@ -19,8 +19,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
@@ -33,7 +31,6 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessingFilter {
 	
 	private static final String AUTHORIZATION = "Authorization";
-	private final Logger logger = LoggerFactory.getLogger(PreAuthenticatedUserFilter.class);
 
 	/** {@inheritDoc} */
 	@Override
@@ -72,9 +69,9 @@ public class PreAuthenticatedUserFilter extends AbstractPreAuthenticatedProcessi
                 if (AUTHORIZATION.equals(cookie.getName())) {
                     try {
                         return URLDecoder.decode(cookie.getValue(), "UTF-8");
-                    } catch (final UnsupportedEncodingException e) {
-                    	logger.info("Exception: ", e);
-                        throw new UnauthorizedAuthenticationException("Error decoding JWT token");
+                    } catch (final UnsupportedEncodingException exception) {
+                    	logger.info("Exception: ", exception);
+                        throw new UnauthorizedAuthenticationException("Error decoding JWT token", exception);
                     }
                 }
             }

@@ -4,14 +4,15 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
+
 /**
- * 
  * A classe {@link UserNotFoundException} e lançada quando falha
  * ao tentar uma autenticacao por um usuario.
  *

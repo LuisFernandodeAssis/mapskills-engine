@@ -5,7 +5,7 @@
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 
-package br.gov.sp.fatec.mapskills.infra;
+package br.gov.sp.fatec.mapskills.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

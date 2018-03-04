@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEvent;
 import br.gov.sp.fatec.mapskills.domain.event.DomainEventListener;
 import br.gov.sp.fatec.mapskills.domain.event.EventListener;
-import br.gov.sp.fatec.mapskills.infra.ThreadPool;
+import br.gov.sp.fatec.mapskills.utils.ThreadPool;
 
 /**
  * A classe {@link DeleteSceneImageFileListener} eh responsavel

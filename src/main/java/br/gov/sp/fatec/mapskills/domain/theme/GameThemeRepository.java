@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
  * proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.theme;
 
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
 /**
- * 
  * A interface {@link GameThemeRepository}
  *
  * @author Marcelo
@@ -24,6 +25,7 @@ public interface GameThemeRepository extends CrudRepository<GameTheme, Long> {
 	
 	GameTheme findByName(final String name);
 	
+	@Override
 	List<GameTheme> findAll();
 	
 	@Query("SELECT theme FROM GameTheme theme "

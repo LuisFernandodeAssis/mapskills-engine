@@ -50,7 +50,7 @@ public class SkillController {
 	 */
 	@GetMapping("/skills")
 	public ListWrapper<Skill> getAllSkills() {
-		return new ListWrapper<Skill>(applicationServices.findAll()); 
+		return new ListWrapper<>(applicationServices.findAll()); 
 	}
 	
 	/**

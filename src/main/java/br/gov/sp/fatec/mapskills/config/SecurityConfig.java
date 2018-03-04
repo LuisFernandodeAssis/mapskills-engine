@@ -39,8 +39,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
-import com.nimbusds.jose.JOSEException;
-
 import br.gov.sp.fatec.mapskills.authentication.AuthenticationListener;
 import br.gov.sp.fatec.mapskills.authentication.PreAuthenticatedUserFilter;
 import br.gov.sp.fatec.mapskills.authentication.jwt.JwtSignatureVerifier;
@@ -172,7 +170,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 	
 	@Bean
-    public JwtVerifier jwtSignatureVerifier(@Value("${jwt.secret}") final String secret) throws JOSEException {
+    public JwtVerifier jwtSignatureVerifier(@Value("${jwt.secret}") final String secret) {
         return new JwtSignatureVerifier(secret);
     }
 	
@@ -181,7 +179,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         final MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
         methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
         methodInvokingFactoryBean.setTargetMethod("setStrategyName");
-        methodInvokingFactoryBean.setArguments(new Object[] {SecurityContextHolder.MODE_INHERITABLETHREADLOCAL});
+        methodInvokingFactoryBean.setArguments(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
         return methodInvokingFactoryBean;
     }
 }

@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "name": "Mentor Fatec",
+  "profile": "MENTOR",
+  "username": "mentor@fatec.sp.gov.br",
+  "password": "EMPTY_PASS",
+  "institution": {
+    "id": 1,
+    "code": "123",
+    "cnpj": 4973674000123,
+    "company": "Fatec de teste",
+    "level": "SUPERIOR",
+    "city": "São José",
+    "gameThemeId": null
+  }
+}

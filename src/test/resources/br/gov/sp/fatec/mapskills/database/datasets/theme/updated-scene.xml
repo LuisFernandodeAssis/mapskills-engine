@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<SCENE _INDEX="0" TEXT="Olá bem vindo" IMAGE_NAME="5_0_img.jpg" ID_GAME_THEME="5" ID_QUESTION=""/>
+	<SCENE _INDEX="1" TEXT="Agora me responda" IMAGE_NAME="5_1_img.jpg" ID_GAME_THEME="5" ID_QUESTION="1"/>
+	<SCENE _INDEX="2" TEXT="Me responsa outra coisa, qual seu objetivo aqui nesta vaga?" IMAGE_NAME="5_2_img.jpg" ID_GAME_THEME="5" ID_QUESTION="2"/>
+	
+	<ALTERNATIVE DESCRIPTION="Alternativa A" SKILL_VALUE="5" ID_QUESTION="1"/>
+	<ALTERNATIVE DESCRIPTION="Alternativa B" SKILL_VALUE="3" ID_QUESTION="1"/>
+	<ALTERNATIVE DESCRIPTION="Alternativa C" SKILL_VALUE="8" ID_QUESTION="1"/>
+	<ALTERNATIVE DESCRIPTION="Alternativa D" SKILL_VALUE="1" ID_QUESTION="1"/>
+	
+	<ALTERNATIVE DESCRIPTION="Aumentar meus conhecimentos" SKILL_VALUE="1" ID_QUESTION="2"/>
+	<ALTERNATIVE DESCRIPTION="Crescer profissionalmente" SKILL_VALUE="6" ID_QUESTION="2"/>
+	<ALTERNATIVE DESCRIPTION="Cumprir o que me for proposto" SKILL_VALUE="4" ID_QUESTION="2"/>
+	<ALTERNATIVE DESCRIPTION="Fazer novos amigos" SKILL_VALUE="5" ID_QUESTION="2"/>
+	
+	<QUESTION ID="1" ID_SKILL="1"/>
+	<QUESTION ID="2" ID_SKILL="2"/>
+</dataset>

@@ -9,6 +9,7 @@ package br.gov.sp.fatec.mapskills.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
@@ -16,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.gov.sp.fatec.mapskills.infra.ThreadPool;
+import br.gov.sp.fatec.mapskills.utils.ThreadPool;
 
 /**
  * A classe {@link SpringContextConfig} representa as
@@ -41,11 +42,13 @@ public class SpringContextConfig {
 	}
 	
 	@Bean
+	@Profile("!test")
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 	
 	@Bean
+	@Profile("!test")
 	public ThreadPool threadPool() {
 		return new ThreadPool();
 	}

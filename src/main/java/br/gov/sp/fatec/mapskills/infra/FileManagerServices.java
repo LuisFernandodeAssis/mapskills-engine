@@ -25,14 +25,13 @@ import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 public class FileManagerServices {
 	
 	private final String fileManagerServer;
+	private final RestTemplate restTemplate;
 	
 	public FileManagerServices(@Value("${rest.filemanager.post.url}") final String urlServer,
 			final RestTemplate restTemplate) {
 		this.fileManagerServer = urlServer;
 		this.restTemplate = restTemplate;
-	}
-	
-	private final RestTemplate restTemplate;
+	}	
 	
 	/**
 	 * Metodo responsavel por realizar um <b>request</b>

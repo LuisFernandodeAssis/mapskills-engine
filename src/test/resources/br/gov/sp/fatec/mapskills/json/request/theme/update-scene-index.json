@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "index": 2,
+    "text": "Olá bem vindo",
+    "background": {
+      "filename": "http://mapskills.filemanager-test/file/5_0_img.jpg"
+    },
+    "question": null
+  },
+  {
+    "id": 2,
+    "index": 1,
+    "text": "Agora me responda",
+    "background": {
+      "filename": "http://mapskills.filemanager-test/file/5_1_img.jpg"
+    },
+    "question": {
+      "id": 1,
+      "skillId": 1,
+      "alternatives": [
+        {
+          "id": 1,
+          "description": "Alternativa A",
+          "skillValue": 5
+        },
+        {
+          "id": 2,
+          "description": "Alternativa B",
+          "skillValue": 3
+        },
+        {
+          "id": 3,
+          "description": "Alternativa C",
+          "skillValue": 8
+        },
+        {
+          "id": 4,
+          "description": "Alternativa D",
+          "skillValue": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "index": 0,
+    "text": "Humm.. Interessante.",
+    "background": {
+      "filename": "http://mapskills.filemanager-test/file/5_2_img.jpg"
+    },
+    "question": null
+  }
+]

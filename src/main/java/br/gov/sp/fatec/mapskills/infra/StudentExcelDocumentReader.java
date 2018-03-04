@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionRepository;
+import br.gov.sp.fatec.mapskills.domain.user.student.AcademicRegistry;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.AllArgsConstructor;
 
@@ -35,12 +36,12 @@ public class StudentExcelDocumentReader extends ExcelDocumentReader<Student> {
 	 */
 	@Override
 	protected Student buildEntity(final List<String> attributes) {
-		final Student student = new Student(attributes.get(0), attributes.get(1),
-				attributes.get(2), attributes.get(3), DEFAULT_ENCRYPTED_PASS);
-		final Institution institution = institutionRepository.findByCode(student.getInstitutionCode());
-		final Course course = institution.getCourseByCode(student.getCourseCode());
-		student.setCourse(course);
-		return student;
+		final AcademicRegistry registry = new AcademicRegistry(attributes.get(0));
+		final Institution institution = institutionRepository.findByCode(registry.getInstitutionCode());
+		final Course course = institution.getCourseByCode(registry.getCourseCode());
+		
+		return new Student(registry.getFullRa(), attributes.get(1),
+				attributes.get(2), course, attributes.get(3), DEFAULT_ENCRYPTED_PASS);
 	}
 	
 	/**

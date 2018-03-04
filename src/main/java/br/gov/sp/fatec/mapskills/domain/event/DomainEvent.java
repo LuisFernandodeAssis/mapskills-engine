@@ -21,12 +21,12 @@ public abstract class DomainEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
 	
+	public DomainEvent(final Object source) {
+		super(source);
+	}
+	
 	/**
      * Retorna o tipo do evento de dominio
      */
     public abstract DomainEventType getType();
-
-	public DomainEvent(final Object source) {
-		super(source);
-	}
 }

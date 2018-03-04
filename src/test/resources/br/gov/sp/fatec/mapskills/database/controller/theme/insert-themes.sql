@@ -1,0 +1,5 @@
+INSERT INTO MAPSKILLS.GAME_THEME (ID, NAME, ACTIVE) VALUES (1, 'Gerência de pizzaria', false);
+INSERT INTO MAPSKILLS.GAME_THEME (ID, NAME, ACTIVE) VALUES (2, 'Gerência de mecânica', false);
+INSERT INTO MAPSKILLS.GAME_THEME (ID, NAME, ACTIVE) VALUES (3, 'Gerência de farmácia', false);
+INSERT INTO MAPSKILLS.GAME_THEME (ID, NAME, ACTIVE) VALUES (4, 'Gerência de escola', true);
+INSERT INTO MAPSKILLS.GAME_THEME (ID, NAME, ACTIVE) VALUES (5, 'Gerência de empresa de música', true);

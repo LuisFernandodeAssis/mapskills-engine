@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.theme;
 
 import java.util.LinkedList;
@@ -27,8 +28,8 @@ import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionCo
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
-/**
- * 
+
+/** 
  * A classe {@link GameTheme} representa um tema
  * de jogo que pode aplicado pelo mentor.
  *
@@ -68,14 +69,6 @@ public class GameTheme {
 	public void update(final GameTheme updateTheme) {
 		this.name = updateTheme.getName();
 	}
-	
-	public void disable() {
-		this.active = false;
-	}
-	
-	public void enable() {
-		this.active = true;
-	}	
 
 	public void updateStatus(final boolean status) {
 		this.active = status;
@@ -111,7 +104,7 @@ public class GameTheme {
 	
 	public void updateSceneIndexes(final List<Scene> updateScenes) {
 		updateScenes.stream().forEach(aScene -> {
-			Optional<Scene> scene = getSceneById(aScene.getId());
+			final Optional<Scene> scene = getSceneById(aScene.getId());
 			scene.get().setIndex(aScene.getIndex());
 		});
 	}
@@ -121,7 +114,7 @@ public class GameTheme {
 			return this.scenes;
 		}
 		final Optional<Scene> lastSceneAnswered = getSceneById(lastContext.get().getSceneId());
-		final int index = this.scenes.indexOf(lastSceneAnswered.get());
+		final int index = lastSceneAnswered.isPresent() ? this.scenes.indexOf(lastSceneAnswered.get()) : 0;
 		return this.scenes.subList(index + 1, this.scenes.size());
 	}
 	
@@ -137,8 +130,7 @@ public class GameTheme {
 	}
 	
 	private Integer getNextIndex() {
-		final Long nextIndex = this.scenes.stream().count() + 1L;
-		return new Integer(nextIndex.intValue());
+		return this.scenes.size();
 	}
 	
 	private Optional<Scene> getSceneById(final Long sceneId) {

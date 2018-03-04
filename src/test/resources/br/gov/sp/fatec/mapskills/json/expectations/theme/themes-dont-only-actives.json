@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Gerência de pizzaria",
+    "active": false
+  },
+  {
+    "id": 2,
+    "name": "Gerência de mecânica",
+    "active": false
+  },
+  {
+    "id": 3,
+    "name": "Gerência de farmácia",
+    "active": false
+  },
+  {
+    "id": 4,
+    "name": "Gerência de escola",
+    "active": true
+  },
+  {
+    "id": 5,
+    "name": "Gerência de empresa de música",
+    "active": true
+  }
+]

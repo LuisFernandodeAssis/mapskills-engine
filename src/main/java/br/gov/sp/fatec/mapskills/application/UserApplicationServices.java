@@ -4,10 +4,9 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.application;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,6 @@ import br.gov.sp.fatec.mapskills.domain.user.UserRepository;
 import lombok.AllArgsConstructor;
 
 /**
- * 
  * A classe {@link UserApplicationServices} e responsavel por conter
  * as regras de negocio que diz respeito aos perfils de usuarios. 
  *
@@ -30,8 +28,6 @@ import lombok.AllArgsConstructor;
 @ApplicationServices
 @AllArgsConstructor
 public class UserApplicationServices {
-	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private final UserRepository repository;
 	private final PasswordEncoder encoder;
@@ -52,7 +48,6 @@ public class UserApplicationServices {
 	 */
 	public void authenticate(final User user, final String password) {
 		if (ObjectUtils.isEmpty(user) || !encoder.matches(password, user.getPassword())) {
-			logger.warn("username/password invalid");
 			throw new BadCredentialsException("username/password invalid");
 		}
 	}
@@ -62,5 +57,5 @@ public class UserApplicationServices {
 		final User user = repository.findByUsername(username);
 		user.updateLogin(new Login(user.getUsername(), encoder.encode(newPassword)));
 		repository.save(user);
-	}	
+	}
 }
