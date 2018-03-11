@@ -4,18 +4,20 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
+
 /**
  * A classe <code>RAInvalidException</code> eh lancada caso 
  * encontre uma mal formação no RA informado.
  * 
  * @author Marcelo Inácio
- *
+ * @version 10/11/2016
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class AcademicRegistryException extends MapSkillsException {

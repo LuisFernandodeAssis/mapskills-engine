@@ -81,7 +81,7 @@ public class StudentController {
 	 * Endpoint que recupera todas as cenas ainda nao respondidas pelo aluno.
 	 */
 	@GetMapping("/student/{id}/scene")
-	public ListWrapper<Scene> getScene(@PathVariable("id") final Long studentId) {
+	public ListWrapper<Scene> getScenes(@PathVariable("id") final Long studentId) {
 		final List<Scene> scenes = applicationServices.getScenesNotAnswered(studentId);
 		return new ListWrapper<>(scenes);
 	}

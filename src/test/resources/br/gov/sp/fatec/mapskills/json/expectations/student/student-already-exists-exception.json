@@ -1,0 +1,5 @@
+{
+  "message": "Aluno de RA: 1460281813003 ou E-MAIL: ricardo.murilo@fatec.sp.gov.br já existe na aplicação",
+  "statusCode": 412,
+  "statusError": "PRECONDITION_FAILED"
+}

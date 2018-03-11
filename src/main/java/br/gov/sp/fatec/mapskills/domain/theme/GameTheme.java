@@ -7,6 +7,7 @@
 
 package br.gov.sp.fatec.mapskills.domain.theme;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ import br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionCo
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileContextWrapper;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SceneWrapper;
 import lombok.Getter;
+import lombok.ToString;
 
 /** 
  * A classe {@link GameTheme} representa um tema
@@ -39,6 +41,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.GAME_THEME")
+@ToString(of = {"name", "active"})
 public class GameTheme {
 	
 	@Id
@@ -111,11 +114,11 @@ public class GameTheme {
 	
 	public List<Scene> getScenesNotAnswered(final Optional<StudentQuestionContext> lastContext) {
 		if (!lastContext.isPresent()) {
-			return this.scenes;
+			return Collections.unmodifiableList(this.scenes);
 		}
 		final Optional<Scene> lastSceneAnswered = getSceneById(lastContext.get().getSceneId());
 		final int index = lastSceneAnswered.isPresent() ? this.scenes.indexOf(lastSceneAnswered.get()) : 0;
-		return this.scenes.subList(index + 1, this.scenes.size());
+		return Collections.unmodifiableList(this.scenes.subList(index + 1, this.scenes.size()));
 	}
 	
 	public DomainEvent updateScene(final Long sceneId, final SceneWrapper sceneWrapper) {

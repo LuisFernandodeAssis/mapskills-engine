@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * A classe abstrata <code>User</code> é uma entidade que 
@@ -32,6 +33,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@ToString(of = {"name"})
 public abstract class User implements Principal {
 	
 	@Id

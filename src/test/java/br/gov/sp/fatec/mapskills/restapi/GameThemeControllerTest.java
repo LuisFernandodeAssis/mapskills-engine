@@ -75,7 +75,7 @@ public class GameThemeControllerTest extends AbstractIntegrationTest {
 	@Test
 	@WithMockUser
 	public void createScene() throws Exception {
-		doNothing().when(threadPool).execute(any(Runnable.class));		
+		doNothing().when(threadPool).execute(any(Runnable.class));	
 		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/theme/insert-themes.sql");
 		final String sceneJson = getJsonAsString("json/request/theme/new-scene.json");
 		performPost(mvc, "/game/1/scene", sceneJson).andExpect(status().isOk());		

@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.infra;
 
 import java.io.ByteArrayInputStream;
@@ -11,8 +12,8 @@ import java.io.InputStream;
 import java.util.Base64;
 
 import org.springframework.stereotype.Component;
+
 /**
- * 
  * A classe {@link Base64Parser} tem a unica resposabilidade de
  * converter um objeto String em base 64 em objeto InputStream.
  *

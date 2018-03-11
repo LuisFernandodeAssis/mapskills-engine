@@ -37,7 +37,7 @@ public class InstitutionDomainServices {
 	
 	private final InstitutionRepository institutionRepository;
 	private final GameThemeRepository themeRepository;
-	private final InstitutionExcelDocumentReader institutionExcelFileHandle;
+	private final InstitutionExcelDocumentReader documentReader;
 	private final UserRepository userRepository;
 	private final StudentRepository studentRepository;
 	
@@ -49,7 +49,7 @@ public class InstitutionDomainServices {
 	}
 	
 	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) {
-		final List<Institution> institutionsFromExcel = institutionExcelFileHandle.readDocument(inputStream);
+		final List<Institution> institutionsFromExcel = documentReader.readDocument(inputStream);
 		institutionRepository.save(institutionsFromExcel);
 		return institutionsFromExcel;
 	}

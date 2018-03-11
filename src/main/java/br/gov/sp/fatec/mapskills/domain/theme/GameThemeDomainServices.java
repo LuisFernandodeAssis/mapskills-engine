@@ -84,7 +84,7 @@ public class GameThemeDomainServices {
 		final Optional<GameTheme> theme = repository.findByStudentId(studentId);
 		if (theme.isPresent()) {
 			final Optional<StudentQuestionContext> lastContext = answerRepository.findFirstByStudentIdOrderBySceneIndexDesc(studentId);
-			return theme.get().getScenesNotAnswered(lastContext);			
+			return theme.get().getScenesNotAnswered(lastContext);
 		}
 		return Collections.emptyList();
 	}

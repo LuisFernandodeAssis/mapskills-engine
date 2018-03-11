@@ -48,7 +48,7 @@ public class StudentDomainServices {
 				aStudent.update(student);
 				studentsToSave.add(aStudent);				
 			}
-		});		
+		});
 		repository.save(studentsToSave);
 	}
 	

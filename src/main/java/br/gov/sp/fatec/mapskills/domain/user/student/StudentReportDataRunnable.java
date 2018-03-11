@@ -38,7 +38,7 @@ public class StudentReportDataRunnable implements Runnable {
 	@Override
 	public void run() {
 		try {
-			threadPool.awaitTermination(1);
+			threadPool.awaitTermination(2);
 			final StudentResult result = studentResultRepository.findOne(studentId);
 			rest.postForObject(reportServerUrl, new StudentResultWrapper(result), ResponseEntity.class);
 		} catch (final InterruptedException | RestClientException exception) {

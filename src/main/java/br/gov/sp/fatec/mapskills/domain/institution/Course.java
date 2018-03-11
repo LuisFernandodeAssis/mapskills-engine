@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * A classe {@link Course} representa um curso ao qual
@@ -35,6 +36,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.COURSE")
+@ToString(of = {"code", "name"})
 public class Course {
 	
 	@Id

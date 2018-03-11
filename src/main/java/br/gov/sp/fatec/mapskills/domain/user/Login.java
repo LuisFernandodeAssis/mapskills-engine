@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.ToString;
 /**
  * A classe <code>Login</code> representa as credenciais de acesso a aplcacao.
  * 
@@ -24,6 +25,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.LOGIN")
+@ToString(of = "username")
 public class Login {
 	
 	@Id

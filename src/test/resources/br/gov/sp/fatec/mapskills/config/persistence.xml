@@ -8,7 +8,7 @@
 
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-		<class>br.gov.sp.fatec.mapskills.infra.LocalDateTimeConverter</class>
+		<class>br.gov.sp.fatec.mapskills.utils.LocalDateTimeConverter</class>
 		
 		<class>br.gov.sp.fatec.mapskills.domain.studentquestioncontext.StudentQuestionContext</class>
 		

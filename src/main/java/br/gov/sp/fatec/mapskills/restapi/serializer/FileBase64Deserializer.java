@@ -3,6 +3,7 @@
  * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.FileBase64Wrapper;
 
 /**
- * 
  * A classe {@link FileBase64Deserializer} eh responsavel por
  * deserializar a <i>String</i> que representa o arquivo no
  * formato <b>Base64</b>.

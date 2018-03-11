@@ -4,13 +4,17 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * a classe <code>AcademicRegistry</code> eh
@@ -19,10 +23,11 @@ import lombok.Getter;
  * do mesmo.
  * 
  * @author Marcelo
- *
+ * @version 1.0 10/11/2016
  */
 @Getter
 @Embeddable
+@ToString(of = {"fullRa"})
 public class AcademicRegistry {
 
 	@Column(name = "RA")
@@ -60,18 +65,13 @@ public class AcademicRegistry {
 	}
 	
 	/**
-	 * Metodo que valida o numero do registro academico do aluno.
+	 * Valida o numero do registro academico do aluno.
 	 * 
 	 * @param ra Numero do RA a ser validado pela aplicacao.
 	 */
 	private void validate(final String ra) {
-		try {
-			Long.parseLong(ra);
-			if(ra.length() < 13 || ra.length() > 14) {
-				throw new AcademicRegistryException(ra);
-			}
-		} catch (final NumberFormatException exception) {
-			throw new AcademicRegistryException(ra, exception);
+		if(!StringUtils.isNumeric(ra) || ra.length() < 13 || ra.length() > 14) {
+			throw new AcademicRegistryException(ra);
 		}
 	}	
 }

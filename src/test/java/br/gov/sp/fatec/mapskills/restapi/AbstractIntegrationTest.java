@@ -21,8 +21,10 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Properties;
 
+import org.apache.commons.io.IOUtils;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
@@ -155,7 +157,7 @@ public abstract class AbstractIntegrationTest {
         final InputStream inputStream = getClass().getResourceAsStream(String.format("/br/gov/sp/fatec/mapskills/%s", path));
         if (inputStream == null) {
             throw new FileNotFoundException("File " + path + " not found. A file named " + path + " must be present "
-                    + "in the src/test/resources folder of the project whose class matches being tested.");
+                    + "in the src/test/resources/br/gov/sp/fatec/mapskills/ folder of the project whose class matches being tested.");
         }
         return JSONValue.parse(new InputStreamReader(inputStream, "UTF-8")).toString();
     }
@@ -188,6 +190,15 @@ public abstract class AbstractIntegrationTest {
 	protected String getJsonResult(final MvcResult mvcResult) throws Exception {
         return mvcResult.getResponse().getContentAsString();
     }
+	
+	protected String getFileAsBase64(final String fileName) throws Exception {
+		final InputStream stream = ClassLoader.getSystemResourceAsStream("br/gov/sp/fatec/mapskills/file/" + fileName);
+		if (stream == null) {
+			throw new FileNotFoundException(
+					"File " + fileName + " not found. A file named " + fileName + " must be present in the src/test/resources/br/gov/sp/fatec/mapskills/file folder of the project whose class is being tested.");
+		}		
+		return Base64.getEncoder().encodeToString(IOUtils.toByteArray(stream));
+	}
 
 	private static Properties loadProperties() throws Exception {
 		final InputStream stream = ClassLoader.getSystemResourceAsStream("br/gov/sp/fatec/mapskills/config/datasource.properties");

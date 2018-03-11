@@ -4,6 +4,7 @@
  * Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.studentresult;
 
 import java.util.Collections;
@@ -23,7 +24,6 @@ import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import lombok.Getter;
 
 /**
- * 
  * A classe {@link StudentResult} representa a sumarizacao
  * dos resultados apurados das competencias avaliadas pelo
  * aluno.

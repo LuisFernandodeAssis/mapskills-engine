@@ -13,14 +13,17 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
+
+import lombok.AllArgsConstructor;
 
 /**
  * A classe {@link ExcelDocumentReader} tem objetivo de converter arquivo xlsx
@@ -30,18 +33,38 @@ import org.springframework.util.StringUtils;
  * @author Marcelo
  * @version 1.0 03/11/2016
  */
+@AllArgsConstructor
 public abstract class ExcelDocumentReader<T> {
 	
-	private static final Logger LOGGER = Logger.getLogger(ExcelDocumentReader.class.getName());
-	protected static final String DEFAULT_ENCRYPTED_PASS = "$2a$10$TH9WvYSs4BYDi7NaesV.Uerv7ZyzXXrEuriWeo2qAl96i6fN3oz8G";
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final PasswordEncoder encoder;
 	
+	/**
+	 * Constroi um objeto de dominio a partir de uma lista de atributos.
+	 * 
+	 * @param attArgs Atributos a serem preenchidos ao objeto.
+	 * @return Objeto de dominio da implementacao.
+	 */
 	protected abstract T buildEntity(final List<String> attArgs);
 	
+	/**
+	 * Verifica se a quantidade de atributos atende
+	 * para o construcao do objeto de dominio.
+	 * 
+	 * @param attToObj Atributos a serem preenchidos ao objeto.
+	 * @return condicional da verificacao.
+	 */
 	protected abstract boolean isValidAttributes(final List<String> attToObj);
 	
 	/**
-	 * 
-	 * Metodo que converte um arquivo do tipo .xlsx (excel) em uma lista de objetos.
+	 * Codifica a senha.
+	 */
+	protected String encodePassword(final String password) {
+		return encoder.encode(password);
+	}
+	
+	/**
+	 * Converte um arquivo do tipo .xlsx (excel) em uma lista de objetos de dominio.
 	 */
 	public List<T> readDocument(final InputStream inputStream) {
 		try {
@@ -51,16 +74,14 @@ public abstract class ExcelDocumentReader<T> {
 			workbook.close();
 			return Collections.unmodifiableList(objectListBuilder(rowIterator));
 		} catch (final IOException exception) {
-			LOGGER.log(Level.SEVERE, exception.getMessage(), exception);
+			logger.error("Problema ao realizar leitura de arquivo excel.", exception);
 			throw new ReadFileException("problema ao ler excel", exception);
 		}
 	}
 	
 	/**
-	 * 
-	 * Metodo que converte de um arquivo em uma lista de objeto,
-	 * iterando nas linhas do documento, sem pegar a primeira
-	 * linha que sao os titulos das colunas.
+	 * Converte de um arquivo em uma lista de objeto, iterando nas linhas do
+	 * documento, sem pegar a primeira linha que sao os titulos das colunas.
 	 */
 	private List<T> objectListBuilder(final Iterator<Row> rowIterator) {
 		final List<T> objects = new LinkedList<>();
@@ -79,10 +100,8 @@ public abstract class ExcelDocumentReader<T> {
 	}
 		
 	/**
-	 * 
-	 * Metodo que converte um iterator de celula do excel
-	 * em uma lista de strings que servira como parametros
-	 * para construcao do objeto definido pela classe filha.
+	 * Converte um iterator de celula do excel em uma lista de strings que
+	 * servira como parametros para construcao do objeto definido pela classe filha.
 	 */
 	private List<String> parseToStringList(final Iterator<Cell> cellIterator) {
 		final List<String> cellList = new LinkedList<>();
@@ -99,8 +118,7 @@ public abstract class ExcelDocumentReader<T> {
 	}
 	
 	/**
-	 * Metodo responsavel por verificar se a celula se
-	 * encontra vazia.
+	 * Verificar se a celula se encontra vazia.
 	 */
 	private boolean isEmptyCell(final Cell cell) {
 		return StringUtils.isEmpty(cell.getStringCellValue().trim());

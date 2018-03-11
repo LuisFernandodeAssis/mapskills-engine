@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.institution;
 
 import java.util.Collections;
@@ -28,9 +29,9 @@ import org.springframework.util.ObjectUtils;
 
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
- * 
  * A classe {@link Institution} representa uma unidade de ensino.
  *
  * @author Marcelo
@@ -39,6 +40,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.INSTITUTION")
+@ToString(of = {"code", "company", "level"})
 public class Institution {
 
 	@Id

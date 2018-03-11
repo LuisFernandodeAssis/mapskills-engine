@@ -61,7 +61,8 @@
 		<!-- mvn cobertura:cobertura -->
 		<!-- mvn sonar:sonar -->
 		<sonar.language>java</sonar.language>
-		<sonar.projectName>Map Skills - Aplicacao web para avaliacao de	competencias</sonar.projectName>
+		<sonar.projectName>Map Skills - Aplicacao web para avaliacao de
+			competencias</sonar.projectName>
 		<sonar.junit.reportsPath>/target/surefire-reports</sonar.junit.reportsPath>
 		<sonar.language>java</sonar.language>
 		<!-- Optional URL to server. Default value is http://localhost:9000 -->
@@ -83,7 +84,7 @@
 			src/main/java/br/gov/sp/fatec/mapskills/authentication/jwt/*,
 			src/main/java/br/gov/sp/fatec/mapskills/utils/*
 		</sonar.coverage.exclusions>
-		
+
 		<maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
 		<cobertura.version>2.1.1</cobertura.version>
 
@@ -268,6 +269,11 @@
 			<version>0.1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>

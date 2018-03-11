@@ -47,5 +47,15 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 		final String jsonResult = result.getResponse().getContentAsString();
 		JSONAssert.assertEquals(jsonExpected, jsonResult, true);
 	}
-
+	
+	@Test
+	@WithMockUser
+	public void importInstitutions() throws Exception {
+		final String importJson = getJsonAsString("json/request/import-base64.json");
+		final String base64 = getFileAsBase64("import-institutions.xlsx");
+		performPost(mvc, "/institution/upload", String.format(importJson, base64)).andExpect(status().isOk());
+		verifyDatasetForTable("institution/imported-institutions.xml", "LOGIN", "SELECT * FROM MAPSKILLS.LOGIN ORDER BY USERNAME", new String[]{"ID", "PASSWORD"});
+		verifyDatasetForTable("institution/imported-institutions.xml", "INSTITUTION", "SELECT * FROM MAPSKILLS.INSTITUTION ORDER BY CODE", new String[]{"ID"});
+		verifyDatasetForTable("institution/imported-institutions.xml", "MENTOR", "SELECT * FROM MAPSKILLS.MENTOR ORDER BY NAME", new String[]{"ID", "ID_LOGIN", "ID_INSTITUTION"});
+	}
 }

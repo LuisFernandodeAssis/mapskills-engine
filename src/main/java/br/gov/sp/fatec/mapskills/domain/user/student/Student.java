@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user.student;
 
 import javax.persistence.Column;
@@ -21,10 +22,12 @@ import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Entity
 @Table(name = "MAPSKILLS.STUDENT")
+@ToString(of = {"ra"}, callSuper = true)
 public class Student extends User {	
 	
 	@Embedded

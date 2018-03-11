@@ -4,12 +4,10 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved. Fatec Jessen Vidal
  * proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.institution;
 
-import org.springframework.util.StringUtils;
-
 /**
- * 
  * A enum {@link InstitutionLevel} representa
  * os niveis de grau que uma instituicao pode assumir.
  *
@@ -18,13 +16,13 @@ import org.springframework.util.StringUtils;
  */
 public enum InstitutionLevel {
 	
-	TECHNICAL, SUPERIOR;
+	TECHNICAL,SUPERIOR;
 		
 	public boolean isSuperior() {
-		return this.equals(InstitutionLevel.SUPERIOR);
+		return this.equals(SUPERIOR);
 	}
 	
-	public static InstitutionLevel withLevel(final String level) {
-		return StringUtils.isEmpty(level) ? null : valueOf(level.toUpperCase());
+	public static InstitutionLevel getLevel(final String level) {
+		return level != null && level.toUpperCase().equals("SUPERIOR") ? SUPERIOR : TECHNICAL;
 	}	
 }
