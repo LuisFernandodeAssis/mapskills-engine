@@ -4,9 +4,10 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.institution;
+
 /**
- * 
  * O Enum {@link Period} representa o periodo em que o curso eh ministrado.
  *
  * @author Marcelo

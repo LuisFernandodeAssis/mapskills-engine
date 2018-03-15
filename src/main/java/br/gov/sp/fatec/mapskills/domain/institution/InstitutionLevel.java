@@ -16,13 +16,13 @@ package br.gov.sp.fatec.mapskills.domain.institution;
  */
 public enum InstitutionLevel {
 	
-	TECHNICAL,SUPERIOR;
+	TECHNICAL, SUPERIOR;
 		
 	public boolean isSuperior() {
 		return this.equals(SUPERIOR);
 	}
 	
 	public static InstitutionLevel getLevel(final String level) {
-		return level != null && level.toUpperCase().equals("SUPERIOR") ? SUPERIOR : TECHNICAL;
+		return level != null && level.equalsIgnoreCase("SUPERIOR") ? SUPERIOR : TECHNICAL;
 	}	
 }

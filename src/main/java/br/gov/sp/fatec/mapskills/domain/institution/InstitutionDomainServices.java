@@ -54,15 +54,14 @@ public class InstitutionDomainServices {
 		return institutionsFromExcel;
 	}
 	
-	public Institution saveInstitution(final Institution newInstitution) {
-		return institutionRepository.save(newInstitution);
+	public void saveInstitution(final Institution newInstitution) {
+		institutionRepository.save(newInstitution);
 	}
 	
-	public Institution updateInstitution(final Long id, final Institution institutionUpdate) {
+	public void updateInstitution(final Long id, final Institution institutionUpdate) {
 		final Institution institution = institutionRepository.findOne(id);
 		institution.update(institutionUpdate);
 		institutionRepository.save(institution);
-		return institution;
 	}
 	
 	public List<Institution> getAllInstitutions() {

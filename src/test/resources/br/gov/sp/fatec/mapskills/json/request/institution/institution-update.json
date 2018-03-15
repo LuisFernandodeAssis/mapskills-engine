@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "code": "146",
+  "cnpj": 30184516000102,
+  "company": "Profº Jessen Vidal",
+  "level": "SUPERIOR",
+  "city": "São José dos Campos / SP",
+  "mentor": {
+    "id": 1,
+    "name": "Julio Thales Caio Oliveira",
+    "username": "julio.oliveira@fatec.sp.gov.br",
+    "password": "jUl10@5JC"
+  }
+}

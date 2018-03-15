@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.institution;
 
 import javax.persistence.Entity;
@@ -18,7 +19,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
  * A classe {@link Mentor}
  *
  * @author Marcelo
@@ -37,6 +37,10 @@ public class Mentor extends User {
 	@SuppressWarnings("unused")
 	private Mentor() {
 		this(null, null, null);
+	}
+	
+	public Mentor(final Long id, final String name, final String username, final String password) {
+		super(id, name, new Login(username, password));
 	}
 	
 	public Mentor(final String name, final String username, final String password) {

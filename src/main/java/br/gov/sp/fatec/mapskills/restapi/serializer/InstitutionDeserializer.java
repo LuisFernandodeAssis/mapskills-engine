@@ -3,6 +3,7 @@
  * Copyright (c) 2016, Fatec-Jessen Vidal. All rights reserved.
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.util.Collections;
@@ -17,11 +18,10 @@ import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.institution.InstitutionLevel;
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.InstitutionWrapper;
+
 /**
- * 
- * A classe {@link InstitutionDeserializer} e responsavel
- * por deserializar um instituticao para que seja
- * cadastrada ou atualizada.
+ * A classe {@link InstitutionDeserializer} e responsavel por deserializar
+ * um instituticao para que seja cadastrada ou atualizada.
  *
  * @author Marcelo
  * @version 1.0 08/01/2017
@@ -51,7 +51,8 @@ public class InstitutionDeserializer extends AbstractJsonDeserializer<Institutio
 	}
 
 	private Mentor mentorDeserialize(final JsonNode node) {
-		return new Mentor(getFieldTextValue(node, SerializationKey.NAME),
+		return new Mentor(getFieldLongValue(node, SerializationKey.ID),
+				getFieldTextValue(node, SerializationKey.NAME),
 				getFieldTextValue(node, SerializationKey.USERNAME),
 				getFieldPassValue(node));
 	}

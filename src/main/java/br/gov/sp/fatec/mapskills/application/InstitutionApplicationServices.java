@@ -49,14 +49,14 @@ public class InstitutionApplicationServices {
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public Institution saveInstitution(final Institution newInstitution) {
-		return domainServices.saveInstitution(newInstitution);
+	public void saveInstitution(final Institution newInstitution) {
+		domainServices.saveInstitution(newInstitution);
 	}
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public Institution updateInstitution(final Long id, final Institution institution) {
-		return domainServices.updateInstitution(id, institution);
+	public void updateInstitution(final Long id, final Institution institution) {
+		domainServices.updateInstitution(id, institution);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")

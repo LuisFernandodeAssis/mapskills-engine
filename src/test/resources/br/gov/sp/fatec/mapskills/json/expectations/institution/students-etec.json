@@ -1,0 +1,60 @@
+{
+  "remainingPages": 0,
+  "totalElements": 2,
+  "content": [
+    {
+      "id": 9,
+      "name": "Francisca Eloá Teixeira",
+      "profile": "STUDENT",
+      "username": "francisca.teixeira@etec.sp.gov.br",
+      "password": "EMPTY_PASS",
+      "ra": "2821781811006",
+      "courseCode": "178",
+      "phone": "(12) 3513-6978",
+      "completed": false,
+      "course": {
+        "id": 1,
+        "code": "028",
+        "name": "Banco de dados",
+        "period": "NIGHTLY",
+        "institutionCode": "146"
+      },
+      "institution": {
+        "id": 1,
+        "code": "146",
+        "cnpj": 65090609000144,
+        "company": "Jessen Vidal",
+        "level": "SUPERIOR",
+        "city": "São José dos Campos - SP",
+        "gameThemeId": null
+      }
+    },
+    {
+      "id": 8,
+      "name": "Stefany Giovanna Costa",
+      "profile": "STUDENT",
+      "username": "ricardo.murilo@etec.sp.gov.br",
+      "password": "EMPTY_PASS",
+      "ra": "2821781811005",
+      "courseCode": "178",
+      "phone": "(12) 3781-0000",
+      "completed": false,
+      "course": {
+        "id": 1,
+        "code": "028",
+        "name": "Banco de dados",
+        "period": "NIGHTLY",
+        "institutionCode": "146"
+      },
+      "institution": {
+        "id": 1,
+        "code": "146",
+        "cnpj": 65090609000144,
+        "company": "Jessen Vidal",
+        "level": "SUPERIOR",
+        "city": "São José dos Campos - SP",
+        "gameThemeId": null
+      }
+    }
+  ]
+}

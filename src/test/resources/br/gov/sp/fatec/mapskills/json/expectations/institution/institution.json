@@ -1,0 +1,34 @@
+{
+  "id": 1,
+  "code": "146",
+  "cnpj": 65090609000144,
+  "company": "Jessen Vidal",
+  "level": "SUPERIOR",
+  "city": "São José dos Campos - SP",
+  "gameThemeId": null,
+  "courses": [
+    {
+      "id": 1,
+      "code": "028",
+      "name": "Banco de dados",
+      "period": "NIGHTLY",
+      "institutionCode": "146"
+    },
+    {
+      "id": 2,
+      "code": "178",
+      "name": "Manutenção de aeronaves",
+      "period": "NIGHTLY",
+      "institutionCode": "146"
+    }
+  ],
+  "mentors": [
+    {
+      "id": 1,
+      "name": "Rafael Henry Alves",
+      "profile": "MENTOR",
+      "username": "rafael.alves@fatec.sp.gov.br",
+      "password": "EMPTY_PASS"
+    }
+  ]
+}

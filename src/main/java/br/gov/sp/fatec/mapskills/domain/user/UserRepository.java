@@ -33,6 +33,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query("SELECT user FROM User user WHERE user.login.username = ?1")
 	User findByUsername(final String username);
 	
-	@Query("SELECT user FROM #{#entityName} user WHERE user.login.username = ?#{principal.login.username}")
+	@Query("SELECT user FROM #{#entityName} user WHERE user.login.username = ?#{principal?.username}")
 	User getLoggedUser();
 }

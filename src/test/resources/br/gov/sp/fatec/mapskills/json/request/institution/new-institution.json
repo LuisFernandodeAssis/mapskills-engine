@@ -1,0 +1,12 @@
+{
+  "code": "100",
+  "cnpj": 86273575000101,
+  "company": "FATEC-SP",
+  "level": "SUPERIOR",
+  "city": "São Paulo - SP",
+  "mentor": {
+    "name": "Luan Roberto Gomes",
+    "username": "luan.gomes@fatec.sp.gov.br",
+    "password": "lu4n@5p"
+  }
+}

@@ -119,11 +119,6 @@ public class Institution {
 		return courseFind.isPresent() ? courseFind.get() : null;
 	}
 	
-	public Mentor getMentorByUsername(final String username) {
-		Optional<Mentor> mentorFind = mentors.stream().filter(mentor -> mentor.getUsername().equals(username)).findFirst();
-		return mentorFind.isPresent() ? mentorFind.get() : null;
-	}
-	
 	public void updateGameTheme(final GameTheme theme) {
 		this.gameTheme = theme;
 	}
@@ -139,7 +134,7 @@ public class Institution {
 		this.level = updateInstitution.getLevel();
 		this.city = updateInstitution.getCity();
 		mentors.stream().forEach(mentor -> {
-			final Mentor mentorUpdate = updateInstitution.getMentorByUsername(mentor.getUsername());
+			final Mentor mentorUpdate = updateInstitution.getMentorById(mentor.getId());
 			mentor.update(mentorUpdate);
 		});
 	}
@@ -159,5 +154,9 @@ public class Institution {
 	
 	private Optional<Course> getCourseById(final Long courseId) {
 		return courses.stream().filter(course -> course.getId().equals(courseId)).findFirst();
+	}	
+	
+	private Mentor getMentorById(final Long id) {
+		return mentors.stream().filter(mentor -> mentor.getId().equals(id)).findFirst().orElse(null);
 	}
 }

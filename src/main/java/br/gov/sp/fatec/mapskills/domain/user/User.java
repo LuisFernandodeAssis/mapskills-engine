@@ -52,7 +52,12 @@ public abstract class User implements Principal {
 	
 	@SuppressWarnings("unused")
 	private User() {
-		this(null, null);
+		this(null, null, null);
+	}
+	
+	public User(final Long id, final String name, final Login login) {
+		this(name, login);
+		this.id = id;
 	}
 		
 	public User(final String name, final Login login) {

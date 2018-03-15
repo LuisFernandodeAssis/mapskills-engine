@@ -65,9 +65,8 @@ public class InstitutionController {
 	 * @return a instituicao cadastrada.
 	 */
 	@PostMapping("/institution")
-	public SingleWrapper<Institution> saveInstitution(@RequestBody final InstitutionWrapper institutionWrapper) {
-		final Institution institution = applicationServices.saveInstitution(institutionWrapper.getInstitution());
-		return new SingleWrapper<>(institution);
+	public void saveInstitution(@RequestBody final InstitutionWrapper institutionWrapper) {
+		applicationServices.saveInstitution(institutionWrapper.getInstitution());
 	}
 	
 	/**
@@ -78,10 +77,9 @@ public class InstitutionController {
 	 * @return a instituicao atualizada.
 	 */
 	@PutMapping("/institution/{id}")
-	public SingleWrapper<Institution> updateInstitution(@PathVariable("id") final Long institutionId,
+	public void updateInstitution(@PathVariable("id") final Long institutionId,
 			@RequestBody final InstitutionWrapper institutionWrapper) {
-		final Institution institutionUpdated = applicationServices.updateInstitution(institutionId, institutionWrapper.getInstitution());
-		return new SingleWrapper<>(institutionUpdated);
+		applicationServices.updateInstitution(institutionId, institutionWrapper.getInstitution());
 	}
 	
 	/**
