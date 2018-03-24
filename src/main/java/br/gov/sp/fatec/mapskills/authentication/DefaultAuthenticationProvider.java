@@ -33,8 +33,8 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(final Authentication authentication) {
 		try {
-			final User user = userService.findUserByUsername(authentication.getName());			
-			userService.authenticate(user, authentication.getCredentials().toString());	
+			final User user = userService.findUserByUsername(authentication.getName());
+			userService.authenticate(user, authentication.getCredentials().toString());
 			return new PreAuthenticatedAuthentication(user);		
 		} catch (final UserNotFoundException exception) {
 			throw new BadCredentialsException("username/password invalid", exception);

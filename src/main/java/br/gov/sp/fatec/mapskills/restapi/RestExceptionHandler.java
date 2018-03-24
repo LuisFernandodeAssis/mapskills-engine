@@ -46,10 +46,10 @@ public class RestExceptionHandler {
 		return new ResponseEntity<>(responseBody, HttpStatus.FORBIDDEN);
     }
 	
-	@ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> internalServerErrorHandle(final Exception ex) {
-        final ErrorResponse responseBody = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        logger.error("Aconteceu um problema não tratado pelo dominio", ex);
+	@ExceptionHandler(Throwable.class)
+    protected ResponseEntity<ErrorResponse> internalServerErrorHandle(final Throwable throwable) {
+        final ErrorResponse responseBody = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, throwable.getMessage());
+        logger.error("Aconteceu um problema não tratado pelo dominio", throwable);
 		return new ResponseEntity<>(responseBody, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -49,6 +49,11 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
+	public void getAllInstitutionForbidden() throws Exception {
+		performGet(mvc, "/institutions").andExpect(status().isForbidden());
+	}
+	
+	@Test
 	@WithMockUser
 	public void importInstitutions() throws Exception {
 		final String importJson = getJsonAsString("json/request/import-base64.json");
@@ -102,6 +107,15 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
+	@WithMockUser
+	public void getInstitutionNotFound() throws Exception {
+		final String jsonExpected = getJsonAsString("json/expectations/institution/institution-not-found.json");
+		final MvcResult result = performGet(mvc, "/institution/3").andExpect(status().isNotFound()).andReturn();
+		final String jsonResult = result.getResponse().getContentAsString();
+		JSONAssert.assertEquals(jsonExpected, jsonResult, false);
+	}
+	
+	@Test
 	@WithMockUser(username = "isabel.cardoso@etec.sp.gov.br")
 	public void saveCourse() throws Exception {
 		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-institution.sql");
@@ -140,6 +154,26 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 				.andExpect(status().isOk()).andReturn();
 		final String jsonResult = result.getResponse().getContentAsString();
 		JSONAssert.assertEquals(jsonExpected, jsonResult, true);
+	}
+	
+	@Test
+	@WithMockUser
+	public void getCoursesByInstitutionCode() throws Exception {
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-institution.sql");
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-course.sql");
+		final String jsonExpected = getJsonAsString("json/expectations/institution/courses.json");
+		final MvcResult result = performGet(mvc, "/institution/146/courses").andExpect(status().isOk()).andReturn();
+		final String jsonResult = result.getResponse().getContentAsString();
+		JSONAssert.assertEquals(jsonExpected, jsonResult, true);
+	}
+	
+	@Test
+	@WithMockUser
+	public void updateThemeCurrent() throws Exception {
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-institution.sql");
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/theme/insert-themes.sql");
+		performPut(mvc, "/institution/146/theme?themeId=4").andExpect(status().isOk());
+		verifyDatasetForTable("institution/updated-theme.xml", "INSTITUTION", "SELECT * FROM MAPSKILLS.INSTITUTION WHERE ID = 1", new String[]{});
 	}
 	
 	private String getParams(final String name, final String ra, final String institutionCode,

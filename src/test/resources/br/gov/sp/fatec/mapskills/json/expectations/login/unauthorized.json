@@ -1,0 +1,5 @@
+{
+  "message": "username/password invalid",
+  "statusCode": 401,
+  "statusError": "UNAUTHORIZED"
+}

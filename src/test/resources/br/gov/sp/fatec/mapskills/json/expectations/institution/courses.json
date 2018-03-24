@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "code": "028",
+    "name": "Banco de dados",
+    "period": "NIGHTLY",
+    "institutionCode": "146"
+  },
+  {
+    "id": 2,
+    "code": "178",
+    "name": "Manutenção de aeronaves",
+    "period": "NIGHTLY",
+    "institutionCode": "146"
+  }
+]
