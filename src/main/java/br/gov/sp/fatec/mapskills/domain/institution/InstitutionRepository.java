@@ -7,8 +7,10 @@
 
 package br.gov.sp.fatec.mapskills.domain.institution;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -18,10 +20,14 @@ import org.springframework.data.repository.CrudRepository;
  * @author Marcelo
  * @version 1.0 01/11/2016
  */
-public interface InstitutionRepository extends CrudRepository<Institution, Long> {
+public interface InstitutionRepository extends CrudRepository<Institution, Long>, JpaSpecificationExecutor<Institution> {
 	
 	Institution findByCode(final String code);
 	
 	@Override
 	List<Institution> findAll();
+
+	default List<Institution> findByCodeIn(final List<String> codes) {
+		return codes.isEmpty() ? Collections.emptyList() : findAll((root, criteriaQuery, criteriaBuilder) -> root.get("code").in(codes));
+	}
 }

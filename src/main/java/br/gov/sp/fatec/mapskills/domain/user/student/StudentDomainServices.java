@@ -41,13 +41,13 @@ public class StudentDomainServices {
 		final List<Student> studentsToSave = new LinkedList<>();
 		students.stream().forEach(student -> {
 			final Optional<Student> studentFound = repository.findByRaOrUsername(student.getFullRa(), student.getUsername());
-			if (!studentFound.isPresent()) {
-				studentsToSave.add(student);
-			} else {
+			if (studentFound.isPresent()) {
 				final Student aStudent = studentFound.get();
 				aStudent.update(student);
-				studentsToSave.add(aStudent);				
-			}
+				studentsToSave.add(aStudent);
+				return;
+			} 
+			studentsToSave.add(student);
 		});
 		repository.save(studentsToSave);
 	}

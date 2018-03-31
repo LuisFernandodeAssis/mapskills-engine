@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -37,8 +36,8 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
 
 	@Override
 	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException exception) throws IOException, ServletException {
+		//response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getOutputStream().print(new ObjectMapper().writeValueAsString(new ErrorResponse(HttpStatus.UNAUTHORIZED, exception.getMessage())));
 	}

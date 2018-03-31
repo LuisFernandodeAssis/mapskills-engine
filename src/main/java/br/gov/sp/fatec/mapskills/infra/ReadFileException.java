@@ -4,14 +4,15 @@
  * Copyright (c) 2017, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.infra;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.gov.sp.fatec.mapskills.domain.MapSkillsException;
+
 /**
- * 
  * A classe {@link ReadFileException} e lancada
  * quando um problema ao ler um arquivo e encontrado.
  *

@@ -52,10 +52,9 @@ public class InstitutionController {
 	 * @param inputStreamWrapper wrapper que encapsula o arquivo.
 	 * @return lista de instituicoes cadastradas.
 	 */
-	@PostMapping("/institution/upload")
-	public ListWrapper<Institution> importInstitutions(@RequestBody final FileBase64Wrapper inputStreamWrapper) {		
-		final List<Institution> institutionsSaved = applicationServices.saveInstituionFromExcel(inputStreamWrapper.getInputStream());		
-		return new ListWrapper<>(institutionsSaved);
+	@PostMapping("/institutions")
+	public void importInstitutions(@RequestBody final FileBase64Wrapper inputStreamWrapper) {		
+		applicationServices.importInstitutions(inputStreamWrapper.getInputStream());
 	}
 	
 	/**

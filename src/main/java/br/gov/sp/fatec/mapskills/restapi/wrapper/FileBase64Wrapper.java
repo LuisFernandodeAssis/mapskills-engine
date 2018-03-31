@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.wrapper;
 
 import java.io.InputStream;
@@ -13,8 +14,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import br.gov.sp.fatec.mapskills.infra.Base64Parser;
 import br.gov.sp.fatec.mapskills.restapi.serializer.FileBase64Deserializer;
 import br.gov.sp.fatec.mapskills.utils.ApplicationContextHolder;
+
 /**
- * 
  * A classe {@link FileBase64Wrapper} representa
  * um objeto de imagem em formato <i>BASE 64</i>.
  *

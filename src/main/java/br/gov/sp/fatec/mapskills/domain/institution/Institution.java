@@ -24,10 +24,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import br.gov.sp.fatec.mapskills.domain.theme.GameTheme;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -41,6 +41,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "MAPSKILLS.INSTITUTION")
 @ToString(of = {"code", "company", "level"})
+@EqualsAndHashCode(of = {"code"})
 public class Institution {
 
 	@Id
@@ -66,7 +67,7 @@ public class Institution {
 		
 	@ManyToOne
 	@JoinColumn(name = "ID_GAME_THEME")
-	private GameTheme gameTheme;
+	private GameTheme gameTheme = null;
 	
 	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<Course> courses = new LinkedList<>();
@@ -76,24 +77,17 @@ public class Institution {
 
 	@SuppressWarnings("unused")
 	private Institution() {
-		this(null, null, null, null, null, Collections.emptyList(), Collections.emptyList(), null);
+		this(null, null, null, null, null, Collections.emptyList());
 	}
-
-	public Institution (final String code, final Long cnpj, final String company, final InstitutionLevel level,
-			final String city, final List<Mentor> mentors, final List<Course> courses, final GameTheme gameTheme) {
+	
+	public Institution(final String code, final Long cnpj, final String company, final InstitutionLevel level,
+			final String city, final List<Mentor> mentors) {
 		this.code = code;
 		this.cnpj = cnpj;
 		this.company = company;
 		this.level = level;
 		this.city = city;
-		addAllMentors(mentors);
-		addAllCourses(courses);
-		this.gameTheme = gameTheme;
-	}
-		
-	private void addAllCourses(final List<Course> courses) {
-		this.courses.clear();
-		courses.stream().forEach(this::addCourse);
+		mentors.stream().forEach(this::addMentor);
 	}
 		
 	public List<Mentor> getMentors() {
@@ -133,10 +127,7 @@ public class Institution {
 		this.company = updateInstitution.getCompany();
 		this.level = updateInstitution.getLevel();
 		this.city = updateInstitution.getCity();
-		mentors.stream().forEach(mentor -> {
-			final Mentor mentorUpdate = updateInstitution.getMentorById(mentor.getId());
-			mentor.update(mentorUpdate);
-		});
+		updateMentors(updateInstitution.getMentors());
 	}
 	
 	public void updateCourse(final Long courseId, final Course courseUpdated) {
@@ -146,17 +137,22 @@ public class Institution {
 		}
 	}
 	
-	private void addAllMentors(final List<Mentor> mentors) {
-		if(!CollectionUtils.isEmpty(mentors)) {
-			mentors.stream().forEach(this::addMentor);			
-		}
+	private void updateMentors(final List<Mentor> updateMentors) {
+		updateMentors.stream().forEach(updateMentor -> {
+			final Optional<Mentor> mentor = getMentorByUsername(updateMentor.getUsername());
+			if (mentor.isPresent()) {
+				mentor.get().update(updateMentor);
+				return;
+			}
+			addMentor(updateMentor);
+		});
 	}
 	
 	private Optional<Course> getCourseById(final Long courseId) {
 		return courses.stream().filter(course -> course.getId().equals(courseId)).findFirst();
 	}	
 	
-	private Mentor getMentorById(final Long id) {
-		return mentors.stream().filter(mentor -> mentor.getId().equals(id)).findFirst().orElse(null);
+	private Optional<Mentor> getMentorByUsername(final String username) {
+		return mentors.stream().filter(mentor -> mentor.getUsername().equals(username)).findFirst();
 	}
 }

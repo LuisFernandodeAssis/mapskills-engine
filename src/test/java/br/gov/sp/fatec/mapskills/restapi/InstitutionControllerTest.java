@@ -58,10 +58,30 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 	public void importInstitutions() throws Exception {
 		final String importJson = getJsonAsString("json/request/import-base64.json");
 		final String base64 = getFileAsBase64("import-institutions.xlsx");
-		performPost(mvc, "/institution/upload", String.format(importJson, base64)).andExpect(status().isOk());
+		performPost(mvc, "/institutions", String.format(importJson, base64)).andExpect(status().isOk());
 		verifyDatasetForTable("institution/imported-institutions.xml", "LOGIN", "SELECT * FROM MAPSKILLS.LOGIN ORDER BY USERNAME", new String[]{"ID", "PASSWORD"});
 		verifyDatasetForTable("institution/imported-institutions.xml", "INSTITUTION", "SELECT * FROM MAPSKILLS.INSTITUTION ORDER BY CODE", new String[]{"ID"});
 		verifyDatasetForTable("institution/imported-institutions.xml", "MENTOR", "SELECT * FROM MAPSKILLS.MENTOR ORDER BY NAME", new String[]{"ID", "ID_LOGIN", "ID_INSTITUTION"});
+	}
+	
+	@Test
+	@WithMockUser
+	public void importInstitutionsWithEmptyFile() throws Exception {
+		final String importJson = getJsonAsString("json/request/import-base64.json");
+		final String base64 = getFileAsBase64("import-institutions-empty-file.xlsx");
+		performPost(mvc, "/institutions", String.format(importJson, base64)).andExpect(status().isOk());
+	}
+	
+	@Test
+	@WithMockUser
+	public void importInstitutionsWithRegisteredInstitutions() throws Exception {
+		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-institution.sql");
+		final String importJson = getJsonAsString("json/request/import-base64.json");
+		final String base64 = getFileAsBase64("import-institutions-update-mentor.xlsx");
+		performPost(mvc, "/institutions", String.format(importJson, base64)).andExpect(status().isOk());
+		verifyDatasetForTable("institution/imported-registered-institutions.xml", "LOGIN", "SELECT * FROM MAPSKILLS.LOGIN ORDER BY USERNAME", new String[]{"ID", "PASSWORD"});
+		verifyDatasetForTable("institution/imported-registered-institutions.xml", "INSTITUTION", "SELECT * FROM MAPSKILLS.INSTITUTION ORDER BY CODE", new String[]{"ID"});
+		verifyDatasetForTable("institution/imported-registered-institutions.xml", "MENTOR", "SELECT * FROM MAPSKILLS.MENTOR ORDER BY NAME", new String[]{"ID", "ID_LOGIN", "ID_INSTITUTION"});
 	}
 	
 	@Test
@@ -90,9 +110,9 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 		runSQLCommands("/br/gov/sp/fatec/mapskills/database/controller/institution/insert-institution.sql");
 		final String institutionJson = getJsonAsString("json/request/institution/institution-update.json");
 		performPut(mvc, "/institution/1", institutionJson).andExpect(status().isOk());
-		verifyDatasetForTable("institution/updated-institution.xml", "LOGIN", "SELECT * FROM MAPSKILLS.LOGIN WHERE ID = 1", new String[]{"PASSWORD"});
+		verifyDatasetForTable("institution/updated-institution.xml", "LOGIN", "SELECT * FROM MAPSKILLS.LOGIN ORDER BY ID", new String[]{"PASSWORD"});
 		verifyDatasetForTable("institution/updated-institution.xml", "INSTITUTION", "SELECT * FROM MAPSKILLS.INSTITUTION WHERE ID = 1", new String[]{});
-		verifyDatasetForTable("institution/updated-institution.xml", "MENTOR", "SELECT * FROM MAPSKILLS.MENTOR WHERE ID = 1", new String[]{});
+		verifyDatasetForTable("institution/updated-institution.xml", "MENTOR", "SELECT * FROM MAPSKILLS.MENTOR ORDER BY ID", new String[]{});
 	}
 	
 	@Test

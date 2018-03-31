@@ -42,13 +42,13 @@ public class SpringContextConfig {
 	}
 	
 	@Bean
-	@Profile("!test")
+	@Profile({"local", "azure-qas", "azure-prd"})
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 	
 	@Bean
-	@Profile("!test")
+	@Profile({"local", "azure-qas", "azure-prd"})
 	public ThreadPool threadPool() {
 		return new ThreadPool();
 	}

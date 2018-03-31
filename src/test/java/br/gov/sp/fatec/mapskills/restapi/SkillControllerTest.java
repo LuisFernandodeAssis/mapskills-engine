@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import br.gov.sp.fatec.mapskills.MapSkillsApplication;
+import br.gov.sp.fatec.mapskills.domain.skill.Skill;
 
 /**
  * A classe {@link SkillControllerTest} contem testes de integracao para

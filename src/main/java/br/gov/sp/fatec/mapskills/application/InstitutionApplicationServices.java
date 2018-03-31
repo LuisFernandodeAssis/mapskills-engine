@@ -43,8 +43,8 @@ public class InstitutionApplicationServices {
 	
 	@Transactional
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) {
-		return domainServices.saveInstituionFromExcel(inputStream);
+	public void importInstitutions(final InputStream inputStream) {
+		domainServices.importInstitutions(inputStream);
 	}
 	
 	@Transactional

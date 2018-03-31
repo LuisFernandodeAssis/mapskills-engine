@@ -7,7 +7,6 @@
 package br.gov.sp.fatec.mapskills.infra;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,7 @@ public class InstitutionExcelDocumentReader extends ExcelDocumentReader<Institut
 				attributes.get(2),
 				InstitutionLevel.getLevel(attributes.get(3)),
 				attributes.get(4),
-				Arrays.asList(mentor),
-				Collections.emptyList(), null);
+				Arrays.asList(mentor));
 	}
 
 	@Override

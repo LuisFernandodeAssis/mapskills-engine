@@ -3,15 +3,20 @@
 	<LOGIN USERNAME="benício.barros@etec.sp.gov.br" />
 	<LOGIN USERNAME="heitor.almeida@fatec.sp.gov.br" />
 	<LOGIN USERNAME="henry.fernandes@fatec.sp.gov.br" />
+	<LOGIN USERNAME="isabel.cardoso@etec.sp.gov.br" />
 	<LOGIN USERNAME="paulo.paz@fatec.sp.gov.br" />
+	<LOGIN USERNAME="rafael.alves@fatec.sp.gov.br" />
 	
 	<INSTITUTION CODE="146" CNPJ="31972543000102" COMPANY="Prof. Jessen Vidal" CITY="São José dos Campos" LEVEL="1" ID_GAME_THEME="" />
 	<INSTITUTION CODE="150" CNPJ="22577112000142" COMPANY="Fatec São Paulo" CITY="São Paulo" LEVEL="1" ID_GAME_THEME="" />
 	<INSTITUTION CODE="164" CNPJ="46532670000150" COMPANY="Prof. Hirant Sanazar" CITY="Osasco" LEVEL="1" ID_GAME_THEME="" />
+	<INSTITUTION CODE="282" CNPJ="65058955000145" COMPANY="Etec - Guara" CITY="Guaratinguetá - SP" LEVEL="0" ID_GAME_THEME="" />
 	<INSTITUTION CODE="555" CNPJ="60422037000130" COMPANY="Prof. Ilza Nascimento Pintus" CITY="São José dos Campos" LEVEL="0" ID_GAME_THEME="" />
 	
 	<MENTOR NAME="Benício Nelson Barros"/>
 	<MENTOR NAME="Heitor Sérgio Almeida"/>
 	<MENTOR NAME="Henry Nelson Fernandes"/>
+	<MENTOR NAME="Isabel Lorena Cardoso"/>
 	<MENTOR NAME="Paulo Gael da Paz"/>
+	<MENTOR NAME="Rafael Henry Albuquerque Alves"/>
 </dataset>

@@ -75,7 +75,6 @@ public class ResponseCookieAuthenticationListener implements AuthenticationListe
         final String bearer = String.format("Bearer %s", signedJWT.serialize());
         final Cookie cookie = new Cookie("Authorization", urlEncode(bearer));
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
         response.addCookie(cookie);
 	}
 	

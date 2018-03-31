@@ -6,7 +6,6 @@
 
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,14 +44,13 @@ public class InstitutionDeserializer extends AbstractJsonDeserializer<Institutio
 				getFieldTextValue(node, SerializationKey.COMPANY),
 				InstitutionLevel.valueOf(getFieldTextValue(node, SerializationKey.LEVEL)),
 				getFieldTextValue(node, SerializationKey.CITY),
-				mentors, Collections.emptyList(), null);
+				mentors);
 		
 		return new InstitutionWrapper(institution);
 	}
 
 	private Mentor mentorDeserialize(final JsonNode node) {
-		return new Mentor(getFieldLongValue(node, SerializationKey.ID),
-				getFieldTextValue(node, SerializationKey.NAME),
+		return new Mentor(getFieldTextValue(node, SerializationKey.NAME),
 				getFieldTextValue(node, SerializationKey.USERNAME),
 				getFieldPassValue(node));
 	}

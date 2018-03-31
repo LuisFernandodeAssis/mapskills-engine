@@ -14,6 +14,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import br.gov.sp.fatec.mapskills.domain.user.student.StudentSpecification;
+import br.gov.sp.fatec.mapskills.restapi.InstitutionController;
 
 /**
  * A classe {@link StudentSpecificationArgumentResolver} monta

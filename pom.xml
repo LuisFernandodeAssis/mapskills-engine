@@ -61,8 +61,7 @@
 		<!-- mvn cobertura:cobertura -->
 		<!-- mvn sonar:sonar -->
 		<sonar.language>java</sonar.language>
-		<sonar.projectName>Map Skills - Aplicacao web para avaliacao de
-			competencias</sonar.projectName>
+		<sonar.projectName>Map Skills - Engine</sonar.projectName>
 		<sonar.junit.reportsPath>/target/surefire-reports</sonar.junit.reportsPath>
 		<sonar.language>java</sonar.language>
 		<!-- Optional URL to server. Default value is http://localhost:9000 -->

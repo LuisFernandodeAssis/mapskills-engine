@@ -1,18 +1,21 @@
 /*
- * @(#)InstitutionNotFoundException.java 1.0 07/01/2017
+ * @(#)ObjectNotFoundException.java 1.0 07/01/2017
  *
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
- * A classe <code>InstitutionNotFoundException</code> eh lancada quando
- * nenhuma instituicao eh encontrada na base de dados da aplicacao.
+ * A classe <code>ObjectNotFoundException</code> eh lancada quando
+ * nenhum objeto eh encontrado na aplicacao.
  * 
  * @author Marcelo
+ * @version 07/01/2017
  *
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)

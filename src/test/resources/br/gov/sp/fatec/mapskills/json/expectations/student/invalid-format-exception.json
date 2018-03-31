@@ -1,0 +1,5 @@
+{
+  "message": "org.apache.poi.openxml4j.exceptions.InvalidFormatException: Package should contain a content type part [M1.13]",
+  "statusError": "INTERNAL_SERVER_ERROR",
+  "statusCode": 500
+}

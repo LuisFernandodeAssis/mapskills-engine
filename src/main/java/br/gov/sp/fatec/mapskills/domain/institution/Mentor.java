@@ -39,10 +39,6 @@ public class Mentor extends User {
 		this(null, null, null);
 	}
 	
-	public Mentor(final Long id, final String name, final String username, final String password) {
-		super(id, name, new Login(username, password));
-	}
-	
 	public Mentor(final String name, final String username, final String password) {
 		super(name, new Login(username, password));
 	}

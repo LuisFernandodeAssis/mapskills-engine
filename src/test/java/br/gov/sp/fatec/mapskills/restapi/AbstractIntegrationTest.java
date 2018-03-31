@@ -8,10 +8,10 @@
 package br.gov.sp.fatec.mapskills.restapi;
 
 import static org.dbunit.Assertion.assertEqualsByQuery;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

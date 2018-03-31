@@ -16,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import br.gov.sp.fatec.mapskills.utils.ThreadPool;
 
 /**
- * A classe {@link SpringContextTestConfig}
+ * A classe {@link SpringContextTestConfig} contem os beans mockados
+ * utilizados pela aplicacao.
  *
  * @author Marcelo
  * @version 1.0 24/02/2018
@@ -24,8 +25,8 @@ import br.gov.sp.fatec.mapskills.utils.ThreadPool;
 @Configuration
 @Profile("test")
 public class SpringContextTestConfig {
-	
-	@Bean("threadPool")
+
+	@Bean
     public ThreadPool threadPool() {
         return Mockito.mock(ThreadPool.class);
     }

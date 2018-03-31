@@ -28,7 +28,7 @@ import lombok.ToString;
  * representa usuario generico que pode acessar a aplicacao.
  * 
  * @author Marcelo
- *
+ * @since 01/11/2016
  */
 @Getter
 @Entity
@@ -49,16 +49,6 @@ public abstract class User implements Principal {
 	private final Login login;
 	
 	public abstract ProfileType getProfile();
-	
-	@SuppressWarnings("unused")
-	private User() {
-		this(null, null, null);
-	}
-	
-	public User(final Long id, final String name, final Login login) {
-		this(name, login);
-		this.id = id;
-	}
 		
 	public User(final String name, final Login login) {
 		this.name = name;

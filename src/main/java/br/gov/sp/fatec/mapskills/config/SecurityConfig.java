@@ -150,10 +150,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
     public List<AuthenticationListener> authenticationListeners(
-            @Qualifier("responseCookieAuthenticationListener") final AuthenticationListener responseCookieListener) {
-        final List<AuthenticationListener> list = new ArrayList<>(1);
-        list.add(responseCookieListener);
-        return list;
+            @Qualifier("responseCookieAuthenticationListener") final AuthenticationListener responseCookieListener,
+            @Qualifier("responseWriterAuthenticationListener") final AuthenticationListener responseWriterAuthenticationListener) {
+        
+		return Arrays.asList(responseCookieListener, responseWriterAuthenticationListener);
     }
 	
 	@Bean

@@ -76,6 +76,18 @@ public class StudentControllerTest extends AbstractIntegrationTest {
 	
 	@Test
 	@WithMockUser
+	public void importStudentsWithInvalidFile() throws Exception {
+		final String importJson = getJsonAsString("json/request/import-base64.json");
+		final String base64 = getFileAsBase64("import-students-wrong-file.csv");
+		final String jsonExpected = getJsonAsString("json/expectations/student/invalid-format-exception.json");
+		final MvcResult mvcResult = performPost(mvc, "/students", String.format(importJson, base64))
+				.andExpect(status().isInternalServerError()).andReturn();
+		final String jsonResult = getJsonResult(mvcResult);
+		JSONAssert.assertEquals(jsonExpected, jsonResult, false);
+	}
+	
+	@Test
+	@WithMockUser
 	public void saveStudent() throws Exception {
 		final String studentJson = getJsonAsString("json/request/student/new-student.json");
 		performPost(mvc, "/student", studentJson).andExpect(status().isOk());
@@ -90,7 +102,7 @@ public class StudentControllerTest extends AbstractIntegrationTest {
 		final String studentJson = getJsonAsString("json/request/student/student-already-existing.json");
 		final String jsonExpected = getJsonAsString("json/expectations/student/student-already-exists-exception.json");
 		final MvcResult result = performPost(mvc, "/student", studentJson).andExpect(status().isPreconditionFailed()).andReturn();
-		final String jsonResult = result.getResponse().getContentAsString();
+		final String jsonResult = getJsonResult(result);
 		JSONAssert.assertEquals(jsonExpected, jsonResult, false);
 	}
 	

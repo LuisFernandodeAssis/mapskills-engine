@@ -8,7 +8,10 @@
 package br.gov.sp.fatec.mapskills.domain.institution;
 
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,10 +51,24 @@ public class InstitutionDomainServices {
 		institutionRepository.save(institution);
 	}
 	
-	public List<Institution> saveInstituionFromExcel(final InputStream inputStream) {
+	public void importInstitutions(final InputStream inputStream) {
 		final List<Institution> institutionsFromExcel = documentReader.readDocument(inputStream);
-		institutionRepository.save(institutionsFromExcel);
-		return institutionsFromExcel;
+		final List<String> institutionsCodes = institutionsFromExcel.stream().map(Institution::getCode).collect(Collectors.toList());
+		final List<Institution> registeredInstitutions = institutionRepository.findByCodeIn(institutionsCodes);
+		final List<Institution> institutionsToSave = new LinkedList<>();
+		
+		institutionsFromExcel.stream().forEach(institution -> {
+			final Optional<Institution> aInstitution = registeredInstitutions.stream().filter(registeredInstitution -> registeredInstitution.equals(institution)).findFirst();
+			if (aInstitution.isPresent()) {
+				final Institution institutionUpdate = aInstitution.get();
+				institutionUpdate.update(institution);
+				institutionsToSave.add(institutionUpdate);
+				return;
+			}
+			institutionsToSave.add(institution);
+		});
+		
+		institutionRepository.save(institutionsToSave);
 	}
 	
 	public void saveInstitution(final Institution newInstitution) {
