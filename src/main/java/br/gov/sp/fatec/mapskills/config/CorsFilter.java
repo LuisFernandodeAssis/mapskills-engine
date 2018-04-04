@@ -66,13 +66,14 @@ public class CorsFilter extends OncePerRequestFilter {
 		final String[] origins = allowedOrigins.split(",");
 		final String clientOrigin = request.getHeader("Origin");
         
-        Arrays.asList(origins).stream().filter(origin -> clientOrigin != null && clientOrigin.equals(origin))
+        Arrays.asList(origins).stream().filter(origin -> origin.equalsIgnoreCase(clientOrigin))
         .findFirst().ifPresent(origin -> response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin));
 		
 		response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, OPTIONS, DELETE");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, "3600");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Content-Disposition");
         
         if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
             chain.doFilter(request, response);

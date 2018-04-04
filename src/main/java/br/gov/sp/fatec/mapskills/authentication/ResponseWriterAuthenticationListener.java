@@ -9,7 +9,6 @@ package br.gov.sp.fatec.mapskills.authentication;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +34,6 @@ public class ResponseWriterAuthenticationListener implements AuthenticationListe
 	public void onAuthenticationSuccess(final AuthenticationEvent event) {	
 		try {
 			final String json = new ObjectMapper().writeValueAsString(new SingleWrapper<>(event.getUserDomain()));
-			event.getResponse().setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:3000");
 			event.getResponse().setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 			event.getResponse().getOutputStream().print(json);
 		} catch (final IOException exception) {
