@@ -17,10 +17,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * a classe <code>AcademicRegistry</code> eh
- * um Value Object que representa a RA do aluno,
- * que eh utilizada para recuperar algumas informacoes
- * do mesmo.
+ * a classe <code>AcademicRegistry</code> eh um Value Object que representa a RA do aluno,
+ * utilizada para recuperar informacoes do mesmo.
  * 
  * @author Marcelo
  * @version 1.0 10/11/2016

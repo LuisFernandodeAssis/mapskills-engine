@@ -10,7 +10,7 @@
 	            columnDataType="BIGINT"
 	            columnName="ID"
 	            incrementBy="1"
-	            startWith="1333"
+	            startWith="1769"
 	            tableName="USER"/>
 	</changeSet>
 	
@@ -28,7 +28,7 @@
 	            columnDataType="BIGINT"
 	            columnName="ID"
 	            incrementBy="1"
-	            startWith="26"
+	            startWith="12"
 	            tableName="INSTITUTION"/>
 	</changeSet>
 	
@@ -37,7 +37,7 @@
 	            columnDataType="BIGINT"
 	            columnName="ID"
 	            incrementBy="1"
-	            startWith="112"
+	            startWith="36"
 	            tableName="COURSE"/>
 	</changeSet>
 	
@@ -109,7 +109,7 @@
 	            columnDataType="BIGINT"
 	            columnName="ID"
 	            incrementBy="1"
-	            startWith="16588"
+	            startWith="18497"
 	            tableName="STUDENT_QUESTION_CONTEXT"/>
 	</changeSet>	
     

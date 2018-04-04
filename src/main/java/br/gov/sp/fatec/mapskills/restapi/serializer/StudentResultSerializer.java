@@ -26,7 +26,7 @@ public class StudentResultSerializer extends AbstractSerializer<StudentResultWra
 		final StudentResult studentResult = wrapper.getObject();
 		writer.writeStartObject();
 		writer.writeNumberField(SerializationKey.ID, studentResult.getStudentId());
-		writer.writeStringField(SerializationKey.RA, studentResult.getStudentRA());
+		writer.writeStringField(SerializationKey.RA, studentResult.getStudentRa());
 		writer.writeStringField(SerializationKey.NAME, studentResult.getStudentName());
 		writer.writeStringField(SerializationKey.COURSE_CODE, studentResult.getCourseCode());
 		writer.writeStringField(SerializationKey.COURSE_NAME, studentResult.getCourseName());

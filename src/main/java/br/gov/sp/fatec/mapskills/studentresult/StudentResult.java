@@ -41,7 +41,7 @@ public class StudentResult {
 	private final Long studentId;
 	
 	@Column(name = "STUDENT_RA")
-	private final String studentRA;
+	private final String studentRa;
 	
 	@Column(name = "STUDENT_NAME")
 	private final String studentName;
@@ -75,7 +75,7 @@ public class StudentResult {
 	
 	private StudentResult() {
 		this.studentId = null;
-		this.studentRA = null;
+		this.studentRa = null;
 		this.studentName = null;
 		this.courseName = null;
 		this.institutionCode = null;

@@ -24,5 +24,5 @@ public enum InstitutionLevel {
 	
 	public static InstitutionLevel getLevel(final String level) {
 		return level != null && level.equalsIgnoreCase("SUPERIOR") ? SUPERIOR : TECHNICAL;
-	}	
+	}
 }
