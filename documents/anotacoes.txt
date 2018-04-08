@@ -1,0 +1,43 @@
+#criar container a partir de imagem
+docker run -v /home/filemanager/source:/home/filemanager/source -ti -d --name mapskills-filemanager -p 8082:8082 mapskills/mapskills-filemanager:1.0.0
+
+#Instalar bash no openjdk:8-jdk-alpine
+RUN apk update && apk add --no-cache bash
+
+#Entrar no bash
+docker exec filemanager bash
+
+#senha acesso remoto
+5U3ed@=Ucrej
+
+db.createUser({ user: 'mapskills', pwd: 'mapskills', roles: [ { role: "dbAdmin", db: "mapskills" } ] });
+
+db.auth( "mapskills", "mapskills" )
+
+mvn clean package -DskipTests -Dliquibase.should.run=false -Pazure-qas dockerfile:build
+
+#Gerar imagem a partir do Dockerfile.
+docker build -t mapskills-account .
+
+#Skip liquibase
+-Dliquibase.should.run=false
+
+#REINDEX
+total de elementos = 660
+stream : 201241.27 ms / 3,35 min
+parallelStream :  101166.93 ms / 1,67 min
+				224382.52
+
+#NGINX
+docker run --name nginx -v /home/git/mapskills-web/ui:/usr/share/nginx/html:ro -d -p 80:80 nginx
+
+#MONGO
+diretorio de volume: /home/docker-volumes/mongo
+docker run --name mapskills-mongo -v /home/docker-volumes/mongo:/data/db -d -p 27017:27017 mongo
+docker exec -it mapskills-mongo mongo inacio
+db.createUser({ user: 'inacio', pwd: 'inacio', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.grantRolesToUser("inacio", [ { role: "read", db: "admin" } ])
+
+#JENKINS
+
+docker run --name jenkins -u root --rm -d -p 8080:8080 -p 50000:50000 -v /home/docker-volumes/jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean
