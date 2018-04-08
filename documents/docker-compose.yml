@@ -14,3 +14,7 @@ services:
       - 3306:3306
     networks:
       - mapskills-network
+
+networks:
+  mapskills-network:
+    driver: bridge
