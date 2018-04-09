@@ -55,3 +55,8 @@ Construir imagem docker : [Docker](https://www.docker.com/ "Docker")
 `docker build -t mapskills/mapskills-engine .`
 - A partir do maven  
 mvn clean package -Plocal `dockerfile:build`
+
+----
+
+Criar container a partir da imagem
+- `docker run -it -d --rm --network mapskills-network --name mapskills-engine -p 8081:8081 mapskills/mapskills-engine`
