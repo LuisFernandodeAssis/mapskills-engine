@@ -306,27 +306,26 @@
 			<id>azure-prd</id>
 			<properties>
 				<spring.profiles.active>azure-prd</spring.profiles.active>
-				<datasource.url>jdbc:mysql://191.232.161.50:3306/MAPSKILLS</datasource.url>
+				<datasource.url>jdbc:mysql://mysql-database:3306/MAPSKILLS</datasource.url>
 				<datasource.dropAll>false</datasource.dropAll>
 				<nexus.url>http://191.232.161.50:8081</nexus.url>
 				<rest.filemanager.get.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.get.url>
-				<rest.filemanager.post.url>http://191.232.161.50:8082/file</rest.filemanager.post.url>
-				<rest.filemanager.update.url>http://191.232.161.50:8082/file/{filename}</rest.filemanager.update.url>
-				<rest.report.url>http://191.232.161.50:8083/report</rest.report.url>
+				<rest.filemanager.post.url>http://mapskills-filemanager:8082/file</rest.filemanager.post.url>
+				<rest.filemanager.update.url>http://mapskills-filemanager:8082/file/{filename}</rest.filemanager.update.url>
+				<rest.report.url>http://mapskills-report:8083/report</rest.report.url>
 			</properties>
 		</profile>
 		<profile>
 			<id>azure-qas</id>
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
-				<datasource.url>jdbc:mysql://database:3306/MAPSKILLS</datasource.url>
+				<datasource.url>jdbc:mysql://mysql-database:3306/MAPSKILLS</datasource.url>
 				<datasource.dropAll>false</datasource.dropAll>
 				<nexus.url>http://104.41.26.21:8081</nexus.url>
 				<rest.filemanager.get.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.get.url>
-				<rest.filemanager.post.url>http://104.41.26.21:8082/file</rest.filemanager.post.url>
-				<rest.filemanager.update.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.update.url>
-				<rest.filemanager.image.url>http://104.41.26.21:8082/drive/</rest.filemanager.image.url>
-				<rest.report.url>http://104.41.26.21:8083/report</rest.report.url>
+				<rest.filemanager.post.url>http://mapskills-filemanager:8082/file</rest.filemanager.post.url>
+				<rest.filemanager.update.url>http://mapskills-filemanager:8082/file/{filename}</rest.filemanager.update.url>
+				<rest.report.url>http://mapskills-report:8083/report</rest.report.url>
 			</properties>
 		</profile>
 	</profiles>
