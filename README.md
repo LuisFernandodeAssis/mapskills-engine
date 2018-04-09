@@ -1,13 +1,15 @@
-### MAP SKILLS - FACULDADE DE TECNOLOGIA PROF º JESSEN VIDAL
+### MAP SKILLS - ENGINE - FACULDADE DE TECNOLOGIA PROF º JESSEN VIDAL
 
-##### Projeto de avaliação de competência de alunos que fazem parte das unidades de ensino Centro Paula Souza.
+#### Projeto de avaliação de competência de alunos que fazem parte das unidades de ensino Centro Paula Souza.
 
 ##### CONFIGURAÇÃO
 
+Perfis
+- `local, azure-qas, azure-prd`
+
+----
+
 Banco de Dados : [MySql](https://www.mysql.com "MySql")
-- Schema : mapskills
-- Usuário : mapskills
-- Senha : mapskills
 
 ----
 
@@ -41,11 +43,15 @@ Configuração Eclipse : [Eclipse](http://www.eclipse.org/ "Eclipse")
 > Run > Run Configurations... > Java Applications > "Selecione sua Main" > Aba Arguments > Campo "VM arguments" coloque o parâmetro : 
 -Dspring.datasource.url=jdbc:mysql://127.0.0.1:3306/mapskills
 
+----
+
 Executar Projeto
 - `mvn spring-boot:run`
 
+----
+
 Construir imagem docker : [Docker](https://www.docker.com/ "Docker")
 - A partir do Dockerfile  
-`docker build -t mapskills-engine .`
+`docker build -t mapskills/mapskills-engine .`
 - A partir do maven  
 mvn clean package -Plocal `dockerfile:build`
