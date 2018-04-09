@@ -319,7 +319,7 @@
 			<id>azure-qas</id>
 			<properties>
 				<spring.profiles.active>azure-qas</spring.profiles.active>
-				<datasource.url>jdbc:mysql://mysql:3306/MAPSKILLS</datasource.url>
+				<datasource.url>jdbc:mysql://database:3306/MAPSKILLS</datasource.url>
 				<datasource.dropAll>false</datasource.dropAll>
 				<nexus.url>http://104.41.26.21:8081</nexus.url>
 				<rest.filemanager.get.url>http://104.41.26.21:8082/file/{filename}</rest.filemanager.get.url>

@@ -1,7 +1,7 @@
 version: '3.1'
 services:
-  mysql:
-    container_name: mysql
+  mysql-database:
+    container_name: database
     image: mysql
     restart: on-failure
     volumes:
@@ -13,8 +13,9 @@ services:
     ports:
       - 3306:3306
     networks:
-      - mapskills-network
+      - default
 
 networks:
-  mapskills-network:
-    driver: bridge
+  default:
+    external:
+      name: mapskills-network
