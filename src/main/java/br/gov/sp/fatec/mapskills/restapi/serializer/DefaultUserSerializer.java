@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 
 import br.gov.sp.fatec.mapskills.domain.user.User;
+
 /**
- * 
  * A classe {@link DefaultUserSerializer} e responsavel
  * por serializar os atributos basicos de um perfil da
  * aplicacao.
@@ -29,6 +30,6 @@ public class DefaultUserSerializer<T extends User> extends AbstractSerializer<T>
 		writer.writeStringField(SerializationKey.NAME, user.getName());
 		writer.writeStringField(SerializationKey.PROFILE, user.getProfile());
 		writer.writeStringField(SerializationKey.USERNAME, user.getUsername());
-		writer.writeStringField(SerializationKey.PASS, SerializationKey.EMPTY_PASS);		
+		writer.writeNullField(SerializationKey.PASS);		
 	}	
 }

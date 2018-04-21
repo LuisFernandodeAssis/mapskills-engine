@@ -56,8 +56,8 @@ public abstract class User implements Principal {
 	}
 	
 	public void update(final User userUpdate) {
-		this.name = userUpdate.getName();
-		updateLogin(userUpdate.getLogin());
+		name = userUpdate.getName();
+		login.updateUsername(userUpdate.getUsername());
 	}
 		
 	public String getUsername() {

@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import br.gov.sp.fatec.mapskills.domain.institution.Mentor;
 import lombok.AllArgsConstructor;
-/**
- * 
+
+/** 
  * A classe {@link MentorSerializer} e responsavel
  * por serializar o perfil <i>Mentor</i> da aplicacao.
  *

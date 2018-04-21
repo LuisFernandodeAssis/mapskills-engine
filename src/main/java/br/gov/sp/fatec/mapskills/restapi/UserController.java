@@ -45,8 +45,8 @@ public class UserController {
 	 * End-point que expoe servico para realizacao da troca de senha de usuario da aplicacao.
 	 */
 	@PutMapping("/user")
-	public void changePassword(@RequestParam(name = "username", required = true) final String username,
-			@RequestParam(name = "newPassword", required = true) final String newPassword) {		
+	public void changePassword(@RequestParam(name = "username") final String username,
+			@RequestParam(name = "newPassword") final String newPassword) {		
 		userService.updatePassword(username, urlDecode(newPassword));
 	}
 	

@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -14,8 +15,8 @@ import br.gov.sp.fatec.mapskills.domain.institution.Course;
 import br.gov.sp.fatec.mapskills.domain.institution.Institution;
 import br.gov.sp.fatec.mapskills.domain.user.student.Student;
 import lombok.AllArgsConstructor;
+
 /**
- * 
  * A classe {@link StudentSerializer} e responsavel
  * por serializar o perfil de aluno com suas respectivas
  * informacoes.

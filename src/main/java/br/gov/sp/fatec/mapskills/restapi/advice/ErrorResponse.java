@@ -5,7 +5,7 @@
  * Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
 
-package br.gov.sp.fatec.mapskills.restapi;
+package br.gov.sp.fatec.mapskills.restapi.advice;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

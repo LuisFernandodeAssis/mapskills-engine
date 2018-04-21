@@ -24,7 +24,6 @@ public enum SerializationKey {
 	PHONE("phone"),
 	USERNAME("username"),
 	PASS("password"),
-	EMPTY_PASS(""),
 	PROFILE("profile"),
 	MENTOR("mentor"),
 	

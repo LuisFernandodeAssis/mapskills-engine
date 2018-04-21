@@ -8,13 +8,14 @@
 package br.gov.sp.fatec.mapskills.authentication;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.gov.sp.fatec.mapskills.restapi.RestException;
+import br.gov.sp.fatec.mapskills.restapi.advice.RestException;
 import br.gov.sp.fatec.mapskills.restapi.wrapper.SingleWrapper;
 
 /**
@@ -34,8 +35,8 @@ public class ResponseWriterAuthenticationListener implements AuthenticationListe
 	public void onAuthenticationSuccess(final AuthenticationEvent event) {	
 		try {
 			final String json = new ObjectMapper().writeValueAsString(new SingleWrapper<>(event.getUserDomain()));
-			event.getResponse().setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-			event.getResponse().getOutputStream().print(json);
+			final String jsonEncoded = URLEncoder.encode(json, "UTF-8");
+			event.getResponse().getOutputStream().print(jsonEncoded);
 		} catch (final IOException exception) {
 			throw new RestException("Problema ao serializar dados do usuario", exception);
 		}

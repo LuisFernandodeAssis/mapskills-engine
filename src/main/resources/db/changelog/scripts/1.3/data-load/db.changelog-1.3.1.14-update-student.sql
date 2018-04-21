@@ -1,5 +1,5 @@
--- db.changelog-1.3.0.14-update-student.sql 11/10/2017
--- Copyright (c) 2017, Fatec-Jessen Vidal. All rights reserved.
+-- db.changelog-1.3.1.14-update-student.sql 19/04/2018
+-- Copyright (c) 2018, Fatec-Jessen Vidal. All rights reserved.
 -- Fatec-Jessen Vidal proprietary/confidential. Use is subject to license terms.
 
 UPDATE STUDENT

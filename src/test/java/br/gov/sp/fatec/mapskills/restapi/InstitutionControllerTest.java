@@ -167,7 +167,7 @@ public class InstitutionControllerTest extends AbstractIntegrationTest {
 	
 	@Test
 	@WithMockUser
-	public void getEetcStudents() throws Exception {
+	public void getEtecStudents() throws Exception {
 		preparedStudents();
 		final String jsonExpected = getJsonAsString("json/expectations/institution/students-etec.json");
 		final MvcResult result = performGet(mvc, "/institution/students?" + getParams("", "", "282", "", 0, 20))

@@ -3,7 +3,7 @@
   "name": "Mentor Fatec",
   "profile": "MENTOR",
   "username": "mentor@fatec.sp.gov.br",
-  "password": "EMPTY_PASS",
+  "password": null,
   "institution": {
     "id": 1,
     "code": "123",

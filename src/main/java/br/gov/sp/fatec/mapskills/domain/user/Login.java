@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.domain.user;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.ToString;
+
 /**
  * A classe <code>Login</code> representa as credenciais de acesso a aplcacao.
  * 
@@ -51,7 +53,11 @@ public class Login {
 	}
 	
 	public void update(final Login newLogin) {
-		username = newLogin.getUsername();
+		updateUsername(newLogin.getUsername());
 		password = newLogin.getPassword();
-	}	
+	}
+	
+	public void updateUsername(final String newUsername) {
+		username = newUsername; 
+	}
 }

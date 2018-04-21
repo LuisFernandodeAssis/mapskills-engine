@@ -5,13 +5,25 @@ services:
     image: mysql
     restart: on-failure
     volumes:
-      - /home/mysql-volume:/var/lib/mysql
+      - /home/docker-volumes/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mapskills
       MYSQL_USER: mapskills
       MYSQL_PASS: mapskills
     ports:
       - 3306:3306
+    networks:
+      - default
+	  
+  mongo-database:
+    container_name: mongo-database
+    image: mongo
+    restart: on-failure
+    volumes:
+      - /home/docker-volumes/mongo:/data/db
+    environment:
+    ports:
+      - 27017:27017
     networks:
       - default
 

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.gov.sp.fatec.mapskills.restapi.ErrorResponse;
+import br.gov.sp.fatec.mapskills.restapi.advice.ErrorResponse;
 
 /**
  * A classe <code>DefaultAuthenticationFailureHandler</code> representa a

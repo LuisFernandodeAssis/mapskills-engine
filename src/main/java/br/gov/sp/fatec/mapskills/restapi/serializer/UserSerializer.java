@@ -4,6 +4,7 @@
  * Copyright (c) 2016, Fatec Jessen Vidal. All rights reserved.
  * Fatec Jessen Vidal proprietary/confidential. Use is subject to license terms.
  */
+
 package br.gov.sp.fatec.mapskills.restapi.serializer;
 
 import java.io.IOException;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Component;
 import br.gov.sp.fatec.mapskills.domain.user.ProfileType;
 import br.gov.sp.fatec.mapskills.domain.user.User;
 import lombok.AllArgsConstructor;
-/**
- * 
+
+/** 
  * A classe {@link UserSerializer} e responsavel por serializar um perfil de usuario.
  * A serializacao e feita a partir da recuperacao do serializador especifico esta
  * contido no mapa de serializadores, cuja chave e o perfil do usuario.
