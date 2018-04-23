@@ -14,14 +14,13 @@ services:
       - 3306:3306
     networks:
       - default
-	  
+
   mongo-database:
     container_name: mongo-database
     image: mongo
     restart: on-failure
     volumes:
       - /home/docker-volumes/mongo:/data/db
-    environment:
     ports:
       - 27017:27017
     networks:

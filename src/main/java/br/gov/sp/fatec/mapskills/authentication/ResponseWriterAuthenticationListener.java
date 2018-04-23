@@ -10,7 +10,6 @@ package br.gov.sp.fatec.mapskills.authentication;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
